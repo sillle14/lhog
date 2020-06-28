@@ -50,5 +50,26 @@ export const edges = [
     {source: 'New Orleans', target: 'Jacksonville', type: 'edge', handleText: 16},
     {source: 'Birmingham', target: 'Atlanta', type: 'edge', handleText: 3},
     {source: 'Birmingham', target: 'Jacksonville', type: 'edge', handleText: 9},
-    
+    {source: 'Fargo', target: 'Billings', type: 'edge', handleText: 17},
+    {source: 'Fargo', target: 'Duluth', type: 'edge', handleText: 6},
+    {source: 'Fargo', target: 'Minneapolis', type: 'edge', handleText: 6},
+    {source: 'Duluth', target: 'Minneapolis', type: 'edge', handleText: 5},
+    {source: 'Duluth', target: 'Detroit', type: 'edge', handleText: 15},
+    {source: 'Duluth', target: 'Chicago', type: 'edge', handleText: 12},
+    {source: 'Minneapolis', target: 'Chicago', type: 'edge', handleText: 8},
+    {source: 'Minneapolis', target: 'Omaha', type: 'edge', handleText: 8},
+    {source: 'Minneapolis', target: 'Cheyenne', type: 'edge', handleText: 18},
+    {source: 'Minneapolis', target: 'Billings', type: 'edge', handleText: 18},
+    {source: 'Chicago', target: 'Omaha', type: 'edge', handleText: 13},
+    {source: 'Chicago', target: 'Detroit', type: 'edge', handleText: 7},
+    {source: 'Chicago', target: 'Cincinnati', type: 'edge', handleText: 7},
+    {source: 'Chicago', target: 'St. Louis', type: 'edge', handleText: 10},
+    {source: 'St. Louis', target: 'Cincinnati', type: 'edge', handleText: 12},
+    {source: 'St. Louis', target: 'Atlanta', type: 'edge', handleText: 12},
+    {source: 'Cincinnati', target: 'Detroit', type: 'edge', handleText: 4},
+    {source: 'Cincinnati', target: 'Raliegh', type: 'edge', handleText: 15},
+    {source: 'Cincinnati', target: 'Knoxville', type: 'edge', handleText: 6},
+    {source: 'Knoxville', target: 'Atlanta', type: 'edge', handleText: 5},
+
+
 ]

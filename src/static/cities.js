@@ -5,7 +5,7 @@ export const cities = [
     {id: 'Billings', region: 'northwest', x: 550, y: 100},
     {id: 'Cheyenne', region: 'northwest', x: 700, y: 250},
     {id: 'Denver', region: 'northwest', x: 675, y: 350},
-    {id: 'Omaha', region: 'northwest', x: 1000, y: 275},
+    {id: 'Omaha', region: 'northwest', x: 980, y: 275},
     {id: 'San Francisco', region: 'southwest', x: 0, y: 500},
     {id: 'Los Angeles', region: 'southwest', x: 100, y: 625},
     {id: 'San Diego', region: 'southwest', x: 250, y: 700},
@@ -19,6 +19,13 @@ export const cities = [
     {id: 'Houston', region: 'texas', x: 1010, y: 800},
     {id: 'Memphis', region: 'texas', x: 1200, y: 550},
     {id: 'New Orleans', region: 'texas', x: 1200, y: 800},
-    {id: 'Birmingham', region: 'texas', x: 1350, y: 650},
+    {id: 'Birmingham', region: 'texas', x: 1325, y: 650},
+    {id: 'Fargo', region: 'midwest', x: 950, y: 70},
+    {id: 'Duluth', region: 'midwest', x: 1100, y: 20},
+    {id: 'Minneapolis', region: 'midwest', x: 1075, y: 140},
+    {id: 'Chicago', region: 'midwest', x: 1275, y: 250},
+    {id: 'St. Louis', region: 'midwest', x: 1200, y: 410},
+    {id: 'Cincinnati', region: 'midwest', x: 1450, y: 400},
+    {id: 'Knoxville', region: 'midwest', x: 1455, y: 535},
     
 ]
