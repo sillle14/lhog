@@ -4,5 +4,13 @@ export const cities = [
     {'id': 'Boise', 'region': 'northwest', 'x': 250, 'y': 200},
     {'id': 'Billings', 'region': 'northwest', 'x': 550, 'y': 125},
     {'id': 'Cheyenne', 'region': 'northwest', 'x': 700, 'y': 300},
+    {'id': 'Denver', 'region': 'northwest', 'x': 675, 'y': 400},
     {'id': 'Omaha', 'region': 'northwest', 'x': 1100, 'y': 325},
+    {'id': 'San Francisco', 'region': 'southwest', 'x': 0, 'y': 500},
+    {'id': 'Los Angeles', 'region': 'southwest', 'x': 100, 'y': 625},
+    {'id': 'San Diego', 'region': 'southwest', 'x': 250, 'y': 700},
+    {'id': 'Las Vegas', 'region': 'southwest', 'x': 300, 'y': 550},
+    {'id': 'Salt Lake City', 'region': 'southwest', 'x': 475, 'y': 375},
+    {'id': 'Phoenix', 'region': 'southwest', 'x': 475, 'y': 660},
+    {'id': 'Santa Fe', 'region': 'southwest', 'x': 650, 'y': 575},
 ]
