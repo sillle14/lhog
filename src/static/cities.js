@@ -27,5 +27,12 @@ export const cities = [
     {id: 'St. Louis', region: 'midwest', x: 1200, y: 410},
     {id: 'Cincinnati', region: 'midwest', x: 1450, y: 400},
     {id: 'Knoxville', region: 'midwest', x: 1455, y: 535},
-    
+    {id: 'Atlanta', region: 'southeast', x: 1470, y: 660},
+    {id: 'Savannah', region: 'southeast', x: 1605, y: 675},
+    {id: 'Jacksonville', region: 'southeast', x: 1600, y: 780},
+    {id: 'Tampa', region: 'southeast', x: 1525, y: 900},
+    {id: 'Miami', region: 'southeast', x: 1635, y: 1000},
+    {id: 'Raleigh', region: 'southeast', x: 1710, y: 570},
+    {id: 'Norfolk', region: 'southeast', x: 1810, y: 520},
+
 ]

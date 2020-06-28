@@ -99,6 +99,7 @@ export default class Map extends React.Component {
 
     render() {
         // TODO: Background click gives console error
+        // TODO: Render the US map in the background for bonus points
         return (
         <div id='graph'>
             

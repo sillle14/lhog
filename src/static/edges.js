@@ -67,9 +67,16 @@ export const edges = [
     {source: 'St. Louis', target: 'Cincinnati', type: 'edge', handleText: 12},
     {source: 'St. Louis', target: 'Atlanta', type: 'edge', handleText: 12},
     {source: 'Cincinnati', target: 'Detroit', type: 'edge', handleText: 4},
-    {source: 'Cincinnati', target: 'Raliegh', type: 'edge', handleText: 15},
+    {source: 'Cincinnati', target: 'Raleigh', type: 'edge', handleText: 15},
     {source: 'Cincinnati', target: 'Knoxville', type: 'edge', handleText: 6},
     {source: 'Knoxville', target: 'Atlanta', type: 'edge', handleText: 5},
-
+    {source: 'Atlanta', target: 'Raleigh', type: 'edge', handleText: 7},
+    {source: 'Atlanta', target: 'Savannah', type: 'edge', handleText: 7},
+    {source: 'Savannah', target: 'Raleigh', type: 'edge', handleText: 7},
+    {source: 'Savannah', target: 'Jacksonville'},
+    {source: 'Jacksonville', target: 'Tampa', type: 'edge', handleText: 4},
+    {source: 'Miami', target: 'Tampa', type: 'edge', handleText: 4},
+    {source: 'Raleigh', target: 'Norfolk', type: 'edge', handleText: 3},
+    {source: 'Raleigh', target: 'Pittsburgh', type: 'edge', handleText: 7},
 
 ]
