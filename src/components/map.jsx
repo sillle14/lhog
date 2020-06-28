@@ -117,7 +117,7 @@ export default class Map extends React.Component {
                         // TODO
                         //gridDotSize={0}
                         gridSpacing={50}
-                        initialBBox={{x: 0, y: 0, width: 4000, height: 2000}} // TODO: Set this accurately
+                        initialBBox={{x: 300, y: 0, width: 4000, height: 2000}} // TODO: Set this accurately
                         selected={{}}
                         onSelectNode={this.onSelectNode}
 
