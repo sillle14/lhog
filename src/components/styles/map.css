@@ -1,0 +1,17 @@
+#graph {
+    height: 80vh;
+}
+
+.edge-path {
+    stroke: lightgray;
+    stroke-width: 18px;
+}
+
+.edge-text {
+    fill: black !important;
+    font-size: 20px;
+}
+
+.northwest {
+    --region-color: #f2bfff
+}

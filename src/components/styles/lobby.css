@@ -1,0 +1,7 @@
+.hidden {
+    display: none;
+}
+
+#lobby-view {
+    padding: 10px !important;
+}

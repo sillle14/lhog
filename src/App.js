@@ -1,26 +1,17 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Client } from 'boardgame.io/react';
+import { WattMatrixTable } from './components/board'
+import {WattMatrix} from './Game'
+import logger from 'redux-logger';
+import { applyMiddleware } from 'redux';
+import { SocketIO } from 'boardgame.io/multiplayer'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+// NOTE: Local multiplayer seems to mess up moves (they are taken twice)
+const WattMatrixClient = Client({
+    game: WattMatrix,
+    board: WattMatrixTable, 
+    debug: false, 
+    multiplayer: SocketIO({ server: 'localhost:8000' }),
+    enhancer: applyMiddleware(logger),
+});
 
-export default App;
+export default WattMatrixClient;

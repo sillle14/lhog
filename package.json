@@ -1,17 +1,27 @@
 {
-  "name": "powergrid",
+  "name": "wattmatrix",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
+    "boardgame.io": "^0.39.14",
+    "esm": "^3.2.25",
+    "koa-static": "^5.0.0",
+    "nodemon": "^2.0.4",
     "react": "^16.13.1",
+    "react-digraph": "^6.7.1",
     "react-dom": "^16.13.1",
-    "react-scripts": "3.4.1"
+    "react-scripts": "3.4.1",
+    "redux-logger": "^3.0.6",
+    "typescript": "^3.9.5"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "SINGLE_PORT=1 node -r esm server.js",
+    "dev": "REACT_APP_NO_LOBBY=1 react-scripts start",
+    "dev-lobby": "REACT_APP_ENV=dev react-scripts start",
+    "dev-server": "ENV=dev nodemon --inspect --trace-warnings -r esm server.js",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
