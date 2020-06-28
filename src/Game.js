@@ -1,5 +1,11 @@
 import { cities } from './static/cities'
 
+
+// TODO:
+// * Map in scrollable div
+// * Test city names above edges
+
+
 function setup(ctx, setupData) {
     let cityStatus = {}
     for (let i = 0; i < cities.length; i ++) {

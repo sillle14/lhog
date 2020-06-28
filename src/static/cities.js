@@ -34,5 +34,11 @@ export const cities = [
     {id: 'Miami', region: 'southeast', x: 1635, y: 1000},
     {id: 'Raleigh', region: 'southeast', x: 1710, y: 570},
     {id: 'Norfolk', region: 'southeast', x: 1810, y: 520},
-
+    {id: 'Detroit', region: 'northeast', x: 1460, y: 220},
+    {id: 'Pittsburgh', region: 'northeast', x: 1625, y: 360},
+    {id: 'Washington', region: 'northeast', x: 1735, y: 420},
+    {id: 'Philadelphia', region: 'northeast', x: 1860, y: 370},
+    {id: 'New York', region: 'northeast', x: 1920, y: 280},
+    {id: 'Buffalo', region: 'northeast', x: 1700, y: 200},
+    {id: 'Boston', region: 'northeast', x: 2020, y: 200}
 ]

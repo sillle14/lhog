@@ -71,7 +71,7 @@ const renderDefs = () => <defs><City></City></defs>
 // I want this text to be on top of edges...https://github.com/uber/react-digraph/issues/213
 const renderNodeText = (data, id, isSelected) => {
     return (
-        <text className="node-text" textAnchor="middle">
+        <text textAnchor="middle">
             <tspan x="0" dy="36" fontSize="20">{data.id}</tspan>
         </text>
     )
@@ -118,7 +118,7 @@ export default class Map extends React.Component {
                         // TODO
                         //gridDotSize={0}
                         gridSpacing={50}
-                        initialBBox={{x: 300, y: 0, width: 4000, height: 2000}} // TODO: Set this accurately
+                        initialBBox={{x: -100, y: -100, width: 2100, height: 1100}} // TODO: Set this accurately
                         selected={{}}
                         onSelectNode={this.onSelectNode}
 
