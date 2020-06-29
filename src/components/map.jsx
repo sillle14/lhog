@@ -87,11 +87,19 @@ const renderNodeText = (data, id, isSelected) => {
     )
 }
 
-const northwest = 'M -10 -60 L 750 -60 L 775 100 L 1050 230 L 1050 340 L 660 420 L 485 260 L -50 260 ' +
+const northwest = 'M -10 -60 L 750 -60 L 775 100 L 1040 230 L 1040 325 L 660 420 L 510 255 L -50 255 ' +
 ' L -55 220 Q -45 110 -55 -20 L 50 0 Z'
+const southwest = 'M -50 265 L 505 265 L 657 432 L 850 382 L 830 800 q -10 0 -20 15 l -40 -20 l -3 -15 ' +
+'l -45 -45 l -50 0 l 0 18 l -175 0 l -150 -65 L 250 700 L 100 625 L 0 500 l -40 -60 c 0 0 10 -55 -20 -75 ' +
+'l 18 -65 Z'
 
 const renderBackground = (gridSize) => {
-    return <path d={northwest} fill={regionColors['northwest']} fillOpacity="0.3" stroke={regionColors['northwest']} strokeWidth="4"></path>
+    return (
+        <g>
+            <path d={northwest} fill={regionColors['northwest']} fillOpacity="0.3" stroke={regionColors['northwest']} strokeWidth="4"></path>
+            <path d={southwest} fill={regionColors['southwest']} fillOpacity="0.3" stroke={regionColors['southwest']} strokeWidth="4"></path>
+        </g>
+    )
 }
 
 export default class Map extends React.Component {
