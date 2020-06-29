@@ -7,6 +7,16 @@ import { GraphView } from 'react-digraph';
 
 
 const houseCosts = [10, 15, 20]
+
+const regionColors = {
+    northwest: '#f2bfff',
+    southwest: '#42e6f5',
+    texas: '#ffa699',
+    midwest: '#f8ff94',
+    southeast: '#9beba1',
+    northeast: '#e8c87d',
+}
+
   
 const EdgeTypes = {
     edge: { 
@@ -85,8 +95,9 @@ export default class Map extends React.Component {
     }
 
     renderNode (nodeRef, data, index, selected, hovered) {
-        let className = 'node ' + data['region']
-        let style = {}
+        // TODO: Use inline rather than classes here, seems a bit cleaner
+        let className = 'node'
+        let style = {'--region-color': regionColors[data.region]}
 
         for (let i = 0; i < houseCosts.length; i ++) {
             const houseColor = this.props.cityStatus[data.id]['house' + houseCosts[i]]
@@ -118,7 +129,7 @@ export default class Map extends React.Component {
                         // TODO
                         //gridDotSize={0}
                         gridSpacing={50}
-                        initialBBox={{x: -100, y: -100, width: 2100, height: 1100}} // TODO: Set this accurately
+                        initialBBox={{x: 0, y: 0, width: 2000, height: 1000}} // TODO: Set this accurately
                         selected={{}}
                         onSelectNode={this.onSelectNode}
 

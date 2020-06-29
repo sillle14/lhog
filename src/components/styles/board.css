@@ -1,0 +1,38 @@
+* {
+    box-sizing: border-box;
+}
+
+#board {
+    display: grid;
+    grid-template-columns: 5fr 1fr;
+    grid-template-rows: 9fr 1fr;
+    grid-template-areas:    "map log"
+                            "action action"
+}
+
+#log {
+    height: 100%;
+    width: 100%;
+    background: lightblue;
+    grid-area: log;
+}
+
+#action {
+    height: 100%;
+    width: 100%;
+    background: lightgreen;
+    grid-area: action;
+}
+
+#players {
+    height: 30vh;
+    width: 100%;
+    background: magenta;
+}
+
+#main {
+    height: 90vh;
+    width: 100%;
+    background: lightseagreen;
+    overflow: auto;
+}
