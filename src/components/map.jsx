@@ -42,7 +42,7 @@ function City() {
 
     return (
         <symbol viewBox="0 0 100 100" id="other" key="0" height="100" width="100">
-            <circle id="outer" cx="50" cy="50" r="47" strokeWidth="6" fill="transparent" style={{stroke: "var(--region-color)"}}></circle>
+            <circle id="outer" cx="50" cy="50" r="50" style={{fill: "var(--region-color)"}}></circle>
             <circle cx={cityPosition[10]['x']} cy={cityPosition[10]['y']} r={innerRadius} fill="lightgrey" stroke="black"></circle>
             <text x={cityPosition[10]['x']} y={cityPosition[10]['y']} textAnchor="middle" fill="black" alignmentBaseline="central">10</text>
             <circle cx={cityPosition[15]['x']} cy={cityPosition[15]['y']} r={innerRadius} fill="lightgrey" stroke="black">20</circle>
@@ -87,6 +87,13 @@ const renderNodeText = (data, id, isSelected) => {
     )
 }
 
+const northwest = 'M -10 -60 L 750 -60 L 775 100 L 1050 230 L 1050 340 L 660 420 L 485 260 L -50 260 ' +
+' L -55 220 Q -45 110 -55 -20 L 50 0 Z'
+
+const renderBackground = (gridSize) => {
+    return <path d={northwest} fill={regionColors['northwest']} fillOpacity="0.3" stroke={regionColors['northwest']} strokeWidth="4"></path>
+}
+
 export default class Map extends React.Component {
 
     constructor(props) {
@@ -129,9 +136,10 @@ export default class Map extends React.Component {
                         // TODO
                         //gridDotSize={0}
                         gridSpacing={50}
-                        initialBBox={{x: 0, y: 0, width: 2000, height: 1000}} // TODO: Set this accurately
+                        initialBBox={{x: 0, y: -100, width: 2000, height: 1000}} // TODO: Set this accurately
                         selected={{}}
                         onSelectNode={this.onSelectNode}
+                        renderBackground={renderBackground}
 
                         // Not needed
                         nodeTypes={{}}
@@ -142,7 +150,7 @@ export default class Map extends React.Component {
                         onCreateEdge={doNothing}
                         onSwapEdge={doNothing}
                         onDeleteEdge={doNothing}
-                        onBackgroundClick={doNothing}/>
+                        onBackgroundClick={(x,y) => {console.log(x + ',' + y)}}/>
         </div>
         );
     }
