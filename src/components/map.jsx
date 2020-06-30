@@ -92,12 +92,15 @@ const northwest = 'M -10 -60 L 750 -60 L 775 100 L 1040 230 L 1040 325 L 660 420
 const southwest = 'M -50 265 L 505 265 L 657 432 L 850 382 L 830 800 q -10 0 -20 15 l -40 -20 l -3 -15 ' +
 'l -45 -45 l -50 0 l 0 18 l -175 0 l -150 -65 L 250 700 L 100 625 L 0 500 l -40 -60 c 0 0 10 -55 -20 -75 ' +
 'l 18 -65 Z'
+const texas = 'M 855 385 L 1040 335 L 1125 430 L 1395 610 L 1400 780 l -200 0 L 1010 800 l -20 80 ' +
+'l -6 0 q -15 35 0 70 l -30 -10 c -5 -10 0 0 -50 -50 c -30 -45 0 -80 -68 -90 Z'
 
 const renderBackground = (gridSize) => {
     return (
         <g>
             <path d={northwest} fill={regionColors['northwest']} fillOpacity="0.3" stroke={regionColors['northwest']} strokeWidth="4"></path>
             <path d={southwest} fill={regionColors['southwest']} fillOpacity="0.3" stroke={regionColors['southwest']} strokeWidth="4"></path>
+            <path d={texas} fill={regionColors['texas']} fillOpacity="0.3" stroke={regionColors['texas']} strokeWidth="4"></path>
         </g>
     )
 }
