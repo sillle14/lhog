@@ -1,0 +1,19 @@
+.resource {
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.resource-oil {
+    background: black;
+    border-radius: 100%;
+}
+
+.house {
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    clip-path: polygon(50% 10%, 85% 35%, 85% 85%, 15% 85%, 15% 35%);
+}

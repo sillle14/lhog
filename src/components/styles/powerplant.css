@@ -1,0 +1,45 @@
+.powerplant-wrapper {
+    flex-basis: 20%;
+    padding: 1%;
+}
+
+.powerplant-aspect-box {
+    position: relative;
+    height: 0;
+    padding-bottom: 40%;
+}
+
+.powerplant {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.powerplant > span {
+    font-family: Impact, Charcoal, sans-serif;
+    font-size: 6vh;
+    color: rgb(240, 240, 240);
+}
+
+.powerplant-oil {
+    background-color: gray;
+}
+
+.powerplant-production {
+    align-self: flex-end;
+    width: 75%;
+    height: 62.5%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.powerplant-production > div, svg {
+    width: calc(80% / 3);
+    height: 80%
+}

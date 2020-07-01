@@ -17,7 +17,6 @@ const regionColors = {
     northeast: '#e8c87d',
 }
 
-  
 const EdgeTypes = {
     edge: { 
         shapeId: "#edge",
@@ -169,8 +168,7 @@ export default class Map extends React.Component {
                         onSelectEdge={doNothing}
                         onCreateEdge={doNothing}
                         onSwapEdge={doNothing}
-                        onDeleteEdge={doNothing}
-                        onBackgroundClick={(x,y) => {console.log(x + ',' + y)}}/>
+                        onDeleteEdge={doNothing}/>
         </div>
         );
     }
