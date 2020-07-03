@@ -1,12 +1,13 @@
 * {
     box-sizing: border-box;
+    font-size: 3vh;
 }
 
 #board {
     display: grid;
     grid-template-columns: 5fr 1fr;
     grid-template-rows: 9fr 1fr;
-    grid-template-areas:    "map log"
+    grid-template-areas:    "main log"
                             "action action"
 }
 
@@ -36,6 +37,7 @@
     width: 100%;
     background: lightseagreen;
     overflow: auto;
+    grid-area: main;
 }
 
 /* TODO: Prettify! */

@@ -11,7 +11,7 @@ function setup(ctx, setupData) {
     for (let i = 0; i < cities.length; i ++) {
         cityStatus[cities[i].id] = {house10: null, house15: null, house20: null}
     }
-    return {cityStatus: cityStatus}
+    return {cityStatus: cityStatus, powerplants: [3, 4, 5, 6, 7, 8, 13, 11]}
 }
 
 export const WattMatrix = {

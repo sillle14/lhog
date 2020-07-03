@@ -17,17 +17,38 @@
     width: 100%;
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: space-between;
 }
 
 .powerplant > span {
     font-family: Impact, Charcoal, sans-serif;
     font-size: 6vh;
     color: rgb(240, 240, 240);
+    padding-left: 3%;
 }
 
 .powerplant-oil {
     background-color: gray;
+}
+
+.powerplant-coal {
+    background-color: #b0896d;
+}
+
+.powerplant-coil {
+    background-color: #8a7669;
+}
+
+.powerplant-trash {
+    background-color: #998e11;
+}
+
+.powerplant-green {
+    background-color: rgb(43, 131, 97);
+}
+
+.powerplant-uranium {
+    background-color: rgb(136, 56, 56);
 }
 
 .powerplant-production {
