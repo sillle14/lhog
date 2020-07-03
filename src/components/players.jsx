@@ -5,7 +5,7 @@ import './styles/symbols.css'
 import { playerColors } from '../static/playerColors'
 import PlayerModel from '../models/player'
 
-function Player(props) {
+export function Player(props) {
     const powerplants = props.player.powerplants.map((i) => <PowerPlant cost={i} key={i}/>)
     const colors = playerColors[props.playerID]
     const houseStyle = {backgroundColor: colors.houseBackground, color: colors.color}
@@ -47,7 +47,7 @@ function Player(props) {
     )
 }
 
-export default function Players(props) {
+export function Players(props) {
     let players = []
     for (const playerID in props.players) {
         players.push(<Player player={props.players[playerID]} playerID={playerID} key={playerID}/>)

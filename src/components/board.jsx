@@ -1,7 +1,7 @@
 import React from 'react'
 import Map from './map'
 import Market from './market'
-import Players from './players'
+import { Players, Player}  from './players'
 import './styles/board.css'
 
 export class WattMatrixTable extends React.Component {
@@ -15,7 +15,7 @@ export class WattMatrixTable extends React.Component {
                     <Players players={this.props.G.players}/>
                     <Map cityStatus={this.props.G.cityStatus}/>
                 </div>
-                <div id="log"></div>
+                <div id="sidebar"><Player player={this.props.G.players[2]} playerID={2}/></div>
                 <div id="action"></div>
             </div>
         )

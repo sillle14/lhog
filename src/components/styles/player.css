@@ -23,6 +23,7 @@
 .players {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
 }
 
 .player-powerplants {
