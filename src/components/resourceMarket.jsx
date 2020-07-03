@@ -7,13 +7,7 @@ function Resource(props) {
     if (!props.available) {
         className += ' resource-disabled'
     }
-    return (
-        <div className="resource-wrapper">
-            <div className="resource-aspect-box">
-                <div className={className}>{props.cost}</div>
-            </div>
-        </div>
-    )
+    return <div className={className}>{props.cost}</div>
 }
 
 export default function ResourceMarket(props) {
@@ -49,6 +43,7 @@ export default function ResourceMarket(props) {
             />)
         }
     }
+    uranium.push(<div className="uranium-spacer"/>)
     return (
         <div id="resource-market">
             <div className="resource-market-row">{coal}</div>

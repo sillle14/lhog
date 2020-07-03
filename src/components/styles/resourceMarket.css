@@ -7,27 +7,17 @@
 
 .resource-market-row {
     display: flex;
+    justify-content: space-evenly;
     flex-basis: 20%;
 }
 
-.resource-wrapper {
-    flex-basis: 4.1%;
-    padding: 0.2%;
-}
-
-.resource-aspect-box {
-    position: relative;
-    height: 0;
-    padding-bottom: 100%;
-}
-
 .market-resource {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
+    width: 3.5%;
 }
+
+.uranium-spacer {
+    width: 49.2%;
+}   
 
 .resource-disabled {
     background-color: lightgrey;
