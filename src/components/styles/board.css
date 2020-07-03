@@ -30,6 +30,7 @@
     width: 100%;
     overflow: auto;
     grid-area: main;
+    background-color: lightsteelblue;
 }
 
 /* TODO: Prettify! */

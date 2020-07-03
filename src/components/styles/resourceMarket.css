@@ -1,0 +1,35 @@
+#resource-market {
+    height: 14vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.resource-market-row {
+    display: flex;
+    flex-basis: 20%;
+}
+
+.resource-wrapper {
+    flex-basis: 4.1%;
+    padding: 0.2%;
+}
+
+.resource-aspect-box {
+    position: relative;
+    height: 0;
+    padding-bottom: 100%;
+}
+
+.market-resource {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+}
+
+.resource-disabled {
+    background-color: lightgrey;
+    color: black
+}
