@@ -3,7 +3,6 @@ import PowerPlant from './powerplant'
 import './styles/player.css'
 import './styles/symbols.css'
 import { playerColors } from '../static/playerColors'
-import PlayerModel from '../models/player'
 
 export function Player(props) {
     const powerplants = props.player.powerplants.map((i) => <PowerPlant cost={i} key={i}/>)
@@ -12,22 +11,16 @@ export function Player(props) {
 
     let resources = [
         <div className="player-resource" key="money">
-            <span>{props.player.money + '$'}</span>
             <div className="player-symbol house" style={houseStyle}>{props.player.cities.length}</div>
+            <span>{props.player.money + '$'}</span>
         </div>
     ]
 
-    const playerCapacity = PlayerModel.getCapacity(props.player)
-    const coilCapacity = playerCapacity.coil
-
     for (const resource in props.player.resources) {
         const available = props.player.resources[resource]
-        const capacity = playerCapacity[resource]
-        const extra = ['oil', 'coal'].includes(resource) ? '(+' + coilCapacity + ')' : ''
         resources.push(
             <div className="player-resource" key={resource}>
-            <span>{available + '/' + capacity + extra}</span>
-            <div className={'player-symbol resource resource-' + resource}></div>
+            <div className={'player-symbol resource resource-' + resource}>{available}</div>
         </div>
         )
     }

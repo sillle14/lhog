@@ -5,7 +5,7 @@ class PlayerModel {
         this.name = name
         this.cities = []
         this.resources = {coal: 0, oil: 0, trash: 0, uranium: 0}
-        this.powerplants = [3, 4, 5]
+        this.powerplants = [6, 13, 11]
         this.money = 50
     }
 

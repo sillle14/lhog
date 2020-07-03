@@ -6,7 +6,7 @@ import './styles/symbols.css'
 function Arrow(props) {
     return (
         <svg viewBox="0 0 80 60" height="60%">
-            <path d="M 10 10 l 30 0 l -10 20 l 20 0 l 5 -10 l 25 15 -25 15 l -5 -10 L 15 40 l 10 -20 l -15 0 Z" fill="white"></path>
+            <path d="M 10 10 l 30 0 l -10 20 l 20 0 l 5 -10 l 25 15 -25 15 l -5 -10 L 15 40 l 10 -20 l -15 0 Z" fill="rgb(240, 240, 240)"></path>
         </svg>
     )
 }
