@@ -1,0 +1,64 @@
+.player-wrapper {
+    flex-basis: 16.6%;
+    padding: 1%;
+}
+
+.player-aspect-box {
+    position: relative;
+    height: 0;
+    padding-bottom: 80%;
+}
+
+.player {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.players {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.player-powerplants {
+    display: flex;
+    flex-direction: column;
+    flex-basis: 50%;
+    justify-content: space-evenly;
+}
+
+.player-powerplants span {
+    font-size: 1.5vw;
+}
+
+.player-powerplants div {
+    font-size: 1vw;
+}
+
+.player-info {
+    display: flex;
+    flex-direction: column;
+    flex-basis: 50%;
+}
+
+.player-info span {
+    font-size: 1vw;
+}
+
+.player-resource {
+    display: flex;
+    justify-content: space-between;
+    flex-basis: calc(100% / 6);
+    align-items: center;
+}
+
+.player-symbol {
+    flex-basis: calc(400% / 15);
+    height: 100%;
+    font-size: 0.8vw;
+}

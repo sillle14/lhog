@@ -36,7 +36,7 @@
 }
 
 .powerplant-coil {
-    background-color: #8a7669;
+    background: linear-gradient(grey 35%, #b0896d)
 }
 
 .powerplant-trash {
