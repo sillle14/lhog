@@ -41,7 +41,8 @@ function setup(ctx, setupData) {
         coalMarket: coalMarket,
         oilMarket: oilMarket,
         trashMarket: trashMarket,
-        uraniumMarket: uraniumMarket
+        uraniumMarket: uraniumMarket,
+        step: 1
     }
 }
 
@@ -50,5 +51,7 @@ export const WattMatrix = {
     setup: setup,
     moves: {
         takeGems: (G, ctx) => {},
-    }
+    },
+    minPlayers: 3,
+    maxPlayers: 6,
 };

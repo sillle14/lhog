@@ -43,7 +43,7 @@ export default function ResourceMarket(props) {
             />)
         }
     }
-    uranium.push(<div className="uranium-spacer"/>)
+    uranium.push(<div className="uranium-spacer" key="spacer"/>)
     return (
         <div id="resource-market">
             <div className="resource-market-row">{coal}</div>

@@ -1,6 +1,6 @@
 * {
     box-sizing: border-box;
-    font-size: 3vh;
+    font-size: 1.7vw;
 }
 
 #board {
@@ -45,4 +45,8 @@
 ::-webkit-scrollbar-thumb {
     border-radius: 10px;
     background-color: lightgrey; 
+}
+
+hr {
+    border-width: 5px;
 }

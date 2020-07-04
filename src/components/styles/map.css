@@ -1,7 +1,6 @@
 #graph {
     height: 80vh;
     grid-area: map;
-    border: 2px solid red;
 }
 
 .edge-path {
