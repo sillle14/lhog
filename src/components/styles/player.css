@@ -42,19 +42,19 @@
     font-size: 1vw;
 }
 
-#sidebar .player-powerplants span {
+.sidebar .player-powerplants span {
     font-size: 2.5vw;
 }
 
-#sidebar .player-powerplants div {
+.sidebar .player-powerplants div {
     font-size: 1.8vw;
 }
 
-#sidebar .player-info span {
+.sidebar .player-info span {
     font-size: 1.2vw;
 }
 
-#sidebar .player-symbol {
+.sidebar .player-symbol {
     font-size: 1.6vw
 }
 

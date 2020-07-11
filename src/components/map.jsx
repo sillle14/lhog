@@ -40,8 +40,8 @@ function City() {
     const houseClip = "polygon(50% 15%, 80% 33%, 80% 75%, 20% 75%, 20% 33%)"
 
     return (
-        <symbol viewBox="0 0 100 100" id="other" key="0" height="100" width="100">
-            <circle id="outer" cx="50" cy="50" r="50" style={{fill: "var(--region-color)"}}></circle>
+        <symbol viewBox="0 0 100 100" id="city" key="0" height="100" width="100">
+            <circle cx="50" cy="50" r="50" style={{fill: "var(--region-color)"}}></circle>
             <circle cx={cityPosition[10]['x']} cy={cityPosition[10]['y']} r={innerRadius} fill="lightgrey" stroke="black"></circle>
             <text x={cityPosition[10]['x']} y={cityPosition[10]['y']} textAnchor="middle" fill="black" alignmentBaseline="central">10</text>
             <circle cx={cityPosition[15]['x']} cy={cityPosition[15]['y']} r={innerRadius} fill="lightgrey" stroke="black">20</circle>
@@ -132,14 +132,13 @@ export default class Map extends React.Component {
             style['--house-' + houseCosts[i] + '-color'] = houseColor
         }
 
-        return <use x="-50" y="-50" xlinkHref="#other"className={className} style={style}/>
+        return <use x="-50" y="-50" xlinkHref="#city" className={className} style={style}/>
     }
 
     render() {
         // TODO: Background click gives console error
-        // TODO: Render the US map in the background for bonus points
         return (
-        <div id="graph">
+        <div className="graph" id={'map-' + this.props.playerID}>
             
             <GraphView  readOnly={true}
                         nodeKey={NODE_KEY}

@@ -71,7 +71,7 @@ function Other(props) {
 
 export default function Reference(props) {
     return (
-        <div id="reference">
+        <div className="reference">
             <Payment/>
             <Refill numPlayers={props.numPlayers}/>
             <Other numPlayers={props.numPlayers} step={props.step}/>

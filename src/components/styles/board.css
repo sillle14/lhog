@@ -3,7 +3,7 @@
     font-size: 1.7vw;
 }
 
-#board {
+.board {
     display: grid;
     grid-template-columns: 4fr 1fr;
     grid-template-rows: 9fr 1fr;
@@ -11,21 +11,21 @@
                             "action action"
 }
 
-#sidebar {
+.sidebar {
     height: 100%;
     width: 100%;
     background: lightblue;
     grid-area: log;
 }
 
-#action {
+.action {
     height: 100%;
     width: 100%;
     background: lightgreen;
     grid-area: action;
 }
 
-#main {
+.main {
     height: 90vh;
     width: 100%;
     overflow: auto;
@@ -34,15 +34,15 @@
 }
 
 /* TODO: Prettify! */
-#main::-webkit-scrollbar {
+.main::-webkit-scrollbar {
     width: 12px;
 }
 
-#main::-webkit-scrollbar-track {
+.main::-webkit-scrollbar-track {
     background-color: white;
 }
  
-#main::-webkit-scrollbar-thumb {
+.main::-webkit-scrollbar-thumb {
     border-radius: 10px;
     background-color: lightgrey; 
 }
