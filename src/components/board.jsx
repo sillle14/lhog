@@ -13,7 +13,11 @@ export class WattMatrixTable extends React.Component {
         return (
             <div id="board">
                 <div id="main">
-                    <Market powerplants={this.props.G.powerplants}/><hr/>
+                    <Market 
+                        powerplantMarket={this.props.G.powerplantMarket} 
+                        selected={this.props.G.auction.upForAuction}
+                        selectPowerplant={this.props.moves.selectPowerplant}
+                    /><hr/>
                     <Players players={this.props.G.players}/><hr/>
                     <Map cityStatus={this.props.G.cityStatus}/><hr/>
                     <ResourceMarket
@@ -24,7 +28,9 @@ export class WattMatrixTable extends React.Component {
                     /><hr/>
                     <Reference numPlayers={this.props.ctx.numPlayers} step={this.props.G.step}/>
                 </div>
-                <div id="sidebar"><Player player={this.props.G.players[2]} playerID={2}/></div>
+                <div id="sidebar">
+                    <Player player={this.props.G.players[this.props.playerID]} playerID={this.props.playerID}/>
+                </div>
                 <div id="action"></div>
             </div>
         )

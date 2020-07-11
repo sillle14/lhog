@@ -61,6 +61,9 @@ function Other(props) {
                     <tr><td>Cities for End</td><td>{playerSettings[props.numPlayers].end}</td></tr>
                 </tbody>
             </table>
+            <br/>
+            <span>Player Order</span>
+            <span>TODO</span>
         </div>
     )
 

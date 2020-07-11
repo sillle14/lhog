@@ -25,7 +25,10 @@ export default function PowerPlant(props) {
     const powerplant = powerplants[props.cost]
     return (
         <div className="powerplant-wrapper">
-            <div className={'powerplant-aspect-box'}>
+            <div 
+                className={'powerplant-aspect-box' + (props.selected ? ' selected' : '')}
+                onClick={() => props.select(props.cost)}
+            >
                 <div className={'powerplant powerplant-' + powerplant.resource}>
                     <span>{props.cost}</span>
                     <PowerPlantProduction

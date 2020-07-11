@@ -139,7 +139,7 @@ export default class Map extends React.Component {
         // TODO: Background click gives console error
         // TODO: Render the US map in the background for bonus points
         return (
-        <div id='graph'>
+        <div id="graph">
             
             <GraphView  readOnly={true}
                         nodeKey={NODE_KEY}

@@ -4,7 +4,13 @@ import './styles/market.css'
 
 
 export default function Market(props) {
-    const powerplants = props.powerplants.map((i) => <PowerPlant cost={i} key={i}/>)
+    let powerplants = []
+    for (let i = 0; i < props.powerplantMarket.length; i++) {
+        const cost = props.powerplantMarket[i]
+        powerplants.push(
+            <PowerPlant cost={cost} key={i} selected={props.selected === cost} select={props.selectPowerplant}/>
+        )
+    }
     return (
         <div className="powerplant-market">
             <div className="market-labels">

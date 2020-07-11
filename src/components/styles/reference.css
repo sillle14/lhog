@@ -33,11 +33,11 @@ table {
 }
 
 .refill-chart {
-    flex-basis: 20%;
+    flex-basis: 22%;
 }
 
 .other-chart {
-    flex-basis: 22%;
+    flex-basis: 24%;
 }
 
 th, td {

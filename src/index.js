@@ -15,6 +15,8 @@ if (NO_LOBBY) {
   ReactDOM.render(
     <React.StrictMode>
       <WattMatrixClient playerID='0'/>
+      <WattMatrixClient playerID='1'/>
+      <WattMatrixClient playerID='2'/>
     </React.StrictMode>,
     document.getElementById('root')
   );

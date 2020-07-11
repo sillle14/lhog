@@ -1,10 +1,8 @@
 import { cities } from './static/cities'
 import PlayerModel from './models/player'
-
-
-// TODO:
-// * Map in scrollable div
-// * Test city names above edges
+import { setPlayerOrder } from './moves/playerOrder'
+import { startAuction, selectPowerplant } from './moves/auction'
+import { TurnOrder } from 'boardgame.io/core';
 
 
 function setup(ctx, setupData) {
@@ -13,7 +11,7 @@ function setup(ctx, setupData) {
         cityStatus[cities[i].id] = {house10: null, house15: null, house20: null}
     }
     let players = {}
-    for (let i = 0; i < 6; i++) {
+    for (let i = 0; i < ctx.numPlayers; i++) {
         players[i] = new PlayerModel('Player ' + i)
     }
     let coalMarket = []
@@ -36,21 +34,40 @@ function setup(ctx, setupData) {
 
     return {
         cityStatus: cityStatus, 
-        powerplants: [3, 4, 5, 6, 7, 8, 13, 11], 
+        powerplantMarket: [3, 4, 5, 6, 7, 8, 13, 11], 
         players: players,
         coalMarket: coalMarket,
         oilMarket: oilMarket,
         trashMarket: trashMarket,
         uraniumMarket: uraniumMarket,
-        step: 1
+        step: 1,
+        firstTurn: true,
+        // Non-empty active players so phase doesn't end immediately
+        auction: {activePlayers: [null], upForAuction: null, currentBid: null}, 
+        playerOrder: [],
+        reverseOrder: []
     }
 }
 
 export const WattMatrix = {
     name: 'WattMatrix',
     setup: setup,
-    moves: {
-        takeGems: (G, ctx) => {},
+    phases: {
+        playerOrder: {
+            onBegin: setPlayerOrder,
+            next: 'auction',
+            start: true,  // TODO: The real game needs to start with region selection
+        },
+        auction: {
+            onBegin: startAuction,  
+            endIf: G => (G.auction.activePlayers.length === 0),
+            turn: {
+                order: TurnOrder.CUSTOM_FROM('playerOrder')
+            },
+            moves: {
+                selectPowerplant: selectPowerplant
+            }
+        }
     },
     minPlayers: 3,
     maxPlayers: 6,
