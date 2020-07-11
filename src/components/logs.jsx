@@ -28,6 +28,12 @@ function Log(props) {
         case 'bid':
             details = <span>{indent}{playerName}{'bids ' + log.bid}</span>
             break
+        case 'passAuction':
+            details = <span>{indent}{playerName}{' passes'}</span>
+            break
+        case 'buyPP':
+            details = <span>{playerName}{' buys PP ' + log.powerplant + ' for ' + log.cost}</span>
+            break
         default:
             break
     }

@@ -21,7 +21,7 @@ class Bidder extends React.Component {
                 <span>{'Bid more than ' + this.props.currentBid + ' or pass.'}</span>
                 <input type="text" value={this.state.bid} onChange={this.handleChange}/>
                 <button disabled={validBid} onClick={() => this.props.makeBid(this.state.bid)}>{'Bid ' + this.state.bid}</button>
-                <button>Pass</button>
+                <button onClick={() => this.props.pass()}>Pass</button>
             </div>
         )
     }
@@ -42,7 +42,7 @@ export default function ActionBar(props) {
                 ]
             }
         } else {
-            action = <Bidder currentBid={props.currentBid} maxBid={props.budget} makeBid={props.makeBid}/>
+            action = <Bidder currentBid={props.currentBid} maxBid={props.budget} makeBid={props.makeBid} pass={props.passAuction}/>
         }
     }
     return (

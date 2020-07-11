@@ -44,7 +44,7 @@ function setup(ctx, setupData) {
         playerOrder: [],
         reverseOrder: [],
         biddingOrder: [...Array(ctx.numPlayers).keys()],
-        auction: {upForAuction: null, selected: null, currentBid: null},
+        auction: {upForAuction: null, selected: null, currentBid: null, playOrderPos: 0},
         logs: [],
     }
 }
@@ -69,6 +69,7 @@ export const WattMatrix = {
                 selectPowerplant: auction.selectPowerplant,
                 startBidding: auction.startBidding,
                 makeBid: auction.makeBid,
+                passAuction: auction.passAuction
             }
         }
     },

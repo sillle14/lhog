@@ -5,7 +5,7 @@ class PlayerModel {
         this.name = name
         this.cities = []
         this.resources = {coal: 0, oil: 0, trash: 0, uranium: 0}
-        this.powerplants = [6, 13, 11]
+        this.powerplants = []
         this.money = 50
         this.boughtPP = false  // Keep track of whether this player has bought a PP (or passed) this round
         this.inAuction = false
