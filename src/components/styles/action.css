@@ -1,0 +1,32 @@
+.action {
+    height: 100%;
+    width: 100%;
+    background: lightgreen;
+    grid-area: action;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.action span {
+    padding-left: 2%;
+    padding-right: 2%;
+}
+
+.action button {
+    margin-left: 2%;
+}
+
+.bidder {
+    display: flex;
+    justify-content: center;
+}
+
+.bidder > span {
+    flex-basis: 50%;
+}
+
+.bidder > input {
+    width: 7%;
+    text-align: center;
+}

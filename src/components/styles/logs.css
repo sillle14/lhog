@@ -1,0 +1,30 @@
+.logs {
+    background: lightsteelblue;
+    padding: 5%;
+    height: 100%;
+    margin-top: 1%;
+}
+
+.log-break {
+    border: 1px solid black;
+}
+
+.scroll {
+    overflow-y: auto;
+    display: flex;
+    max-height: 50vh;
+    flex-direction: column-reverse;
+    font-size: 1vw;
+}
+
+.scroll * {
+    font-size: 1vw;
+}
+
+.scroll > div {
+    margin-top: 5px;
+}
+
+.player-name {
+    font-weight: bold;
+}

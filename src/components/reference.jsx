@@ -63,7 +63,7 @@ function Other(props) {
             </table>
             <br/>
             <span>Player Order</span>
-            <span>TODO</span>
+            <span>{props.order}</span>
         </div>
     )
 
@@ -74,7 +74,7 @@ export default function Reference(props) {
         <div className="reference">
             <Payment/>
             <Refill numPlayers={props.numPlayers}/>
-            <Other numPlayers={props.numPlayers} step={props.step}/>
+            <Other numPlayers={props.numPlayers} step={props.step} order={props.playerOrder}/>
         </div>
     )
 }

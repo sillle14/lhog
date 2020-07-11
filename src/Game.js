@@ -1,8 +1,7 @@
 import { cities } from './static/cities'
 import PlayerModel from './models/player'
 import { setPlayerOrder } from './moves/playerOrder'
-import { startAuction, selectPowerplant } from './moves/auction'
-import { TurnOrder } from 'boardgame.io/core';
+import * as auction from './moves/auction'
 
 
 function setup(ctx, setupData) {
@@ -42,10 +41,11 @@ function setup(ctx, setupData) {
         uraniumMarket: uraniumMarket,
         step: 1,
         firstTurn: true,
-        // Non-empty active players so phase doesn't end immediately
-        auction: {activePlayers: [null], upForAuction: null, currentBid: null}, 
         playerOrder: [],
-        reverseOrder: []
+        reverseOrder: [],
+        biddingOrder: [...Array(ctx.numPlayers).keys()],
+        auction: {upForAuction: null, selected: null, currentBid: null},
+        logs: [],
     }
 }
 
@@ -59,13 +59,16 @@ export const WattMatrix = {
             start: true,  // TODO: The real game needs to start with region selection
         },
         auction: {
-            onBegin: startAuction,  
-            endIf: G => (G.auction.activePlayers.length === 0),
+            onBegin: auction.startAuction,  
+            // End when everyone has bought a PP
+            endIf: G => Object.values(G.players).every(player => player.boughtPP),
             turn: {
-                order: TurnOrder.CUSTOM_FROM('playerOrder')
+                order: {first: G => parseInt(G.playerOrder[0])},
             },
             moves: {
-                selectPowerplant: selectPowerplant
+                selectPowerplant: auction.selectPowerplant,
+                startBidding: auction.startBidding,
+                makeBid: auction.makeBid,
             }
         }
     },

@@ -7,8 +7,9 @@ export default function Market(props) {
     let powerplants = []
     for (let i = 0; i < props.powerplantMarket.length; i++) {
         const cost = props.powerplantMarket[i]
+        const selected = props.upForAuction === cost || (props.selected === cost && props.myTurn)
         powerplants.push(
-            <PowerPlant cost={cost} key={i} selected={props.selected === cost} select={props.selectPowerplant}/>
+            <PowerPlant cost={cost} key={i} selected={selected} select={props.selectPowerplant}/>
         )
     }
     return (
