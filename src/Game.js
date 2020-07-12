@@ -87,7 +87,8 @@ export const WattMatrix = {
                 selectPowerplant: auction.selectPowerplant,
                 startBidding: auction.startBidding,
                 makeBid: auction.makeBid,
-                passBid: auction.passBid
+                passBid: auction.passBid,
+                passBuyPP: auction.passBuyPP,
             },
             next: 'cities'
         },

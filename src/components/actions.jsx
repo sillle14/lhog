@@ -22,7 +22,7 @@ class Bidder extends React.Component {
                 <span>{'Bid more than ' + this.props.currentBid + ' on PP ' + this.props.powerplant + (passAllowed ? ' or pass.' : '')}</span>
                 <input type="text" value={this.state.bid} onChange={this.handleChange}/>
                 <button disabled={validBid ? '' : 'disabled'} onClick={() => this.props.makeBid(this.state.bid)}>{'Bid ' + this.state.bid}</button>
-                <button disabled={passAllowed  ? '' : 'disabled'} onClick={() => this.props.pass()}>Pass</button>
+                <button disabled={passAllowed ? '' : 'disabled'} onClick={() => this.props.pass()}>Pass</button>
             </div>
         )
     }
@@ -35,7 +35,10 @@ export default function ActionBar(props) {
     } else if (props.phase === 'auction') {
         if (!props.upForAuction) {
             if (!props.selectedPP) {
-                action = <span>Select a powerplant.</span>
+                action = [
+                    <span key="message">{'Select a powerplant' + (props.firstTurn ? '' : ' or pass.')}</span>,
+                    <button key="pass" onClick={() => props.passBuy()} disabled={props.firstTurn ? 'disabled' : ''}>Pass</button>
+                ]
             } else {
                 action = [
                     <span key="message">{'Start the bidding on powerplant ' + props.selectedPP + '?'}</span>,

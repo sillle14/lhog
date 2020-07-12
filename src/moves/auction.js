@@ -62,22 +62,7 @@ function afterBid(G, ctx) {
         G.auction.selected = null
         G.auction.currentBid = null
 
-        // The next player to open bidding is the first player in order who has not bought a PP.
-        // TODO: abstract this piece so it can be used in the pass auction move.
-        let nextPlayer = -1
-        for (let i = 0; i < G.playerOrder.length; i++) {
-            if (!G.players[G.playerOrder[i]].boughtPP) {
-                nextPlayer = G.playerOrder[i]
-                break
-            }
-        }
-        // If a next player was assigned, send the turn to that player.
-        if (nextPlayer >= 0) {
-            ctx.events.endTurn({next: nextPlayer})
-        } else {
-            ctx.events.endPhase()
-            ctx.events.endTurn()
-        }
+        afterBuy(G, ctx)
     } else {
         // Otherwise, just pass the bidding to the next player in a clockwise fashion.
         let nextPlayer
@@ -90,6 +75,26 @@ function afterBid(G, ctx) {
             i++
         }
         ctx.events.endTurn({next: nextPlayer})
+    }
+}
+
+// After a player buys a PP or passes, set the turn to the next player, or end the phase.
+function afterBuy(G, ctx) {
+    // The next player to open bidding is the first player in order who has not bought a PP.
+    let nextPlayer = -1
+    for (let i = 0; i < G.playerOrder.length; i++) {
+        if (!G.players[G.playerOrder[i]].boughtPP) {
+            nextPlayer = G.playerOrder[i]
+            break
+        }
+    }
+    // If a next player was assigned, send the turn to that player.
+    if (nextPlayer >= 0) {
+        ctx.events.endTurn({next: nextPlayer})
+    } else {
+        G.firstTurn = false
+        ctx.events.endPhase()
+        ctx.events.endTurn()
     }
 }
 
@@ -109,5 +114,7 @@ export function passBid(G, ctx) {
 }
 
 export function passBuyPP(G, ctx) {
-    // TODO
+    G.players[ctx.currentPlayer].boughtPP = true
+    G.logs.push({playerID: ctx.currentPlayer, move: 'passBuy'})
+    afterBuy(G, ctx)
 }

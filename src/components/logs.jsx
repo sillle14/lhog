@@ -3,7 +3,7 @@ import { animateScroll } from 'react-scroll'
 import './styles/logs.css'
 import { playerColors } from '../static/playerColors'
 
-const indent = <span key="span">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+const indent = <span key="span">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
 
 function PlayerName(props) {
     return <span className="player-name" style={{color: playerColors[props.playerID].houseBackground}}>{props.playerMap[props.playerID] + ' '}</span>
@@ -30,6 +30,9 @@ function Log(props) {
             break
         case 'passAuction':
             details = <span>{indent}{playerName}{' passes'}</span>
+            break
+        case 'passBuy':
+            details = <span>{playerName}{' passes'}</span>
             break
         case 'buyPP':
             details = <span>{playerName}{' buys PP ' + log.powerplant + ' for ' + log.cost + '$'}</span>
