@@ -42,3 +42,5 @@ export const powerplants = {
     46: {resourceCost: 3, resource: 'coil', production: 7},
     50: {resourceCost: '', resource: 'blue', production: 6},
 }
+
+export const STEP_3 = 100

@@ -1,4 +1,6 @@
 import { cities } from './static/cities'
+import { powerplants, STEP_3 } from './static/powerplants'
+import { playerSettings } from './static/reference'
 import PlayerModel from './models/player'
 import { setPlayerOrder } from './moves/playerOrder'
 import * as auction from './moves/auction'
@@ -32,9 +34,27 @@ function setup(ctx, setupData) {
         uraniumMarket.push({position: 2*i - 8, cost: i, available: i > 12})
     }
 
+    let powerplantMarket = [3, 4, 5, 6, 7, 8, 9, 10]
+    let powerplantDeck = []
+    // Add all other powerplants to the deck, except for 13.
+    for (const pp in powerplants) {
+        if (pp > 10 && pp !== 13) {
+            powerplantDeck.push(pp)
+        }
+    }
+    // Shuffle the deck and randomly remove powerplants according to the number of players.
+    powerplantDeck = ctx.random.Shuffle(powerplantDeck)
+    powerplantDeck.splice(0, playerSettings[ctx.numPlayers].remove)
+
+    // Add 13 to the top of the deck, and the step 3 card to the back. Note that we draw of the end of the array.
+    powerplantDeck.push(13)
+    powerplantDeck.unshift(STEP_3)
+
+
     return {
         cityStatus: cityStatus, 
-        powerplantMarket: [3, 4, 5, 6, 7, 8, 13, 50], 
+        powerplantMarket: powerplantMarket, 
+        powerplantDeck: powerplantDeck,
         players: players,
         coalMarket: coalMarket,
         oilMarket: oilMarket,

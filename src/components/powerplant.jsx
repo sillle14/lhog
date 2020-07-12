@@ -23,6 +23,7 @@ function PowerPlantProduction(props) {
 
 export default function PowerPlant(props) {
     const powerplant = powerplants[props.cost]
+    const displayCost = props.cost.toString().length === 1 ? '0' + props.cost : props.cost
     return (
         <div className="powerplant-wrapper">
             <div 
@@ -30,7 +31,7 @@ export default function PowerPlant(props) {
                 onClick={() => props.select(props.cost)}
             >
                 <div className={'powerplant powerplant-' + powerplant.resource}>
-                    <span>{props.cost}</span>
+                    <span>{displayCost}</span>
                     <PowerPlantProduction
                         className="powerplant-production" 
                         resource={powerplant.resource} 
