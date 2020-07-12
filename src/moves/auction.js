@@ -14,7 +14,7 @@ export function startAuction(G, ctx) {
 
 export function selectPowerplant(G, ctx, powerplant) {
     // Only can select from current market
-    if (G.powerplantMarket.findIndex(p => p === powerplant) > 3 && G.step < 3) {
+    if (G.powerplantMarket.indexOf(powerplant) > 3 && G.step < 3) {
         return INVALID_MOVE
     }
     // Only when bidding is not in progress
@@ -51,7 +51,11 @@ function afterBid(G, ctx) {
         G.players[winningID].boughtPP = true
         G.players[winningID].powerplants.push(G.auction.upForAuction)
         G.players[winningID].money -= G.auction.currentBid
-        // TODO: replace the PP
+
+        // Remove the powerplant from the market, replace it, and resort it.
+        G.powerplantMarket.splice(G.powerplantMarket.indexOf(G.auction.upForAuction), 1)
+        G.powerplantMarket.push(G.powerplantDeck.pop())
+        G.powerplantMarket.sort((a,b) => a-b)
 
         // Reset the auction. 
         G.auction.upForAuction = null
@@ -102,4 +106,8 @@ export function passBid(G, ctx) {
     G.players[ctx.currentPlayer].inAuction = false
     G.logs.push({playerID: ctx.currentPlayer, move: 'passAuction'})
     afterBid(G, ctx)
+}
+
+export function passBuyPP(G, ctx) {
+    // TODO
 }
