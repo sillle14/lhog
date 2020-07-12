@@ -68,7 +68,7 @@ export class WattMatrixTable extends React.Component {
                     makeBid={this.props.moves.makeBid}
                     currentBid={this.props.G.auction.currentBid}
                     budget={this.props.G.players[this.props.playerID].money}
-                    passAuction={this.props.moves.passAuction}
+                    passBid={this.props.moves.passBid}
                 />
             </div>
         )

@@ -2,6 +2,7 @@ import { cities } from './static/cities'
 import PlayerModel from './models/player'
 import { setPlayerOrder } from './moves/playerOrder'
 import * as auction from './moves/auction'
+import { TurnOrder } from 'boardgame.io/core'
 
 
 function setup(ctx, setupData) {
@@ -33,7 +34,7 @@ function setup(ctx, setupData) {
 
     return {
         cityStatus: cityStatus, 
-        powerplantMarket: [3, 4, 5, 6, 7, 8, 13, 11], 
+        powerplantMarket: [3, 4, 5, 6, 7, 8, 13, 50], 
         players: players,
         coalMarket: coalMarket,
         oilMarket: oilMarket,
@@ -43,8 +44,7 @@ function setup(ctx, setupData) {
         firstTurn: true,
         playerOrder: [],
         reverseOrder: [],
-        biddingOrder: [...Array(ctx.numPlayers).keys()],
-        auction: {upForAuction: null, selected: null, currentBid: null, playOrderPos: 0},
+        auction: {upForAuction: null, selected: null, currentBid: null},
         logs: [],
     }
 }
@@ -60,8 +60,6 @@ export const WattMatrix = {
         },
         auction: {
             onBegin: auction.startAuction,  
-            // End when everyone has bought a PP
-            endIf: G => Object.values(G.players).every(player => player.boughtPP),
             turn: {
                 order: {first: G => parseInt(G.playerOrder[0])},
             },
@@ -69,8 +67,13 @@ export const WattMatrix = {
                 selectPowerplant: auction.selectPowerplant,
                 startBidding: auction.startBidding,
                 makeBid: auction.makeBid,
-                passAuction: auction.passAuction
-            }
+                passBid: auction.passBid
+            },
+            next: 'cities'
+        },
+        cities: {
+            moves: {},
+            turn: {order: TurnOrder.CUSTOM_FROM('reverseOrder')}
         }
     },
     minPlayers: 3,

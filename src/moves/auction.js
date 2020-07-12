@@ -5,8 +5,7 @@ export function startAuction(G, ctx) {
     G.auction = {
         upForAuction: null, 
         currentBid: null,
-        selected: null,
-        playOrderPos: 0
+        selected: null
     }
     for (const playerID in G.players) {
         G.players[playerID].boughtPP = false
@@ -30,44 +29,18 @@ export function startBidding(G, ctx) {
         return INVALID_MOVE
     }
     G.auction.upForAuction = G.auction.selected
-    G.auction.currentBid = G.auction.upForAuction
+    G.auction.currentBid = G.auction.upForAuction - 1
 
     // Everyone who hasn't bought a PP starts in the auction.
     for (const playerID in G.players) {
-        if (!G.players[playerID].boughtPP) {
-            G.players[playerID].inAuction = true
-        }
+        G.players[playerID].inAuction = !G.players[playerID].boughtPP
     }
     G.logs.push({playerID: ctx.currentPlayer, move: 'startAuction', powerplant: G.auction.selected})
 }
 
-function nextInAuction(ctx, players) {
-    //TODO Put in logic to buy powerplants in this function
-    // To decide who bids next, fall back to the default player order.
-    let nextPlayer
-    let i = 1
-    while (true) {
-        nextPlayer = ctx.playOrder[(ctx.playOrderPos + i) % ctx.numPlayers]
-        if (players[nextPlayer].inAuction) {
-            break
-        }
-        i++
-    }
-    return nextPlayer
-}
-
-export function makeBid(G, ctx, bid) {
-    if (bid <= G.auction.currentBid) {
-        return INVALID_MOVE
-    }
-    G.auction.currentBid = bid
-    G.logs.push({playerID: ctx.currentPlayer, move: 'bid', bid: bid})
-    ctx.events.endTurn({next: nextInAuction(ctx, G.players)})
-}
-
-export function passAuction(G, ctx) {
-    G.players[ctx.currentPlayer].inAuction = false
-
+// Called after a bid or pass from within the auction. Sets the next player to bid if any remain, otherwise
+//  sells the PP to the highest bidder, reseting the auction.
+function afterBid(G, ctx) {
     // If there is only one player left in the auction, they win!
     const playersLeft = Object.keys(G.players).filter(playerID => G.players[playerID].inAuction)
     if (playersLeft.length === 1) {
@@ -78,27 +51,55 @@ export function passAuction(G, ctx) {
         G.players[winningID].boughtPP = true
         G.players[winningID].powerplants.push(G.auction.upForAuction)
         G.players[winningID].money -= G.auction.currentBid
+        // TODO: replace the PP
 
         // Reset the auction. 
         G.auction.upForAuction = null
         G.auction.selected = null
         G.auction.currentBid = null
 
-        // Give the turn the the correct player based on turn order.
-        // TODO: check for no one left?
+        // The next player to open bidding is the first player in order who has not bought a PP.
+        // TODO: abstract this piece so it can be used in the pass auction move.
+        let nextPlayer = -1
+        for (let i = 0; i < G.playerOrder.length; i++) {
+            if (!G.players[G.playerOrder[i]].boughtPP) {
+                nextPlayer = G.playerOrder[i]
+                break
+            }
+        }
+        // If a next player was assigned, send the turn to that player.
+        if (nextPlayer >= 0) {
+            ctx.events.endTurn({next: nextPlayer})
+        } else {
+            ctx.events.endPhase()
+            ctx.events.endTurn()
+        }
+    } else {
+        // Otherwise, just pass the bidding to the next player in a clockwise fashion.
         let nextPlayer
         let i = 1
         while (true) {
-            nextPlayer = G.playerOrder[(G.auction.playOrderPos + i) % ctx.numPlayers]
-            if (!G.players[nextPlayer].boughtPP) {
+            nextPlayer = ctx.playOrder[(ctx.playOrderPos + i) % ctx.numPlayers]
+            if (G.players[nextPlayer].inAuction) {
                 break
             }
             i++
         }
-        G.auction.playOrderPos = (G.auction.playOrderPos + 1) % ctx.numPlayers
         ctx.events.endTurn({next: nextPlayer})
-    } else {
-        G.logs.push({playerID: ctx.currentPlayer, move: 'passAuction'})
-        ctx.events.endTurn({next: nextInAuction(ctx, G.players)})
     }
+}
+
+export function makeBid(G, ctx, bid) {
+    if (bid <= G.auction.currentBid) {
+        return INVALID_MOVE
+    }
+    G.auction.currentBid = bid
+    G.logs.push({playerID: ctx.currentPlayer, move: 'bid', bid: bid})
+    afterBid(G, ctx)
+}
+
+export function passBid(G, ctx) {
+    G.players[ctx.currentPlayer].inAuction = false
+    G.logs.push({playerID: ctx.currentPlayer, move: 'passAuction'})
+    afterBid(G, ctx)
 }

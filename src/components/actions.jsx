@@ -5,7 +5,7 @@ import './styles/action.css'
 class Bidder extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {bid: props.currentBid + 1};
+        this.state = {bid: parseInt(props.currentBid) + 1};
   
         this.handleChange = this.handleChange.bind(this);
     }
@@ -15,13 +15,14 @@ class Bidder extends React.Component {
     }
   
     render() {
-        const validBid = this.state.bid >= this.props.currentBid && this.state.bid <= this.props.maxBid ? '' : 'disabled'
+        const validBid = this.state.bid > this.props.currentBid && this.state.bid <= this.props.maxBid
+        const passAllowed = this.props.currentBid >= this.props.powerplant
         return (
             <div className="bidder">
-                <span>{'Bid more than ' + this.props.currentBid + ' or pass.'}</span>
+                <span>{'Bid more than ' + this.props.currentBid + ' on PP ' + this.props.powerplant + (passAllowed ? ' or pass.' : '')}</span>
                 <input type="text" value={this.state.bid} onChange={this.handleChange}/>
-                <button disabled={validBid} onClick={() => this.props.makeBid(this.state.bid)}>{'Bid ' + this.state.bid}</button>
-                <button onClick={() => this.props.pass()}>Pass</button>
+                <button disabled={validBid ? '' : 'disabled'} onClick={() => this.props.makeBid(this.state.bid)}>{'Bid ' + this.state.bid}</button>
+                <button disabled={passAllowed  ? '' : 'disabled'} onClick={() => this.props.pass()}>Pass</button>
             </div>
         )
     }
@@ -42,8 +43,10 @@ export default function ActionBar(props) {
                 ]
             }
         } else {
-            action = <Bidder currentBid={props.currentBid} maxBid={props.budget} makeBid={props.makeBid} pass={props.passAuction}/>
+            action = <Bidder currentBid={props.currentBid} maxBid={props.budget} makeBid={props.makeBid} pass={props.passBid} powerplant={props.upForAuction}/>
         }
+    } else if (props.phase === 'cities') {
+        action = <span>Select a City.</span>
     }
     return (
         <div className="action">
