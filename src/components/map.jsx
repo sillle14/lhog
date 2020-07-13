@@ -1,12 +1,9 @@
 import React from 'react'
 import './styles/map.css'
-import { cities } from '../static/cities'
+import { cities, houseCosts } from '../static/cities'
 import { edges } from '../static/edges'
 
 import { GraphView } from 'react-digraph';
-
-
-const houseCosts = [10, 15, 20]
 
 const regionColors = {
     northwest: '#f2bfff',
@@ -119,24 +116,28 @@ export default class Map extends React.Component {
     constructor(props) {
         super(props);
         this.renderNode = this.renderNode.bind(this)
+        this.nodes = cities.map(city => {city.selected = this.props.selectedCities.includes(city.id); return city})
     }
 
     renderNode (nodeRef, data, index, selected, hovered) {
-        // TODO: Use inline rather than classes here, seems a bit cleaner
-        let className = 'node'
         let style = {'--region-color': regionColors[data.region]}
 
+        // TODO: force node rerender.
+        const citySelected = this.props.selectedCities.includes(data.id) && this.props.myTurn
+        if (citySelected) {
+            style['outline'] = '5px solid orangered'
+        }
+
         for (let i = 0; i < houseCosts.length; i ++) {
-            const houseColor = this.props.cityStatus[data.id]['house' + houseCosts[i]]
+            const houseColor = this.props.cityStatus[data.id][i]
             style['--house-' + houseCosts[i] + '-display'] = houseColor === null ? 'none' : 'default'
             style['--house-' + houseCosts[i] + '-color'] = houseColor
         }
 
-        return <use x="-50" y="-50" xlinkHref="#city" className={className} style={style}/>
+        return <use x="-50" y="-50" xlinkHref="#city" className={'node'} style={style}/>
     }
 
     render() {
-        // TODO: Background click gives console error
         return (
         <div className="graph" id={'map-' + this.props.playerID}>
             
@@ -153,13 +154,11 @@ export default class Map extends React.Component {
                         renderDefs={renderDefs}
                         renderBackground={renderBackground}
                         initialBBox={{x: 0, y: 0, width: 2000, height: 1000}}
-
-                        // TODO
-                        selected={{}}
-                        onSelectNode={this.onSelectNode}
+                        onSelectNode={node => {if (node) {this.props.selectCity(node.id)}}}
 
 
                         // Not needed
+                        selected={{}}
                         nodeTypes={{}}
                         nodeSubtypes={{}}
                         onUpdateNode={doNothing}

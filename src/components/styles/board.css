@@ -14,8 +14,9 @@
 .sidebar {
     height: 100%;
     width: 100%;
-    background: lightblue;
     grid-area: log;
+    display: flex;
+    flex-direction: column;
 }
 
 .main {

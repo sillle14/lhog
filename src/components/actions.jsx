@@ -49,7 +49,17 @@ export default function ActionBar(props) {
             action = <Bidder currentBid={props.currentBid} maxBid={props.budget} makeBid={props.makeBid} pass={props.passBid} powerplant={props.upForAuction}/>
         }
     } else if (props.phase === 'cities') {
-        action = <span>Select a City.</span>
+        if (props.selectedCities.length === 0) {
+            action = [<span key="message">Select a city or pass.</span>, <button key="pass">Pass</button>]
+        } else {
+            const cities = props.selectedCities.map(i => i.city).join(', ')
+            const cost = props.selectedCities.map(i => i.cost).reduce((a,b) => a+b, 0)
+            action = [
+                <span key="message">{'Buy ' + cities + ' for ' + cost + '$?'}</span>,
+                <button key="buy">Buy</button>,
+                <button key="clear" onClick={() => props.clearCities()}>Clear</button>,
+            ]
+        }
     }
     return (
         <div className="action">

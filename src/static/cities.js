@@ -42,3 +42,5 @@ export const cities = [
     {id: 'Buffalo', region: 'northeast', x: 1750, y: 170},
     {id: 'Boston', region: 'northeast', x: 2020, y: 200}
 ]
+
+export const houseCosts = [10, 15, 20]

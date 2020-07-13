@@ -4,13 +4,14 @@ import { playerSettings } from './static/reference'
 import PlayerModel from './models/player'
 import { setPlayerOrder } from './moves/playerOrder'
 import * as auction from './moves/auction'
+import * as cityMoves from './moves/cities'
 import { TurnOrder } from 'boardgame.io/core'
 
 
 function setup(ctx, setupData) {
     let cityStatus = {}
     for (let i = 0; i < cities.length; i ++) {
-        cityStatus[cities[i].id] = {house10: null, house15: null, house20: null}
+        cityStatus[cities[i].id] = [null, null, null]
     }
     let players = {}
     for (let i = 0; i < ctx.numPlayers; i++) {
@@ -66,6 +67,7 @@ function setup(ctx, setupData) {
         reverseOrder: [],
         auction: {upForAuction: null, selected: null, currentBid: null},
         logs: [],
+        selectedCities: []
     }
 }
 
@@ -76,7 +78,7 @@ export const WattMatrix = {
         playerOrder: {
             onBegin: setPlayerOrder,
             next: 'auction',
-            start: true,  // TODO: The real game needs to start with region selection
+            // start: true,  // TODO: The real game needs to start with region selection
         },
         auction: {
             onBegin: auction.startAuction,  
@@ -93,8 +95,12 @@ export const WattMatrix = {
             next: 'cities'
         },
         cities: {
-            moves: {},
-            turn: {order: TurnOrder.CUSTOM_FROM('reverseOrder')}
+            moves: {
+                selectCity: cityMoves.selectCity,
+                clearCities: cityMoves.clearCities,
+            },
+            start: true,
+            // TODO turn: {order: TurnOrder.CUSTOM_FROM('reverseOrder')}
         }
     },
     minPlayers: 3,

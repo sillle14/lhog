@@ -1,4 +1,3 @@
-import { powerplants } from '../static/powerplants'
 import { INVALID_MOVE } from 'boardgame.io/core'
 
 export function startAuction(G, ctx) {
