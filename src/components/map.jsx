@@ -2,6 +2,7 @@ import React from 'react'
 import './styles/map.css'
 import { cities, houseCosts } from '../static/cities'
 import { edges } from '../static/edges'
+import { playerColors } from '../static/playerColors'
 
 import { GraphView } from 'react-digraph';
 
@@ -116,25 +117,33 @@ export default class Map extends React.Component {
     constructor(props) {
         super(props);
         this.renderNode = this.renderNode.bind(this)
-        this.nodes = cities.map(city => {city.selected = this.props.selectedCities.includes(city.id); return city})
+        this.state = {layoutEngineType: 0}
     }
 
     renderNode (nodeRef, data, index, selected, hovered) {
         let style = {'--region-color': regionColors[data.region]}
 
-        // TODO: force node rerender.
         const citySelected = this.props.selectedCities.includes(data.id) && this.props.myTurn
         if (citySelected) {
             style['outline'] = '5px solid orangered'
         }
 
         for (let i = 0; i < houseCosts.length; i ++) {
-            const houseColor = this.props.cityStatus[data.id][i]
-            style['--house-' + houseCosts[i] + '-display'] = houseColor === null ? 'none' : 'default'
+            const playerID = this.props.cityStatus[data.id][i]
+            const houseColor = (playerColors[playerID] || {}).houseBackground
+            style['--house-' + houseCosts[i] + '-display'] = houseColor === undefined ? 'none' : 'default'
             style['--house-' + houseCosts[i] + '-color'] = houseColor
         }
 
         return <use x="-50" y="-50" xlinkHref="#city" className={'node'} style={style}/>
+    }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.rerender !== this.props.rerender) {
+            console.log('test')
+            this.state.layoutEngineType += 1
+            console.log(this.state.layoutEngineType)
+        }
     }
 
     render() {
@@ -156,6 +165,10 @@ export default class Map extends React.Component {
                         initialBBox={{x: 0, y: 0, width: 2000, height: 1000}}
                         onSelectNode={node => {if (node) {this.props.selectCity(node.id)}}}
 
+
+                        // Use this as a hacky fix to force rerender nodes. See https://github.com/uber/react-digraph/issues/192#issuecomment-577770253
+                        // TODO: Could try attaching the properties to the node itself again and see if copying the nodes will work if performance issues come up.
+                        layoutEngineType={this.state.layoutEngineType}
 
                         // Not needed
                         selected={{}}

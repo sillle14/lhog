@@ -49,14 +49,15 @@ export default function ActionBar(props) {
             action = <Bidder currentBid={props.currentBid} maxBid={props.budget} makeBid={props.makeBid} pass={props.passBid} powerplant={props.upForAuction}/>
         }
     } else if (props.phase === 'cities') {
-        if (props.selectedCities.length === 0) {
+        if (Object.keys(props.selectedCities).length === 0) {
             action = [<span key="message">Select a city or pass.</span>, <button key="pass">Pass</button>]
         } else {
-            const cities = props.selectedCities.map(i => i.city).join(', ')
-            const cost = props.selectedCities.map(i => i.cost).reduce((a,b) => a+b, 0)
+            const cities = Object.keys(props.selectedCities).join(', ')
+            const cost = Object.values(props.selectedCities).map(i => i.cost).reduce((a,b) => a+b, 0) + props.connectionCost
+            // TODO: Disable buy when too expensive
             action = [
                 <span key="message">{'Buy ' + cities + ' for ' + cost + '$?'}</span>,
-                <button key="buy">Buy</button>,
+                <button disabled={props.budget >= cost ? '' : 'disabled'} key="buy" onClick={() => props.buyCities()}>Buy</button>,
                 <button key="clear" onClick={() => props.clearCities()}>Clear</button>,
             ]
         }

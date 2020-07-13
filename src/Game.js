@@ -67,7 +67,9 @@ function setup(ctx, setupData) {
         reverseOrder: [],
         auction: {upForAuction: null, selected: null, currentBid: null},
         logs: [],
-        selectedCities: []
+        selectedCities: {},
+        connectionCost: 0,
+        rerender: true, // Flip this bit to force a rerender.
     }
 }
 
@@ -98,6 +100,7 @@ export const WattMatrix = {
             moves: {
                 selectCity: cityMoves.selectCity,
                 clearCities: cityMoves.clearCities,
+                buyCities: cityMoves.buyCities,
             },
             start: true,
             // TODO turn: {order: TurnOrder.CUSTOM_FROM('reverseOrder')}

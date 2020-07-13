@@ -42,9 +42,10 @@ export class WattMatrixTable extends React.Component {
                     <Map 
                         cityStatus={this.props.G.cityStatus}
                         playerID={this.props.playerID}
-                        selectedCities={this.props.G.selectedCities.map(i => i.city)}
+                        selectedCities={Object.keys(this.props.G.selectedCities)}
                         myTurn={myTurn}
                         selectCity={this.props.moves.selectCity}
+                        rerender={this.props.G.rerender}
                     /><hr/>
                     <ResourceMarket
                         coalMarket={this.props.G.coalMarket}
@@ -75,7 +76,9 @@ export class WattMatrixTable extends React.Component {
                     passBuy={this.props.moves.passBuyPP}
                     firstTurn={this.props.G.firstTurn}
                     selectedCities={this.props.G.selectedCities}
+                    connectionCost={this.props.G.connectionCost}
                     clearCities={this.props.moves.clearCities}
+                    buyCities={this.props.moves.buyCities}
                 />
             </div>
         )
