@@ -86,3 +86,7 @@
     height: 100%;
     font-size: 0.9vw;
 }
+
+.player-name {
+    font-weight: bold;
+}

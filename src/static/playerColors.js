@@ -4,5 +4,5 @@ export const playerColors = {
     2: {background: 'lightgreen', houseBackground: 'green', color: 'white'},
     3: {background: 'plum', houseBackground: 'purple', color: 'white'},
     4: {background: '#d9d9a9', houseBackground: 'yellow', color: 'black'},
-    5: {background: 'lightgrey', houseBackground: 'tan', color: 'black'},
+    5: {background: 'lightgrey', houseBackground: '#696969', color: 'white'},
 }

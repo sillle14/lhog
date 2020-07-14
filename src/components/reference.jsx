@@ -1,4 +1,5 @@
 import React from 'react'
+import { PlayerName } from './players' 
 import { payment, playerSettings } from '../static/reference'
 import './styles/symbols.css'
 import './styles/reference.css'
@@ -63,7 +64,7 @@ function Other(props) {
             </table>
             <br/>
             <span>Player Order</span>
-            <span>{props.order}</span>
+            <div className="player-order">{props.order.map((id) => <PlayerName key={id} playerID={id} playerMap={props.playerMap}/>)}</div>
         </div>
     )
 
@@ -74,7 +75,7 @@ export default function Reference(props) {
         <div className="reference">
             <Payment/>
             <Refill numPlayers={props.numPlayers}/>
-            <Other numPlayers={props.numPlayers} step={props.step} order={props.playerOrder}/>
+            <Other numPlayers={props.numPlayers} step={props.step} order={props.playerOrder} playerMap={props.playerMap}/>
         </div>
     )
 }

@@ -66,6 +66,7 @@ export default function ActionBar(props) {
                 break
             case 'resources':
                 action = <span>Resources</span>
+                break
             default:
                 break
         }

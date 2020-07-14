@@ -1,13 +1,9 @@
 import React from 'react'
 import { animateScroll } from 'react-scroll'
 import './styles/logs.css'
-import { playerColors } from '../static/playerColors'
+import { PlayerName } from './players' 
 
 const indent = <span key="span">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-
-function PlayerName(props) {
-    return <span className="player-name" style={{color: playerColors[props.playerID].houseBackground}}>{props.playerMap[props.playerID] + ' '}</span>
-}
 
 // TODO: Log start of phasessfd
 function Log(props) {
@@ -18,10 +14,13 @@ function Log(props) {
         case 'playerOrder':
             const players = log.order.map((id) => <PlayerName key={id} playerID={id} playerMap={props.playerMap}/>)
             details = [
-                <span key="header">Setting Player Order:</span>,
+                <span key="header" className="start-phase">Setting Player Order:</span>,
                 <br key="br"></br>,
                 <span key="order">{indent}{players}</span>
             ]
+            break
+        case 'startPhase':
+            details = <span className="start-phase">{'Starting Phase: ' + log.phase}</span>
             break
         case 'startAuction':
             details = <span>{playerName}{'starts the bidding on PP ' + log.powerplant}</span>
@@ -44,6 +43,7 @@ function Log(props) {
                 <br key="br"></br>,
                 <span key="cities">{indent}{log.cities.join(', ') + ' for ' + log.cost + '$'}</span>,
             ]
+            break
         default:
             break
     }

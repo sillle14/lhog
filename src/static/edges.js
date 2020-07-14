@@ -1,5 +1,3 @@
-import { getPlayerOrder } from "../moves/playerOrder"
-
 export const edges = [
     {source: 'Seattle', target: 'Portland', type: 'edge', handleText: 3},
     {source: 'Seattle', target: 'Boise', type: 'edge', handleText: 12},

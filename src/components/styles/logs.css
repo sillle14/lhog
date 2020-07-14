@@ -25,6 +25,7 @@
     margin-top: 5px;
 }
 
-.player-name {
+.start-phase {
+    font-size: 1.1vw;
     font-weight: bold;
 }

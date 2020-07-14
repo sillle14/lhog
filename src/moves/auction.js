@@ -9,6 +9,7 @@ export function startAuction(G, ctx) {
     for (const playerID in G.players) {
         G.players[playerID].boughtPP = false
     }
+    G.logs.push({move: 'startPhase', phase: 'Auction'})
 }
 
 export function selectPowerplant(G, ctx, powerplant) {

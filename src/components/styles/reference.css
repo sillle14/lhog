@@ -1,6 +1,7 @@
 .reference {
     display: flex;
     justify-content: space-around;
+    font-size: 1.7vw;
 }
 
 .symbol-aspect-box {
@@ -121,4 +122,16 @@ td {
     text-align: center;
     padding-left: 0px;
     padding-right: 0px;
+}
+
+.player-order {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.player-order > span {
+    font-size: 1.2vw;
+    flex-basis: 33%;
 }

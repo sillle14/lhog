@@ -5,7 +5,6 @@ import PlayerModel from './models/player'
 import { setPlayerOrder } from './moves/playerOrder'
 import * as auction from './moves/auction'
 import * as cityMoves from './moves/cities'
-import { TurnOrder } from 'boardgame.io/core'
 
 
 function setup(ctx, setupData) {
@@ -15,7 +14,7 @@ function setup(ctx, setupData) {
     }
     let players = {}
     for (let i = 0; i < ctx.numPlayers; i++) {
-        players[i] = new PlayerModel('Player ' + i)
+        players[i] = new PlayerModel()
     }
     let coalMarket = []
     let oilMarket = []
@@ -47,7 +46,7 @@ function setup(ctx, setupData) {
     powerplantDeck = ctx.random.Shuffle(powerplantDeck)
     powerplantDeck.splice(0, playerSettings[ctx.numPlayers].remove)
 
-    // Add 13 to the top of the deck, and the step 3 card to the back. Note that we draw of the end of the array.
+    // Add 13 to the top of the deck, and the step 3 card to the back. Note that we draw off the end of the array.
     powerplantDeck.push(13)
     powerplantDeck.unshift(STEP_3)
 
@@ -102,6 +101,7 @@ export const WattMatrix = {
             next: 'cities'
         },
         cities: {
+            onBegin: (G, ctx) => {G.logs.push({move: 'startPhase', phase: 'Buy Cities'})},
             moves: {
                 selectCity: cityMoves.selectCity,
                 clearCities: cityMoves.clearCities,
@@ -117,7 +117,9 @@ export const WattMatrix = {
             },
             next: 'resources'
         },
-        resources: {}
+        resources: {
+            onBegin: (G, ctx) => {G.logs.push({move: 'startPhase', phase: 'Buy Resources'})},
+        }
     },
     minPlayers: 3,
     maxPlayers: 6,

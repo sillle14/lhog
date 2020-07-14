@@ -61,7 +61,7 @@ export class WattMatrixTable extends React.Component {
                     />
                 </div>
                 <div className="sidebar">
-                    <Player player={this.props.G.players[this.props.playerID]} playerID={this.props.playerID} playerMap={this.playerMap}/>
+                    <Player player={this.props.G.players[this.props.playerID]} playerID={this.props.playerID} playerName={this.playerMap[this.props.playerID]}/>
                     <Logs logs={this.props.G.logs} playerMap={this.playerMap} playerID={this.props.playerID}/>
                 </div>
                 <ActionBar

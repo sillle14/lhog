@@ -4,6 +4,10 @@ import './styles/player.css'
 import './styles/symbols.css'
 import { playerColors } from '../static/playerColors'
 
+export function PlayerName(props) {
+    return <span className="player-name" style={{color: playerColors[props.playerID].houseBackground}}>{props.playerMap[props.playerID] + ' '}</span>
+}
+
 export function Player(props) {
     const powerplants = props.player.powerplants.map((i) => <PowerPlant cost={i} key={i}/>)
     const colors = playerColors[props.playerID]
@@ -30,7 +34,7 @@ export function Player(props) {
             <div className="player-aspect-box">
                 <div className="player" style={{backgroundColor: colors.background}}>
                     <div className="player-info">
-                        <span>{props.player.name}</span>
+                        <span>{props.playerName}</span>
                         {resources}
                     </div>
                     <div className="player-powerplants">{powerplants}</div>
@@ -43,7 +47,7 @@ export function Player(props) {
 export function Players(props) {
     let players = []
     for (const playerID in props.players) {
-        players.push(<Player player={props.players[playerID]} playerID={playerID} key={playerID}/>)
+        players.push(<Player player={props.players[playerID]} playerID={playerID} key={playerID} playerName={props.playerMap[playerID]}/>)
     }
     return (
         <div className="players">{players}</div>
