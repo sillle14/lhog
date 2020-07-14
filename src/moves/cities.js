@@ -95,19 +95,27 @@ export function clearCities(G, ctx) {
 }
 
 export function buyCities(G, ctx) {
+    let totalCost = G.connectionCost
     for (const city in G.selectedCities) {
         G.players[ctx.currentPlayer].cities.push(city)
-        G.players[ctx.currentPlayer].money -= G.selectedCities[city].cost
+        totalCost += G.selectedCities[city].cost
         const nextAvailable = G.cityStatus[city].findIndex(i => i === null)
         G.cityStatus[city][nextAvailable] = ctx.currentPlayer
     }
-    G.players[ctx.currentPlayer].money -= G.connectionCost
     const toRerender = Object.keys(G.selectedCities)
+    G.logs.push({playerID: ctx.currentPlayer, move: 'buyCities', cities: toRerender, cost: totalCost})
+
+    G.players[ctx.currentPlayer].money -= totalCost
     G.selectedCities = {}
     G.connectionCost = 0
 
     // Force the selected city to rerender
     G.rerender.cities = toRerender
     G.rerender.activate = !G.rerender.activate
-    // TODO: Log and end turn
+    ctx.events.endTurn()
+}
+
+export function passBuyCities(G, ctx) {
+    G.logs.push({playerID: ctx.currentPlayer, move: 'pass'})
+    ctx.events.endTurn()
 }

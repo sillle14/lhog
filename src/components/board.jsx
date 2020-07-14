@@ -27,7 +27,7 @@ export class WattMatrixTable extends React.Component {
 
     render () {
         const myTurn = this.props.playerID === this.props.ctx.currentPlayer
-        // TODO: Style the scrollbar so it always shows up against the white map bette
+        // TODO: Style the scrollbar so it always shows up against the white map better
         return (
             <div className="board">
                 <div className="main">
@@ -38,7 +38,7 @@ export class WattMatrixTable extends React.Component {
                         selectPowerplant={this.props.moves.selectPowerplant}
                         myTurn={myTurn}
                     /><hr/>
-                    <Players players={this.props.G.players}/><hr/>
+                    <Players players={this.props.G.players} playerMap={this.playerMap}/><hr/>
                     <Map 
                         cityStatus={this.props.G.cityStatus}
                         playerID={this.props.playerID}
@@ -57,10 +57,11 @@ export class WattMatrixTable extends React.Component {
                         numPlayers={this.props.ctx.numPlayers} 
                         step={this.props.G.step}
                         playerOrder={this.props.G.playerOrder}
+                        playerMap={this.playerMap}
                     />
                 </div>
                 <div className="sidebar">
-                    <Player player={this.props.G.players[this.props.playerID]} playerID={this.props.playerID}/>
+                    <Player player={this.props.G.players[this.props.playerID]} playerID={this.props.playerID} playerMap={this.playerMap}/>
                     <Logs logs={this.props.G.logs} playerMap={this.playerMap} playerID={this.props.playerID}/>
                 </div>
                 <ActionBar
@@ -73,12 +74,13 @@ export class WattMatrixTable extends React.Component {
                     currentBid={this.props.G.auction.currentBid}
                     budget={this.props.G.players[this.props.playerID].money}
                     passBid={this.props.moves.passBid}
-                    passBuy={this.props.moves.passBuyPP}
+                    passBuyPP={this.props.moves.passBuyPP}
                     firstTurn={this.props.G.firstTurn}
                     selectedCities={this.props.G.selectedCities}
                     connectionCost={this.props.G.connectionCost}
                     clearCities={this.props.moves.clearCities}
                     buyCities={this.props.moves.buyCities}
+                    passBuyCities={this.props.moves.passBuyCities}
                 />
             </div>
         )

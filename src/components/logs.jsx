@@ -9,7 +9,7 @@ function PlayerName(props) {
     return <span className="player-name" style={{color: playerColors[props.playerID].houseBackground}}>{props.playerMap[props.playerID] + ' '}</span>
 }
 
-// TODO: Log start of phases
+// TODO: Log start of phasessfd
 function Log(props) {
     const log = props.log
     const playerName = <PlayerName playerID={log.playerID} playerMap={props.playerMap}/>
@@ -32,12 +32,18 @@ function Log(props) {
         case 'passAuction':
             details = <span>{indent}{playerName}{' passes'}</span>
             break
-        case 'passBuy':
+        case 'pass':
             details = <span>{playerName}{' passes'}</span>
             break
         case 'buyPP':
             details = <span>{playerName}{' buys PP ' + log.powerplant + ' for ' + log.cost + '$'}</span>
             break
+        case 'buyCities':
+            details = [
+                <span key="header">{playerName}{ 'buy cities:'}</span>,
+                <br key="br"></br>,
+                <span key="cities">{indent}{log.cities.join(', ') + ' for ' + log.cost + '$'}</span>,
+            ]
         default:
             break
     }

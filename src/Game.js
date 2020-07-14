@@ -85,7 +85,7 @@ export const WattMatrix = {
         playerOrder: {
             onBegin: setPlayerOrder,
             next: 'auction',
-            // start: true,  // TODO: The real game needs to start with region selection
+            start: true,  // TODO: The real game needs to start with region selection
         },
         auction: {
             onBegin: auction.startAuction,  
@@ -106,10 +106,18 @@ export const WattMatrix = {
                 selectCity: cityMoves.selectCity,
                 clearCities: cityMoves.clearCities,
                 buyCities: cityMoves.buyCities,
+                passBuyCities: cityMoves.passBuyCities
             },
-            start: true,
-            // TODO turn: {order: TurnOrder.CUSTOM_FROM('reverseOrder')}
-        }
+            turn: {
+                order: {
+                    first: (G, ctx) => 0,
+                    next: (G, ctx) => {if (ctx.playOrderPos < ctx.playOrder.length - 1) { return ctx.playOrderPos + 1}},
+                    playOrder: (G, ctx) => G.reverseOrder
+                }
+            },
+            next: 'resources'
+        },
+        resources: {}
     },
     minPlayers: 3,
     maxPlayers: 6,
