@@ -117,12 +117,12 @@ export default class Map extends React.Component {
     constructor(props) {
         super(props);
         this.renderNode = this.renderNode.bind(this)
+        this.graphView = React.createRef()
         this.state = {layoutEngineType: 0}
     }
 
     renderNode (nodeRef, data, index, selected, hovered) {
         let style = {'--region-color': regionColors[data.region]}
-
         const citySelected = this.props.selectedCities.includes(data.id) && this.props.myTurn
         if (citySelected) {
             style['outline'] = '5px solid orangered'
@@ -139,10 +139,13 @@ export default class Map extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (prevProps.rerender !== this.props.rerender) {
-            console.log('test')
-            this.state.layoutEngineType += 1
-            console.log(this.state.layoutEngineType)
+        // If the activation bit has flipped, rerender the required nodes.
+        // See https://stackoverflow.com/a/37950970/6561382 for how the ref works
+        // See https://github.com/uber/react-digraph/blob/master/src/components/graph-view.js#L1251 for asyncRenderNode
+        if (prevProps.rerender.activate !== this.props.rerender.activate) {
+            for (let i = 0; i < this.props.rerender.cities.length; i++) {
+                this.graphView.current.asyncRenderNode(cities[this.props.rerender.cities[i]])
+            }
         }
     }
 
@@ -150,36 +153,34 @@ export default class Map extends React.Component {
         return (
         <div className="graph" id={'map-' + this.props.playerID}>
             
-            <GraphView  readOnly={true}
-                        nodeKey={NODE_KEY}
-                        edgeArrowSize={0}
-                        edgeHandleSize={150}
-                        showGraphControls={false}
-                        nodes={cities}
-                        edges={edges}
-                        edgeTypes={EdgeTypes}
-                        renderNode={this.renderNode}
-                        renderNodeText={renderNodeText}
-                        renderDefs={renderDefs}
-                        renderBackground={renderBackground}
-                        initialBBox={{x: 0, y: 0, width: 2000, height: 1000}}
-                        onSelectNode={node => {if (node) {this.props.selectCity(node.id)}}}
+            <GraphView  
+                readOnly={true}
+                nodeKey={NODE_KEY}
+                edgeArrowSize={0}
+                edgeHandleSize={150}
+                showGraphControls={false}
+                nodes={Object.values(cities)}
+                edges={edges}
+                edgeTypes={EdgeTypes}
+                renderNode={this.renderNode}
+                renderNodeText={renderNodeText}
+                renderDefs={renderDefs}
+                renderBackground={renderBackground}
+                initialBBox={{x: 0, y: 0, width: 2000, height: 1000}}
+                onSelectNode={node => {if (node) {this.props.selectCity(node.id)}}}
+                ref={this.graphView} 
 
-
-                        // Use this as a hacky fix to force rerender nodes. See https://github.com/uber/react-digraph/issues/192#issuecomment-577770253
-                        // TODO: Could try attaching the properties to the node itself again and see if copying the nodes will work if performance issues come up.
-                        layoutEngineType={this.state.layoutEngineType}
-
-                        // Not needed
-                        selected={{}}
-                        nodeTypes={{}}
-                        nodeSubtypes={{}}
-                        onUpdateNode={doNothing}
-                        onDeleteNode={doNothing}
-                        onSelectEdge={doNothing}
-                        onCreateEdge={doNothing}
-                        onSwapEdge={doNothing}
-                        onDeleteEdge={doNothing}/>
+                // Not needed
+                selected={{}}
+                nodeTypes={{}}
+                nodeSubtypes={{}}
+                onUpdateNode={doNothing}
+                onDeleteNode={doNothing}
+                onSelectEdge={doNothing}
+                onCreateEdge={doNothing}
+                onSwapEdge={doNothing}
+                onDeleteEdge={doNothing}
+            />
         </div>
         );
     }

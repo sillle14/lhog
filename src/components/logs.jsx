@@ -9,6 +9,7 @@ function PlayerName(props) {
     return <span className="player-name" style={{color: playerColors[props.playerID].houseBackground}}>{props.playerMap[props.playerID] + ' '}</span>
 }
 
+// TODO: Log start of phases
 function Log(props) {
     const log = props.log
     const playerName = <PlayerName playerID={log.playerID} playerMap={props.playerMap}/>

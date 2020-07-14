@@ -54,7 +54,6 @@ export default function ActionBar(props) {
         } else {
             const cities = Object.keys(props.selectedCities).join(', ')
             const cost = Object.values(props.selectedCities).map(i => i.cost).reduce((a,b) => a+b, 0) + props.connectionCost
-            // TODO: Disable buy when too expensive
             action = [
                 <span key="message">{'Buy ' + cities + ' for ' + cost + '$?'}</span>,
                 <button disabled={props.budget >= cost ? '' : 'disabled'} key="buy" onClick={() => props.buyCities()}>Buy</button>,

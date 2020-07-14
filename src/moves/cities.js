@@ -76,15 +76,22 @@ export function selectCity(G, ctx, city) {
         return INVALID_MOVE
     }
 
-    G.rerender = !G.rerender // TODO: This is not strictly necessary if it turns out to be a performance issue.
+    // Force the selected city to rerender
+    G.rerender.cities = [city]
+    G.rerender.activate = !G.rerender.activate
+
     G.connectionCost = totalConnCost
     G.selectedCities[city] = {cost: cost, connCost: connCost}
 }
 
 export function clearCities(G, ctx) {
+    const toRerender = Object.keys(G.selectedCities)
     G.selectedCities = {}
     G.connectionCost = 0
-    G.rerender = !G.rerender
+
+    // Force the selected city to rerender
+    G.rerender.cities = toRerender
+    G.rerender.activate = !G.rerender.activate
 }
 
 export function buyCities(G, ctx) {
@@ -95,8 +102,12 @@ export function buyCities(G, ctx) {
         G.cityStatus[city][nextAvailable] = ctx.currentPlayer
     }
     G.players[ctx.currentPlayer].money -= G.connectionCost
+    const toRerender = Object.keys(G.selectedCities)
     G.selectedCities = {}
     G.connectionCost = 0
-    G.rerender = !G.rerender
+
+    // Force the selected city to rerender
+    G.rerender.cities = toRerender
+    G.rerender.activate = !G.rerender.activate
     // TODO: Log and end turn
 }

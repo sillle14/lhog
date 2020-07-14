@@ -10,8 +10,8 @@ import { TurnOrder } from 'boardgame.io/core'
 
 function setup(ctx, setupData) {
     let cityStatus = {}
-    for (let i = 0; i < cities.length; i ++) {
-        cityStatus[cities[i].id] = [null, null, null]
+    for (const city in cities) {
+        cityStatus[city] = [null, null, null]
     }
     let players = {}
     for (let i = 0; i < ctx.numPlayers; i++) {
@@ -69,7 +69,12 @@ function setup(ctx, setupData) {
         logs: [],
         selectedCities: {},
         connectionCost: 0,
-        rerender: true, // Flip this bit to force a rerender.
+        // In order to efficiently rerender nodes on demand, nodes for each city listed will be rerendered when
+        //  the activate bit flips. This allows for rerendering the same cities repeatedly if required.
+        rerender: {
+            activate: true,
+            cities: []
+        }
     }
 }
 
