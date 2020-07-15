@@ -1,6 +1,16 @@
 import React from 'react'
 import './styles/action.css'
 
+const resourceColorMap = {
+    coal: 'brown',
+    oil: 'black',
+    trash: 'rgb(255, 255, 45)',
+    uranium: 'red'
+}
+
+export function ResourceName(props) {
+    return <span className="resource-name" style={{color: resourceColorMap[props.resource]}}>{props.amount + ' ' + props.resource + ' '}</span>
+}
 
 class Bidder extends React.Component {
     constructor(props) {
@@ -53,7 +63,7 @@ export default function ActionBar(props) {
                 break
             case 'cities':
                 if (Object.keys(props.selectedCities).length === 0) {
-                    action = [<span key="message">Select a city or pass.</span>, <button key="pass" onClick={() => props.passBuyCities()}>Pass</button>]
+                    action = [<span key="message">Select a city or pass.</span>, <button key="pass" onClick={() => props.pass()}>Pass</button>]
                 } else {
                     const cities = Object.keys(props.selectedCities).join(', ')
                     const cost = Object.values(props.selectedCities).map(i => i.cost).reduce((a,b) => a+b, 0) + props.connectionCost
@@ -65,7 +75,21 @@ export default function ActionBar(props) {
                 }
                 break
             case 'resources':
-                action = <span>Resources</span>
+                if (props.resourceCost === 0){
+                    action = [<span key="message">Select resources or pass.</span>, <button key="pass" onClick={() => props.pass()}>Pass</button>]
+                } else {
+                    let resources = []
+                    for (const resource in props.selectedResources) {
+                        if (props.selectedResources[resource] > 0) {
+                            resources.push(<ResourceName key={resource} resource={resource} amount={props.selectedResources[resource]}/>)
+                        }                       
+                    }
+                    action = [
+                        <span key="message">{'Buy '}{resources}{'for ' + props.resourceCost + '$?'}</span>,
+                        <button disabled={props.budget >= props.resourceCost ? '' : 'disabled'} key="buy" onClick={() => props.buyResources()}>Buy</button>,
+                        <button key="clear" onClick={() => props.clearResources()}>Clear</button>,
+                    ]
+                }
                 break
             default:
                 break

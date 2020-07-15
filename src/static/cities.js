@@ -1,4 +1,3 @@
-// TODO: Should be a map.
 export const cities = {
     Seattle: {id: 'Seattle', region: 'northwest', x: 50, y: 0},
     Portland: {id: 'Portland', region: 'northwest', x: 0, y: 125},

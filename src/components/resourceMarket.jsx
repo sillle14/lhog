@@ -11,45 +11,23 @@ function Resource(props) {
 }
 
 export default function ResourceMarket(props) {
-    let coal = []
-    let oil = []
-    let trash = []
-    let uranium = []
-    for (let i = 0; i < 24; i++) {
-        coal.push(<Resource
-            resource="coal"
-            cost={props.coalMarket[i].cost} 
-            available={props.coalMarket[i].available} 
-            key={i}
-        />)
-        oil.push(<Resource
-            resource="oil"
-            cost={props.oilMarket[i].cost} 
-            available={props.oilMarket[i].available} 
-            key={i}
-        />)
-        trash.push(<Resource
-            resource="trash"
-            cost={props.trashMarket[i].cost} 
-            available={props.trashMarket[i].available} 
-            key={i}
-        />)
-        if (i < 12) {
-            uranium.push(<Resource
-                resource="uranium"
-                cost={props.uraniumMarket[i].cost} 
-                available={props.uraniumMarket[i].available} 
+    let resources = {}
+    for (const resource in props.resourceMarket) {
+        resources[resource] = props.resourceMarket[resource].map( function (r, i) {
+            return (<Resource
+                resource={resource}
+                cost={r.cost} 
+                available={r.available} 
                 key={i}
             />)
-        }
+        })
     }
-    uranium.push(<div className="uranium-spacer" key="spacer"/>)
+    resources.uranium.push(<div className="uranium-spacer" key="spacer"/>)
+    const resourceRows = []
+    for (const resource in resources) {
+        resourceRows.push(<div key={resource} className="resource-market-row" onClick={() => props.selectResource(resource)}>{resources[resource]}</div>)
+    }
     return (
-        <div className="resource-market">
-            <div className="resource-market-row">{coal}</div>
-            <div className="resource-market-row">{oil}</div>
-            <div className="resource-market-row">{trash}</div>
-            <div className="resource-market-row">{uranium}</div>
-        </div>
+        <div className="resource-market">{resourceRows}</div>
     )
 }

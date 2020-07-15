@@ -34,6 +34,7 @@ export function Player(props) {
             <div className="player-aspect-box">
                 <div className="player" style={{backgroundColor: colors.background}}>
                     <div className="player-info">
+                        {/* TODO: Use player name instead? */}
                         <span>{props.playerName}</span>
                         {resources}
                     </div>

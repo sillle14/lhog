@@ -90,7 +90,7 @@ export const edges = [
     {source: 'New York', target: 'Buffalo', type: 'edge', handleText: 8},
 ]
 
-export function getEdgeLookup(edges) {
+export function getEdgeLookup() {
     let edgeLookup = {}
     for (let i = 0; i < edges.length; i++) {
         const edge = edges[i]
@@ -106,4 +106,4 @@ export function getEdgeLookup(edges) {
     return edgeLookup
 }
 
-export const edgeLookup = getEdgeLookup(edges)
+export const edgeLookup = getEdgeLookup()

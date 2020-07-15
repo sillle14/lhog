@@ -1,7 +1,7 @@
 .action {
     height: 100%;
     width: 100%;
-    background: lightgreen;
+    background: lightslategray;
     grid-area: action;
     display: flex;
     justify-content: center;
@@ -9,7 +9,11 @@
     font-size: 1.7vw;
 }
 
-.action span {
+.action button {
+    font-size: 1.7vw;
+}
+
+.action  > span {
     padding-left: 2%;
     padding-right: 2%;
 }
@@ -31,4 +35,8 @@
 .bidder > input {
     width: 7%;
     text-align: center;
+}
+
+.resource-name {
+    font-weight: bold;
 }

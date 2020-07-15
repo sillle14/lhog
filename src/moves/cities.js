@@ -114,8 +114,3 @@ export function buyCities(G, ctx) {
     G.rerender.activate = !G.rerender.activate
     ctx.events.endTurn()
 }
-
-export function passBuyCities(G, ctx) {
-    G.logs.push({playerID: ctx.currentPlayer, move: 'pass'})
-    ctx.events.endTurn()
-}

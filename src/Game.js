@@ -5,6 +5,7 @@ import PlayerModel from './models/player'
 import { setPlayerOrder } from './moves/playerOrder'
 import * as auction from './moves/auction'
 import * as cityMoves from './moves/cities'
+import * as resourceMoves from './moves/resources'
 
 
 function setup(ctx, setupData) {
@@ -21,6 +22,7 @@ function setup(ctx, setupData) {
     let trashMarket = []
     let uraniumMarket = []
 
+    // TODO: position is implicit in array position I believe
     for (let i = 0; i < 24; i++) {
         coalMarket.push({position: i, cost: Math.floor(i/3) + 1, available: true})
         oilMarket.push({position: i, cost: Math.floor(i/3) + 1, available: i > 5})
@@ -56,18 +58,26 @@ function setup(ctx, setupData) {
         powerplantMarket: powerplantMarket, 
         powerplantDeck: powerplantDeck,
         players: players,
-        coalMarket: coalMarket,
-        oilMarket: oilMarket,
-        trashMarket: trashMarket,
-        uraniumMarket: uraniumMarket,
+        resourceMarket: {
+            coal: coalMarket,
+            oil: oilMarket,
+            trash: trashMarket,
+            uranium: uraniumMarket,
+        },
         step: 1,
         firstTurn: true,
         playerOrder: [],
         reverseOrder: [],
-        auction: {upForAuction: null, selected: null, currentBid: null},
         logs: [],
+
+        auction: {upForAuction: null, selected: null, currentBid: null},
+
         selectedCities: {},
         connectionCost: 0,
+
+        selectedResources: {coal: 0, oil: 0, trash: 0, uranium: 0},
+        resourceCost: 0,
+
         // In order to efficiently rerender nodes on demand, nodes for each city listed will be rerendered when
         //  the activate bit flips. This allows for rerendering the same cities repeatedly if required.
         rerender: {
@@ -77,6 +87,26 @@ function setup(ctx, setupData) {
     }
 }
 
+function pass(G, ctx) {
+    G.logs.push({playerID: ctx.currentPlayer, move: 'pass'})
+    ctx.events.endTurn()
+}
+
+// TODO:
+// * buy resources
+// * bureaucracy
+// * step 2 and step 3 transitions
+// * end of game
+// * pick regions
+// * Scroll to appropriate section on phase start
+// * all other todos!
+// * Test, test test!!!!
+
+// TODO LONG TERM:
+// * Rewrite lobby
+// * Save game
+
+
 export const WattMatrix = {
     name: 'WattMatrix',
     setup: setup,
@@ -84,7 +114,7 @@ export const WattMatrix = {
         playerOrder: {
             onBegin: setPlayerOrder,
             next: 'auction',
-            start: true,  // TODO: The real game needs to start with region selection
+            // start: true,  // TODO: The real game needs to start with region selection
         },
         auction: {
             onBegin: auction.startAuction,  
@@ -106,7 +136,7 @@ export const WattMatrix = {
                 selectCity: cityMoves.selectCity,
                 clearCities: cityMoves.clearCities,
                 buyCities: cityMoves.buyCities,
-                passBuyCities: cityMoves.passBuyCities
+                pass: pass
             },
             turn: {
                 order: {
@@ -119,6 +149,12 @@ export const WattMatrix = {
         },
         resources: {
             onBegin: (G, ctx) => {G.logs.push({move: 'startPhase', phase: 'Buy Resources'})},
+            moves: {
+                selectResource: resourceMoves.selectResource,
+                clearResources: resourceMoves.clearResources,
+                pass: pass
+            },
+            start: true, // TODO
         }
     },
     minPlayers: 3,

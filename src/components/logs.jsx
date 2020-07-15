@@ -5,7 +5,6 @@ import { PlayerName } from './players'
 
 const indent = <span key="span">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
 
-// TODO: Log start of phasessfd
 function Log(props) {
     const log = props.log
     const playerName = <PlayerName playerID={log.playerID} playerMap={props.playerMap}/>
