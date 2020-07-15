@@ -151,7 +151,7 @@ export default class Map extends React.Component {
 
     render() {
         return (
-        <div className="graph" id={'map-' + this.props.playerID}>
+        <div className="graph">
             
             <GraphView  
                 readOnly={true}

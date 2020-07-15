@@ -92,6 +92,14 @@ function pass(G, ctx) {
     ctx.events.endTurn()
 }
 
+const REVERSE_ONCE = {
+    order: {
+        first: (G, ctx) => 0,
+        next: (G, ctx) => {if (ctx.playOrderPos < ctx.playOrder.length - 1) { return ctx.playOrderPos + 1}},
+        playOrder: (G, ctx) => G.reverseOrder
+    }
+}
+
 // TODO:
 // * buy resources
 // * bureaucracy
@@ -113,8 +121,8 @@ export const WattMatrix = {
     phases: {
         playerOrder: {
             onBegin: setPlayerOrder,
-            next: 'auction',
-            // start: true,  // TODO: The real game needs to start with region selection
+            next: 'resources', // TODO
+            start: true,  // TODO: The real game needs to start with region selection
         },
         auction: {
             onBegin: auction.startAuction,  
@@ -138,13 +146,7 @@ export const WattMatrix = {
                 buyCities: cityMoves.buyCities,
                 pass: pass
             },
-            turn: {
-                order: {
-                    first: (G, ctx) => 0,
-                    next: (G, ctx) => {if (ctx.playOrderPos < ctx.playOrder.length - 1) { return ctx.playOrderPos + 1}},
-                    playOrder: (G, ctx) => G.reverseOrder
-                }
-            },
+            turn: REVERSE_ONCE,
             next: 'resources'
         },
         resources: {
@@ -154,7 +156,7 @@ export const WattMatrix = {
                 clearResources: resourceMoves.clearResources,
                 pass: pass
             },
-            start: true, // TODO
+            turn: REVERSE_ONCE,
         }
     },
     minPlayers: 3,

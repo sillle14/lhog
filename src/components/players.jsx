@@ -35,7 +35,7 @@ export function Player(props) {
                 <div className="player" style={{backgroundColor: colors.background}}>
                     <div className="player-info">
                         {/* TODO: Use player name instead? */}
-                        <span>{props.playerName}</span>
+                        <PlayerName playerID={props.playerID} playerMap={props.playerMap}/>
                         {resources}
                     </div>
                     <div className="player-powerplants">{powerplants}</div>
@@ -48,7 +48,7 @@ export function Player(props) {
 export function Players(props) {
     let players = []
     for (const playerID in props.players) {
-        players.push(<Player player={props.players[playerID]} playerID={playerID} key={playerID} playerName={props.playerMap[playerID]}/>)
+        players.push(<Player player={props.players[playerID]} playerID={playerID} key={playerID} playerMap={props.playerMap}/>)
     }
     return (
         <div className="players">{players}</div>

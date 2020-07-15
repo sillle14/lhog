@@ -40,7 +40,6 @@ export class WattMatrixTable extends React.Component {
                     <Players players={this.props.G.players} playerMap={this.playerMap}/><hr/>
                     <Map 
                         cityStatus={this.props.G.cityStatus}
-                        playerID={this.props.playerID}
                         selectedCities={Object.keys(this.props.G.selectedCities)}
                         myTurn={myTurn}
                         selectCity={this.props.moves.selectCity}
@@ -58,12 +57,14 @@ export class WattMatrixTable extends React.Component {
                     />
                 </div>
                 <div className="sidebar">
-                    <Player player={this.props.G.players[this.props.playerID]} playerID={this.props.playerID} playerName={this.playerMap[this.props.playerID]}/>
+                    <Player player={this.props.G.players[this.props.playerID]} playerID={this.props.playerID} playerMap={this.playerMap}/>
                     <Logs logs={this.props.G.logs} playerMap={this.playerMap} playerID={this.props.playerID}/>
                 </div>
                 <ActionBar
                     // Basic
-                    myTurn={myTurn}
+                    currentPlayer={this.props.ctx.currentPlayer}
+                    playerID={this.props.playerID}
+                    playerMap={this.playerMap}
                     phase={this.props.ctx.phase}
                     firstTurn={this.props.G.firstTurn}
                     budget={this.props.G.players[this.props.playerID].money}

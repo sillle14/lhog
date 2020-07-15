@@ -1,4 +1,5 @@
 import React from 'react'
+import { PlayerName } from './players' 
 import './styles/action.css'
 
 const resourceColorMap = {
@@ -40,8 +41,8 @@ class Bidder extends React.Component {
 
 export default function ActionBar(props) {
     let action
-    if (!props.myTurn) {
-        action = <span>Wait your turn!</span>
+    if (props.playerID !== props.currentPlayer) {
+        action = <span>{'Wait for '}<PlayerName playerID={props.playerID} playerMap={props.playerMap}/></span>
     } else {
         switch (props.phase) {
             case 'auction':
