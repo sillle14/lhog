@@ -4,10 +4,13 @@ class PlayerModel {
     constructor () {
         this.cities = []
         this.resources = {coal: 0, oil: 0, trash: 0, uranium: 0}
-        this.powerplants = []
+        this.powerplants = [3,4,5]
         this.money = 50
         this.boughtPP = false  // Keep track of whether this player has bought a PP (or passed) this round
         this.inAuction = false
+        this.ppToPower = []
+        this.hasPowered = false
+        this.lastIncome = 0
     }
 
     static getCapacity(player) {

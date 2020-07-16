@@ -9,7 +9,16 @@ export function PlayerName(props) {
 }
 
 export function Player(props) {
-    const powerplants = props.player.powerplants.map((i) => <PowerPlant cost={i} key={i}/>)
+    const powerplants = props.player.powerplants.map(function (i) {
+        return (
+            <PowerPlant 
+                cost={i} 
+                key={i} 
+                selected={props.player.ppToPower.includes(i) && props.selectPP} 
+                select={props.selectPP}
+            />      
+        )
+    })
     const colors = playerColors[props.playerID]
     const houseStyle = {backgroundColor: colors.houseBackground, color: colors.color}
 
@@ -53,7 +62,7 @@ export function Players(props) {
             playerID={playerID} 
             key={playerID} 
             playerMap={props.playerMap} 
-            selected={props.currentPlayer === playerID}
+            selected={props.currentPlayer === playerID && props.phase !== 'bureaucracy'}  // No single player active in bureacracy
         />) 
     }
     return (

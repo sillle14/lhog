@@ -1,3 +1,5 @@
+import { ActivePlayers } from 'boardgame.io/core';
+
 import { cities } from './static/cities'
 import { powerplants, STEP_3 } from './static/powerplants'
 import { playerSettings } from './static/reference'
@@ -6,6 +8,7 @@ import { setPlayerOrder } from './moves/playerOrder'
 import * as auction from './moves/auction'
 import * as cityMoves from './moves/cities'
 import * as resourceMoves from './moves/resources'
+import * as bureaucracy from './moves/bureaucracy'
 
 
 function setup(ctx, setupData) {
@@ -108,11 +111,12 @@ const REVERSE_ONCE = {
 // * pick regions
 // * Scroll to appropriate section on phase start
 // * all other todos!
+// * most selection moves could unselect on double click
 // * Test, test test!!!!
 
 // TODO LONG TERM:
-// * Rewrite lobby
-// * Save game
+// * Rewrite lobby -- this enables the below
+// * Save game -- use a free mongo add in to heroku, save all necessary in JSON, and add to setupData when loading a game.
 
 
 export const WattMatrix = {
@@ -121,7 +125,7 @@ export const WattMatrix = {
     phases: {
         playerOrder: {
             onBegin: setPlayerOrder,
-            next: 'auction', // TODO
+            next: 'bureaucracy', // TODO
             start: true,  // TODO: The real game needs to start with region selection
         },
         auction: {
@@ -158,6 +162,20 @@ export const WattMatrix = {
                 pass: pass
             },
             turn: REVERSE_ONCE,
+        },
+        'bureaucracy': {
+            onBegin: bureaucracy.startBureaucracy,
+            endIf: G => G.playersToPower === 0,
+            moves: {
+                selectToPower: bureaucracy.selectToPower,
+                passPowering: bureaucracy.passPowering,
+                clearToPower: bureaucracy.clearToPower,
+                // confirm
+            },
+            turn: {
+                activePlayers: ActivePlayers.ALL
+            },
+            onEnd: {} // TODO: Do the rest of the bureaucracy. Reset players to power here
         }
     },
     minPlayers: 3,

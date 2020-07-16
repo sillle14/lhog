@@ -1,5 +1,4 @@
 import React from 'react'
-import { Element } from 'react-scroll'
 import PowerPlant from './powerplant'
 import './styles/market.css'
 
@@ -14,7 +13,7 @@ export default function Market(props) {
         )
     }
     return (
-        <Element name="ppMarket" className="powerplant-market">
+        <div name="ppMarket" className="powerplant-market">
             <div className="market-labels">
                 <span>Current Market:</span>
                 <span>Future Market:</span>
@@ -22,6 +21,6 @@ export default function Market(props) {
             <div className="powerplant-grid">
                 {powerplants}
             </div>
-        </Element>
+        </div>
     )
 }

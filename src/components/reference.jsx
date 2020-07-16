@@ -1,4 +1,5 @@
 import React from 'react'
+
 import { PlayerName } from './players' 
 import { payment, playerSettings } from '../static/reference'
 import './styles/symbols.css'
@@ -72,7 +73,7 @@ function Other(props) {
 
 export default function Reference(props) {
     return (
-        <div className="reference">
+        <div name="reference" className="reference">
             <Payment/>
             <Refill numPlayers={props.numPlayers}/>
             <Other numPlayers={props.numPlayers} step={props.step} order={props.playerOrder} playerMap={props.playerMap}/>

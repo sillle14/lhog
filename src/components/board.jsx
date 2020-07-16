@@ -28,7 +28,6 @@ export class WattMatrixTable extends React.Component {
     }
 
     scrollToElement(element) {
-        console.log('scroll to ' + element)
         scroller.scrollTo(element, {containerId: 'main-' + this.props.playerID})
     }
 
@@ -52,7 +51,12 @@ export class WattMatrixTable extends React.Component {
                         selectPowerplant={this.props.moves.selectPowerplant}
                         myTurn={myTurn}
                     /><hr/>
-                    <Players players={this.props.G.players} playerMap={this.playerMap} currentPlayer={this.props.ctx.currentPlayer}/><hr/>
+                    <Players 
+                        players={this.props.G.players} 
+                        playerMap={this.playerMap} 
+                        currentPlayer={this.props.ctx.currentPlayer} 
+                        phase={this.props.ctx.phase}
+                    /><hr/>
                     <Map 
                         cityStatus={this.props.G.cityStatus}
                         selectedCities={Object.keys(this.props.G.selectedCities)}
@@ -72,13 +76,19 @@ export class WattMatrixTable extends React.Component {
                     />
                 </div>
                 <div className="sidebar">
-                    <Player player={this.props.G.players[this.props.playerID]} playerID={this.props.playerID} playerMap={this.playerMap}/>
+                    <Player 
+                        player={this.props.G.players[this.props.playerID]} 
+                        playerID={this.props.playerID} 
+                        playerMap={this.playerMap}
+                        selectPP={this.props.moves.selectToPower}
+                    />
                     <Logs logs={this.props.G.logs} playerMap={this.playerMap} playerID={this.props.playerID}/>
                 </div>
                 <ActionBar
                     // Basic
                     currentPlayer={this.props.ctx.currentPlayer}
                     playerID={this.props.playerID}
+                    player={this.props.G.players[this.props.playerID]} 
                     playerMap={this.playerMap}
                     phase={this.props.ctx.phase}
                     firstTurn={this.props.G.firstTurn}
@@ -105,6 +115,10 @@ export class WattMatrixTable extends React.Component {
                     resourceCost={this.props.G.resourceCost}
                     clearResources={this.props.moves.clearResources}
                     buyResources={this.props.moves.buyResources}
+
+                    // Bureaucracy
+                    passPowering={this.props.moves.passPowering}
+                    clearToPower={this.props.moves.clearToPower}
                 />
             </div>
         )

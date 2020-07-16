@@ -1,5 +1,4 @@
 import React from 'react'
-import { Element } from 'react-scroll'
 import './styles/map.css'
 import { cities, houseCosts } from '../static/cities'
 import { edges } from '../static/edges'
@@ -152,7 +151,7 @@ export default class Map extends React.Component {
 
     render() {
         return (
-        <Element name="map" className="graph">
+        <div name="map" className="graph">
             
             <GraphView  
                 readOnly={true}
@@ -182,7 +181,7 @@ export default class Map extends React.Component {
                 onSwapEdge={doNothing}
                 onDeleteEdge={doNothing}
             />
-        </Element>
+        </div>
         );
     }
 

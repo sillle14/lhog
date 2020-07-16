@@ -39,9 +39,28 @@ class Bidder extends React.Component {
     }
 }
 
+// TODO: Use backtick strings
 export default function ActionBar(props) {
     let action
-    if (props.playerID !== props.currentPlayer) {
+    // Bureaucracy need special treatment because all players are active.
+    // TODO: Use pps 1,2, and 10 to power X cities for Y$
+    if (props.phase === 'bureaucracy') {
+        if (props.player.hasPowered) {
+            action = <span>{`You earned ${props.player.lastIncome}$. Wait for others to power.`}</span>
+        } else if (props.player.ppToPower.length === 0) {
+            action = [
+                <span key="message">Choose powerplants to power using the player mat in the upper right.</span>,
+                <button key="pass" onClick={() => props.passPowering()}>Pass</button>
+            ]
+        } else {
+            action = [
+                <span key="message">{`Use powerplant${props.player.ppToPower.length > 1 ? 's' : ''} ${props.player.ppToPower.join(', ')} to power ${1} city for ${10}$?`}</span>,
+                <button key="power" onClick={() => props.power()}>Power</button>,
+                <button key="clear" onClick={() => props.clearToPower()}>Clear</button>,
+            ]
+        }
+        
+    } else if (props.playerID !== props.currentPlayer) {
         action = <span>{'Wait for '}<PlayerName playerID={props.currentPlayer} playerMap={props.playerMap}/></span>
     } else {
         switch (props.phase) {
@@ -96,9 +115,5 @@ export default function ActionBar(props) {
                 break
         }
     }
-    return (
-        <div className="action">
-            {action}
-        </div>
-    )
+    return <div className="action">{action}</div>
 }

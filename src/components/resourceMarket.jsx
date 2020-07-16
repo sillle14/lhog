@@ -1,5 +1,5 @@
 import React from 'react'
-import { Element } from 'react-scroll'
+
 import './styles/symbols.css'
 import './styles/resourceMarket.css'
 
@@ -29,6 +29,6 @@ export default function ResourceMarket(props) {
         resourceRows.push(<div key={resource} className="resource-market-row" onClick={() => props.selectResource(resource)}>{resources[resource]}</div>)
     }
     return (
-        <Element name="resourceMarket" className="resource-market">{resourceRows}</Element>
+        <div name="resourceMarket" className="resource-market">{resourceRows}</div>
     )
 }
