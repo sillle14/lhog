@@ -3,6 +3,8 @@ import { INVALID_MOVE } from 'boardgame.io/core'
 export function selectResource(G, ctx, resource) {
     G.selectedResources[resource] += 1
 
+    // TODO: Disallow if over capacity.
+
     // Easiest to just recalculate the resource cost entirely
     let resourceCost = 0
     for (const r in G.selectedResources) {
@@ -29,4 +31,26 @@ export function selectResource(G, ctx, resource) {
 export function clearResources(G, ctx) {
     G.selectedResources = {coal: 0, oil: 0, trash: 0, uranium: 0}
     G.resourceCost = 0
+}
+
+export function buyResources(G, ctx) {
+    G.logs.push({playerID: ctx.currentPlayer, move: 'buyResources', resources: G.selectedResources, cost: G.resourceCost})
+
+    for (const r in G.selectedResources) {
+        G.players[ctx.currentPlayer].resources[r] += G.selectedResources[r]
+        let resourceCount = G.selectedResources[r]
+        // Iterate over the resource market until the appropriate number has been marked inactive.
+        let i = 0
+        while (resourceCount > 0) {
+            if (G.resourceMarket[r][i].available) {
+                G.resourceMarket[r][i].available = false
+                resourceCount -= 1
+            }
+            i++
+        }
+    }
+    G.players[ctx.currentPlayer].money -= G.resourceCost
+    G.selectedResources = {coal: 0, oil: 0, trash: 0, uranium: 0}
+    G.resourceCost = 0
+    ctx.events.endTurn()
 }

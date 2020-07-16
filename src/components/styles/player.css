@@ -3,6 +3,11 @@
     padding: 1%;
 }
 
+.sidebar > .player-wrapper {
+    padding: 0;
+    border: 5px solid lightslategray;
+}
+
 .player-aspect-box {
     position: relative;
     height: 0;

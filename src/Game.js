@@ -22,18 +22,17 @@ function setup(ctx, setupData) {
     let trashMarket = []
     let uraniumMarket = []
 
-    // TODO: position is implicit in array position I believe
     for (let i = 0; i < 24; i++) {
-        coalMarket.push({position: i, cost: Math.floor(i/3) + 1, available: true})
-        oilMarket.push({position: i, cost: Math.floor(i/3) + 1, available: i > 5})
-        trashMarket.push({position: i, cost: Math.floor(i/3) + 1, available: i > 14})
+        coalMarket.push({cost: Math.floor(i/3) + 1, available: true})
+        oilMarket.push({cost: Math.floor(i/3) + 1, available: i > 5})
+        trashMarket.push({cost: Math.floor(i/3) + 1, available: i > 14})
         if (i < 8) {
-            uraniumMarket.push({position: i, cost: i + 1, available: false})
+            uraniumMarket.push({cost: i + 1, available: false})
         }
     }
 
     for (let i = 10; i < 18; i += 2) {
-        uraniumMarket.push({position: 2*i - 8, cost: i, available: i > 12})
+        uraniumMarket.push({cost: i, available: i > 12})
     }
 
     let powerplantMarket = [3, 4, 5, 6, 7, 8, 9, 10]
@@ -154,6 +153,7 @@ export const WattMatrix = {
             moves: {
                 selectResource: resourceMoves.selectResource,
                 clearResources: resourceMoves.clearResources,
+                buyResources: resourceMoves.buyResources,
                 pass: pass
             },
             turn: REVERSE_ONCE,

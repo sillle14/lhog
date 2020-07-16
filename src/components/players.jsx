@@ -31,10 +31,9 @@ export function Player(props) {
 
     return (
         <div className="player-wrapper">
-            <div className="player-aspect-box">
+            <div className={'player-aspect-box' + (props.selected ? ' selected' : '')}>
                 <div className="player" style={{backgroundColor: colors.background}}>
                     <div className="player-info">
-                        {/* TODO: Use player name instead? */}
                         <PlayerName playerID={props.playerID} playerMap={props.playerMap}/>
                         {resources}
                     </div>
@@ -48,7 +47,14 @@ export function Player(props) {
 export function Players(props) {
     let players = []
     for (const playerID in props.players) {
-        players.push(<Player player={props.players[playerID]} playerID={playerID} key={playerID} playerMap={props.playerMap}/>)
+        players.push(
+        <Player
+            player={props.players[playerID]} 
+            playerID={playerID} 
+            key={playerID} 
+            playerMap={props.playerMap} 
+            selected={props.currentPlayer === playerID}
+        />) 
     }
     return (
         <div className="players">{players}</div>

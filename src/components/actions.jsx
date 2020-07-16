@@ -42,7 +42,7 @@ class Bidder extends React.Component {
 export default function ActionBar(props) {
     let action
     if (props.playerID !== props.currentPlayer) {
-        action = <span>{'Wait for '}<PlayerName playerID={props.playerID} playerMap={props.playerMap}/></span>
+        action = <span>{'Wait for '}<PlayerName playerID={props.currentPlayer} playerMap={props.playerMap}/></span>
     } else {
         switch (props.phase) {
             case 'auction':

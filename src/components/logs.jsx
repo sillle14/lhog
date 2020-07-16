@@ -2,6 +2,7 @@ import React from 'react'
 import { animateScroll } from 'react-scroll'
 import './styles/logs.css'
 import { PlayerName } from './players' 
+import { ResourceName } from './actions'
 
 const indent = <span key="span">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
 
@@ -38,9 +39,22 @@ function Log(props) {
             break
         case 'buyCities':
             details = [
-                <span key="header">{playerName}{ 'buy cities:'}</span>,
+                <span key="header">{playerName}{ 'buys cities:'}</span>,
                 <br key="br"></br>,
                 <span key="cities">{indent}{log.cities.join(', ') + ' for ' + log.cost + '$'}</span>,
+            ]
+            break
+        case 'buyResources':
+            let resources = []
+            for (const r in log.resources) {
+                if (log.resources[r] > 0) {
+                    resources.push(<ResourceName key={r} resource={r} amount={log.resources[r]}/>)
+                }
+            }
+            details = [
+                <span key="header" className="message">{playerName}{ 'buys resources:'}</span>,
+                <br key="br"></br>,
+                <span key="order">{indent}{resources}{' for ' + log.cost + '$'}</span>,
             ]
             break
         default:
