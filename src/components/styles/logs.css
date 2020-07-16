@@ -11,7 +11,7 @@
 .scroll {
     overflow-y: auto;
     display: flex;
-    max-height: 50vh;
+    max-height: 45vh;
     flex-direction: column-reverse;
     font-size: 1vw;
 }

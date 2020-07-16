@@ -1,4 +1,6 @@
 import React from 'react'
+import { scroller } from 'react-scroll'
+
 import Map from './map'
 import Market from './market'
 import ResourceMarket from './resourceMarket'
@@ -25,11 +27,24 @@ export class WattMatrixTable extends React.Component {
         }
     }
 
+    scrollToElement(element) {
+        console.log('scroll to ' + element)
+        scroller.scrollTo(element, {containerId: 'main-' + this.props.playerID})
+    }
+
+    componentDidMount() { this.scrollToElement(this.props.G.scrollTo) }
+
+    componentDidUpdate(prevProps) { 
+        if (prevProps.G.scrollTo !== this.props.G.scrollTo) {
+            this.scrollToElement(this.props.G.scrollTo)
+        }
+    }
+
     render () {
         const myTurn = this.props.playerID === this.props.ctx.currentPlayer
         return (
             <div className="board">
-                <div className="main">
+                <div className="main" id={'main-' + this.props.playerID}>
                     <Market 
                         powerplantMarket={this.props.G.powerplantMarket} 
                         selected={this.props.G.auction.selected}

@@ -82,7 +82,8 @@ function setup(ctx, setupData) {
         rerender: {
             activate: true,
             cities: []
-        }
+        },
+        scrollTo: null
     }
 }
 
@@ -120,7 +121,7 @@ export const WattMatrix = {
     phases: {
         playerOrder: {
             onBegin: setPlayerOrder,
-            next: 'resources', // TODO
+            next: 'auction', // TODO
             start: true,  // TODO: The real game needs to start with region selection
         },
         auction: {
@@ -138,7 +139,7 @@ export const WattMatrix = {
             next: 'cities'
         },
         cities: {
-            onBegin: (G, ctx) => {G.logs.push({move: 'startPhase', phase: 'Buy Cities'})},
+            onBegin: (G, ctx) => {G.logs.push({move: 'startPhase', phase: 'Buy Cities'}); G.scrollTo = 'map'},
             moves: {
                 selectCity: cityMoves.selectCity,
                 clearCities: cityMoves.clearCities,
@@ -149,7 +150,7 @@ export const WattMatrix = {
             next: 'resources'
         },
         resources: {
-            onBegin: (G, ctx) => {G.logs.push({move: 'startPhase', phase: 'Buy Resources'})},
+            onBegin: (G, ctx) => {G.logs.push({move: 'startPhase', phase: 'Buy Resources'}); G.scrollTo = 'resourceMarket'},
             moves: {
                 selectResource: resourceMoves.selectResource,
                 clearResources: resourceMoves.clearResources,

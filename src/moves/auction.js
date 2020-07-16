@@ -10,6 +10,7 @@ export function startAuction(G, ctx) {
         G.players[playerID].boughtPP = false
     }
     G.logs.push({move: 'startPhase', phase: 'Auction'})
+    G.scrollTo = 'ppMarket'
 }
 
 export function selectPowerplant(G, ctx, powerplant) {

@@ -5,7 +5,7 @@
 .board {
     display: grid;
     grid-template-columns: 4fr 1fr;
-    grid-template-rows: 9fr 1fr;
+    grid-template-rows: 82vh 10vh;
     grid-template-areas:    "main log"
                             "action action"
 }
@@ -19,7 +19,7 @@
 }
 
 .main {
-    height: 90vh;
+    height: 100%;
     width: 100%;
     overflow: auto;
     grid-area: main;

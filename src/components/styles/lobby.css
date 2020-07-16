@@ -5,3 +5,7 @@
 #lobby-view {
     padding: 10px !important;
 }
+
+.buttons {
+    display: flex;
+}
