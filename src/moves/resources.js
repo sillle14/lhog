@@ -1,13 +1,30 @@
 import { INVALID_MOVE } from 'boardgame.io/core'
+import PlayerModel from '../models/player'
 
 export function selectResource(G, ctx, resource) {
     G.selectedResources[resource] += 1
 
-    // TODO: Disallow if over capacity.
+    const capacity = PlayerModel.getCapacity(G.players[ctx.currentPlayer])
+    let overflowCoil = 0
 
     // Easiest to just recalculate the resource cost entirely
     let resourceCost = 0
     for (const r in G.selectedResources) {
+        // First check the capacity.
+        if (G.selectedResources[r] > capacity[r]) {
+            if (['coal', 'oil'].includes(r)) {
+                overflowCoil += G.selectedResources[r] - capacity[r]
+                if (overflowCoil > capacity['coil']) {
+                    G.selectedResources[resource] -= 1
+                    return INVALID_MOVE
+                }
+            } else {
+                // No extra capacity for uranium and coal.
+                G.selectedResources[resource] -= 1
+                return INVALID_MOVE
+            }
+        }
+
         let selected = 0
         let i = 0
         // Iterate over all the resources, incrementing the selected count and the cost when the resource is available.
