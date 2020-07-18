@@ -52,7 +52,7 @@ function setup(ctx, setupData) {
 
     // Add 13 to the top of the deck, and the step 3 card to the back. Note that we draw off the end of the array.
     powerplantDeck.push(13)
-    powerplantDeck.push(STEP_3) // TODO powerplantDeck.unshift(STEP_3)
+    powerplantDeck.unshift(STEP_3)
 
     const playerOrder = getPlayerOrder(players, ctx.random.Shuffle)
 
@@ -105,13 +105,13 @@ const REVERSE_ONCE = {
 }
 
 // TODO:
-// * step 3 transitions
 // * end of game
 // * pick regions
 // * all other todos!
 // * most selection moves could unselect on double click
 // * Test, test test!!!!
 // * phases to constants
+// * probably a lot of reorg
 
 // TODO LONG TERM:
 // * Rewrite lobby -- this enables the below
@@ -136,7 +136,6 @@ export const WattMatrix = {
             },
             onEnd: auction.afterAuction,
             next: 'resources',
-            start: true //TODO
         },
         resources: {
             onBegin: (G, ctx) => {G.logs.push({move: 'startPhase', phase: 'Buy Resources'}); G.scrollTo = 'resourceMarket'},
@@ -180,6 +179,7 @@ export const WattMatrix = {
             },
             onEnd: bureaucracy.endBureaucracy,
             next: 'auction',
+            start: true //TODO
         }
     },
     minPlayers: 3,

@@ -1,5 +1,6 @@
 import { houseCosts } from '../static/cities'
 import { edgeLookup } from '../static/edges'
+import { STEP_3 } from '../static/powerplants'
 import { INVALID_MOVE } from 'boardgame.io/core'
 
 /* A modified version of Prim's MST algorithm so we can start with some nodes already connected.
@@ -119,8 +120,7 @@ export function endCities(G, ctx) {
     // Remove too small powerplants from the game.
     while (G.powerplantMarket[0] <= Math.min(...Object.values(G.players).map(p => p.cities.length))) {
         G.logs.push({move: 'removePP', removed: G.powerplantMarket[0]})
-        G.powerplantMarket[0] = G.powerplantDeck.pop()
-        G.powerplantMarket.sort((a,b) => a-b)
+        removeLowest(G, ctx)
     }
 
     // Enter Step 2 if any player has bought at least 7 cities.
@@ -128,7 +128,22 @@ export function endCities(G, ctx) {
         G.logs.push({move: 'step2', removed: G.powerplantMarket[0]})
         G.step = 2
         // Remove the lowest powerplant from the game.
-        G.powerplantMarket[0] = G.powerplantDeck.pop()
-        G.powerplantMarket.sort((a,b) => a-b)
+        removeLowest(G, ctx)
+    }
+}
+
+function removeLowest(G, ctx) {
+    // Remove the lowest powerplant from the game.
+    G.powerplantMarket[0] = G.powerplantDeck.pop()
+    G.powerplantMarket.sort((a,b) => a-b)
+
+    // If we've drawn step 3, start the next step.
+    if (G.powerplantMarket[7] === STEP_3) {
+        G.powerplantDeck = ctx.random.Shuffle(G.powerplantsStep3)
+        G.logs.push({move: 'step3', removed: G.powerplantMarket[0]})
+        // Remove the most expensive and least expensive powerplants. Note that the most expensive will always
+        //  be the step 3 card.
+        G.powerplantMarket = G.powerplantMarket.slice(1, 7)
+        G.step = 3
     }
 }

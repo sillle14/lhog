@@ -70,8 +70,17 @@ function Log(props) {
             break
         case 'step2':
             details = [
-                <span key="header" className="header">--- Entering Step 2 ---</span>,
+                <span key="header" className="header">{indent}---- Entering Step 2 ----</span>,
                 <br key="br"></br>,
+                <br key="br2"></br>,
+                <span key="remove">{indent}{`Powerplant ${log.removed} is removed from the game.`}</span>
+            ]
+            break
+        case 'step3':
+            details = [
+                <span key="header" className="header">{indent}---- Entering Step 3 ----</span>,
+                <br key="br"></br>,
+                <br key="br2"></br>,
                 <span key="remove">{indent}{`Powerplant ${log.removed} is removed from the game.`}</span>
             ]
             break

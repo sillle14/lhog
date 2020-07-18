@@ -16,7 +16,7 @@ export function startAuction(G, ctx) {
 }
 
 export function selectPowerplant(G, ctx, powerplant) {
-    // Only can select from current market
+    // Only can select from current market (in step 3, all are current)
     if (G.powerplantMarket.indexOf(powerplant) > 3 && G.step < 3) {
         return INVALID_MOVE
     }
@@ -135,6 +135,7 @@ export function afterAuction(G, ctx) {
     }
     // If step 3 is starting, remove the appropriate powerplants and start the step.
     if (G.startStep3 && G.step !== 3) {
+        G.logs.push({move: 'step3', removed: G.powerplantMarket[0]})
         // Remove the most expensive and least expensive powerplants. Note that the most expensive will always
         //  be the step 3 card.
         G.powerplantMarket = G.powerplantMarket.slice(1, 7)

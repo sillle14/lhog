@@ -1,6 +1,6 @@
 import { getPlayerOrder } from './playerOrder'
 import { payment, playerSettings } from '../static/reference'
-import { powerplants } from '../static/powerplants'
+import { powerplants, STEP_3 } from '../static/powerplants'
 import { INVALID_MOVE } from 'boardgame.io/core'
 
 export function startBureaucracy(G, ctx) {
@@ -115,6 +115,16 @@ export function endBureaucracy(G, ctx) {
     G.powerplantsStep3.push(G.powerplantMarket[7])
     G.powerplantMarket[7] = G.powerplantDeck.pop()
     G.powerplantMarket.sort((a,b) => a-b)
+
+    // If we've drawn step 3, start the next step.
+    if (G.powerplantMarket[7] === STEP_3) {
+        G.powerplantDeck = ctx.random.Shuffle(G.powerplantsStep3)
+        G.logs.push({move: 'step3', removed: G.powerplantMarket[0]})
+        // Remove the most expensive and least expensive powerplants. Note that the most expensive will always
+        //  be the step 3 card.
+        G.powerplantMarket = G.powerplantMarket.slice(1, 7)
+        G.step = 3
+    }
 
     /********************
      *   PLAYER ORDER   *
