@@ -4,7 +4,7 @@ import { cities } from './static/cities'
 import { powerplants, STEP_3 } from './static/powerplants'
 import { playerSettings } from './static/reference'
 import PlayerModel from './models/player'
-import { setPlayerOrder } from './moves/playerOrder'
+import { getPlayerOrder } from './moves/playerOrder'
 import * as auction from './moves/auction'
 import * as cityMoves from './moves/cities'
 import * as resourceMoves from './moves/resources'
@@ -54,6 +54,7 @@ function setup(ctx, setupData) {
     powerplantDeck.push(13)
     powerplantDeck.unshift(STEP_3)
 
+    const playerOrder = getPlayerOrder(players, true, ctx.random.Shuffle)
 
     return {
         cityStatus: cityStatus, 
@@ -68,9 +69,8 @@ function setup(ctx, setupData) {
         },
         step: 1,
         firstTurn: true,
-        playerOrder: [],
-        reverseOrder: [],
-        logs: [],
+        playerOrder: playerOrder,
+        logs: [{move: 'playerOrder', order: playerOrder}],
 
         auction: {upForAuction: null, selected: null, currentBid: null},
 
@@ -97,9 +97,9 @@ function pass(G, ctx) {
 
 const REVERSE_ONCE = {
     order: {
-        first: (G, ctx) => 0,
-        next: (G, ctx) => {if (ctx.playOrderPos < ctx.playOrder.length - 1) { return ctx.playOrderPos + 1}},
-        playOrder: (G, ctx) => G.reverseOrder
+        first: (G, ctx) => ctx.playOrder.length - 1,
+        next: (G, ctx) => {if (ctx.playOrderPos > 0) { return ctx.playOrderPos - 1}},
+        playOrder: (G, ctx) => G.playerOrder
     }
 }
 
@@ -112,7 +112,9 @@ const REVERSE_ONCE = {
 // * Scroll to appropriate section on phase start
 // * all other todos!
 // * most selection moves could unselect on double click
+// * set player order after first auction buy
 // * Test, test test!!!!
+// * phases to constants
 
 // TODO LONG TERM:
 // * Rewrite lobby -- this enables the below
@@ -123,11 +125,6 @@ export const WattMatrix = {
     name: 'WattMatrix',
     setup: setup,
     phases: {
-        playerOrder: {
-            onBegin: setPlayerOrder,
-            next: 'bureaucracy', // TODO
-            start: true,  // TODO: The real game needs to start with region selection
-        },
         auction: {
             onBegin: auction.startAuction,  
             turn: {
@@ -140,6 +137,7 @@ export const WattMatrix = {
                 passBid: auction.passBid,
                 passBuyPP: auction.passBuyPP,
             },
+            onEnd: G => {}, // If first turn, set player order here and set first turn to false.
             next: 'cities'
         },
         cities: {
@@ -162,20 +160,28 @@ export const WattMatrix = {
                 pass: pass
             },
             turn: REVERSE_ONCE,
+            next: 'bureaucracy'
         },
-        'bureaucracy': {
+        bureaucracy: {
             onBegin: bureaucracy.startBureaucracy,
-            endIf: G => G.playersToPower === 0,
+            endIf: G => Object.values(G.players).every(p => p.bureaucracy.hasPowered),
             moves: {
                 selectToPower: bureaucracy.selectToPower,
                 passPowering: bureaucracy.passPowering,
                 clearToPower: bureaucracy.clearToPower,
-                // confirm
+                power: bureaucracy.power
             },
             turn: {
-                activePlayers: ActivePlayers.ALL
+                activePlayers: ActivePlayers.ALL,
+                stages: {
+                    coil: {
+                        moves: {spendCoil: bureaucracy.spendCoil}
+                    }
+                }
             },
-            onEnd: {} // TODO: Do the rest of the bureaucracy. Reset players to power here
+            onEnd: G => {}, // TODO: Do the rest of the bureaucracy.
+            next: 'auction',
+            start: true //TODO
         }
     },
     minPlayers: 3,

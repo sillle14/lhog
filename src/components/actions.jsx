@@ -1,6 +1,8 @@
 import React from 'react'
+import { payment } from '../static/reference'
 import { PlayerName } from './players' 
 import './styles/action.css'
+import { powerplants } from '../static/powerplants'
 
 const resourceColorMap = {
     coal: 'brown',
@@ -39,22 +41,61 @@ class Bidder extends React.Component {
     }
 }
 
+ 
+class Slider extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {coal: 0};
+        this.coilPlants = props.player.bureaucracy.toPower.filter(p => powerplants[p].resource === 'coil')
+        this.total = this.coilPlants.reduce((acc, p) => acc + powerplants[p].resourceCost, 0)
+        this.maxCoal = props.player.resources.coal
+        this.maxOil = props.player.resources.oil
+        this.handleChange = this.handleChange.bind(this);
+    }
+  
+    handleChange(event) {
+        this.setState({coal: event.target.value})
+    }
+  
+    render() {
+        return (<div className="slider-box">
+            <span>{`Select resources to power PP${this.coilPlants.length > 1 ? 's' : ''} ${this.coilPlants.join(', ')}: `}</span>
+            <ResourceName resource="oil" amount={this.total - this.state.coal}/>
+            <input className="slider" type="range" min="0" max={this.total} value={this.state.coal} onChange={this.handleChange}/>
+            <ResourceName resource="coal" amount={this.state.coal}/>
+            <button 
+                onClick={() => this.props.spendCoil(this.state.coal, this.total - this.state.coal)} 
+                disabled={this.maxOil >= this.total - this.state.coal && this.maxCoal >= this.state.coal ? '' : 'disabled'}
+            >Confirm</button>
+        </div>
+        )
+    }
+}
+
 // TODO: Use backtick strings
+// TODO split this out
 export default function ActionBar(props) {
     let action
     // Bureaucracy need special treatment because all players are active.
-    // TODO: Use pps 1,2, and 10 to power X cities for Y$
     if (props.phase === 'bureaucracy') {
-        if (props.player.hasPowered) {
-            action = <span>{`You earned ${props.player.lastIncome}$. Wait for others to power.`}</span>
-        } else if (props.player.ppToPower.length === 0) {
+        const poweredCount = props.player.bureaucracy.poweredCount
+        const income = payment[poweredCount]
+        if (props.player.bureaucracy.hasPowered) {
+            action = <span>{`You earned ${income}$. Wait for others to power.`}</span>
+        } else if (props.player.bureaucracy.toPower.length === 0) {
             action = [
                 <span key="message">Choose powerplants to power using the player mat in the upper right.</span>,
                 <button key="pass" onClick={() => props.passPowering()}>Pass</button>
             ]
+        } else if (props.playerStages[props.playerID] === 'coil') {
+            action = <Slider player={props.player} spendCoil={props.spendCoil}/>
         } else {
             action = [
-                <span key="message">{`Use powerplant${props.player.ppToPower.length > 1 ? 's' : ''} ${props.player.ppToPower.join(', ')} to power ${1} city for ${10}$?`}</span>,
+                <span key="message">{
+                    `Use powerplant${props.player.bureaucracy.toPower.length > 1 ? 's' : ''} 
+                    ${props.player.bureaucracy.toPower.join(', ')} to power ${poweredCount} 
+                    cit${poweredCount !== 1 ? 'ies': 'y'} for ${income}$?`
+                }</span>,
                 <button key="power" onClick={() => props.power()}>Power</button>,
                 <button key="clear" onClick={() => props.clearToPower()}>Clear</button>,
             ]

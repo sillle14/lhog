@@ -2,15 +2,17 @@ import { powerplants } from '../static/powerplants'
 
 class PlayerModel {
     constructor () {
-        this.cities = []
-        this.resources = {coal: 0, oil: 0, trash: 0, uranium: 0}
+        this.cities = ['Boston', 'New York']
+        this.resources = {coal: 3, oil: 1, trash: 0, uranium: 0}
         this.powerplants = [3,4,5]
         this.money = 50
         this.boughtPP = false  // Keep track of whether this player has bought a PP (or passed) this round
         this.inAuction = false
-        this.ppToPower = []
-        this.hasPowered = false
-        this.lastIncome = 0
+        this.bureaucracy = {
+            toPower: [],
+            hasPowered: false,
+            poweredCount: 0,
+        }
     }
 
     static getCapacity(player) {

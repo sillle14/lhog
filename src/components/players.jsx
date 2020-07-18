@@ -14,7 +14,7 @@ export function Player(props) {
             <PowerPlant 
                 cost={i} 
                 key={i} 
-                selected={props.player.ppToPower.includes(i) && props.selectPP} 
+                selected={props.player.bureaucracy.toPower.includes(i) && props.selectPP} 
                 select={props.selectPP}
             />      
         )

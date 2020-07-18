@@ -8,12 +8,3 @@ export function getPlayerOrder(players, firstTurn, shuffler) {
     }
     return playerIDs 
 }
-
-export function setPlayerOrder(G, ctx) {
-    G.playerOrder = getPlayerOrder(G.players, G.firstTurn, ctx.random.Shuffle)
-    // TODO: Maybe just store once?
-    G.reverseOrder = [...G.playerOrder]
-    G.reverseOrder.reverse()
-    G.logs.push({move: 'playerOrder', order: G.playerOrder})
-    ctx.events.endPhase()
-}

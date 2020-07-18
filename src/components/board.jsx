@@ -90,6 +90,7 @@ export class WattMatrixTable extends React.Component {
                     playerID={this.props.playerID}
                     player={this.props.G.players[this.props.playerID]} 
                     playerMap={this.playerMap}
+                    playerStages={this.props.ctx.activePlayers}
                     phase={this.props.ctx.phase}
                     firstTurn={this.props.G.firstTurn}
                     budget={this.props.G.players[this.props.playerID].money}
@@ -119,6 +120,8 @@ export class WattMatrixTable extends React.Component {
                     // Bureaucracy
                     passPowering={this.props.moves.passPowering}
                     clearToPower={this.props.moves.clearToPower}
+                    power={this.props.moves.power}
+                    spendCoil={this.props.moves.spendCoil}
                 />
             </div>
         )
