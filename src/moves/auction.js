@@ -1,4 +1,5 @@
 import { INVALID_MOVE } from 'boardgame.io/core'
+import { STEP_3 } from '../static/powerplants'
 import { getPlayerOrder } from './playerOrder'
 
 export function startAuction(G, ctx) {
@@ -58,6 +59,12 @@ function afterBid(G, ctx) {
         G.powerplantMarket.splice(G.powerplantMarket.indexOf(G.auction.upForAuction), 1)
         G.powerplantMarket.push(G.powerplantDeck.pop())
         G.powerplantMarket.sort((a,b) => a-b)
+
+        // If the step 3 card was drawn, shuffle the new PP deck. Note that it will always be the most expensive PP.
+        if (G.powerplantMarket[7] === STEP_3) {
+            G.powerplantDeck = ctx.random.Shuffle(G.powerplantsStep3)
+            G.startStep3 = true
+        }
 
         // Reset the auction. 
         G.auction.upForAuction = null
@@ -125,5 +132,12 @@ export function afterAuction(G, ctx) {
         G.firstTurn = false
         G.playerOrder = getPlayerOrder(G.players)
         G.logs.push({move: 'playerOrder', order: G.playerOrder})
+    }
+    // If step 3 is starting, remove the appropriate powerplants and start the step.
+    if (G.startStep3 && G.step !== 3) {
+        // Remove the most expensive and least expensive powerplants. Note that the most expensive will always
+        //  be the step 3 card.
+        G.powerplantMarket = G.powerplantMarket.slice(1, 7)
+        G.step = 3
     }
 }

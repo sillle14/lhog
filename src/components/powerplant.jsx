@@ -1,5 +1,5 @@
 import React from 'react'
-import { powerplants } from '../static/powerplants'
+import { powerplants, STEP_3 } from '../static/powerplants'
 import './styles/powerplant.css'
 import './styles/symbols.css'
 
@@ -22,6 +22,18 @@ function PowerPlantProduction(props) {
 }
 
 export default function PowerPlant(props) {
+    // Special Step 3 card.
+    if (props.cost === STEP_3) {
+        return (
+            <div className="powerplant-wrapper">
+            <div className="powerplant-aspect-box">
+                <div className="powerplant powerplant-step-3">
+                    <span>Step 3</span>
+                </div>
+            </div>
+        </div>
+        )
+    }
     const powerplant = powerplants[props.cost]
     const displayCost = props.cost.toString().length === 1 ? '0' + props.cost : props.cost
     return (

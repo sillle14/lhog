@@ -55,6 +55,10 @@
     background-color: rgb(136, 56, 56);
 }
 
+.powerplant-step-3 {
+    background-color: darkblue;
+}
+
 .powerplant-production {
     align-self: flex-end;
     width: 75%;

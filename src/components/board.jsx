@@ -50,6 +50,7 @@ export class WattMatrixTable extends React.Component {
                         upForAuction={this.props.G.auction.upForAuction}
                         selectPowerplant={this.props.moves.selectPowerplant}
                         myTurn={myTurn}
+                        step={this.props.G.step}
                     /><hr/>
                     <Players 
                         players={this.props.G.players} 

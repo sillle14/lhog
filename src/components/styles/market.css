@@ -1,16 +1,16 @@
 .powerplant-market {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
 }
 
 .powerplant-grid {
-    flex-basis: 80%;
+    flex-basis: var(--pp-grid-width);
     display: flex;
     flex-wrap: wrap;
 }
 
 .powerplant-grid > div {
-    flex-basis: 25%;
+    flex-basis: var(--pp-width);
 }
 
 .market-labels {

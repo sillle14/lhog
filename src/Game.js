@@ -52,7 +52,7 @@ function setup(ctx, setupData) {
 
     // Add 13 to the top of the deck, and the step 3 card to the back. Note that we draw off the end of the array.
     powerplantDeck.push(13)
-    powerplantDeck.unshift(STEP_3)
+    powerplantDeck.push(STEP_3) // TODO powerplantDeck.unshift(STEP_3)
 
     const playerOrder = getPlayerOrder(players, ctx.random.Shuffle)
 
@@ -60,7 +60,7 @@ function setup(ctx, setupData) {
         cityStatus: cityStatus, 
         powerplantMarket: powerplantMarket, 
         powerplantDeck: powerplantDeck,
-        powerplantsStep3: [],
+        powerplantsStep3: [40, 42, 44, 46, 50],
         players: players,
         resourceMarket: {
             coal: coalMarket,
@@ -136,7 +136,7 @@ export const WattMatrix = {
             },
             onEnd: auction.afterAuction,
             next: 'resources',
-
+            start: true //TODO
         },
         resources: {
             onBegin: (G, ctx) => {G.logs.push({move: 'startPhase', phase: 'Buy Resources'}); G.scrollTo = 'resourceMarket'},
@@ -160,7 +160,6 @@ export const WattMatrix = {
             turn: REVERSE_ONCE,
             onEnd: cityMoves.endCities,
             next: 'bureaucracy',
-            start: true //TODO
         },
         bureaucracy: {
             onBegin: bureaucracy.startBureaucracy,

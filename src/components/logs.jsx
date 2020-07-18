@@ -76,11 +76,12 @@ function Log(props) {
             ]
             break
         case 'removePP': 
-        details = [
-            <span key="header">{`All players have ${log.removed} or more cities.`}</span>,
-            <br key="br"></br>,
-            <span key="remove">{indent}{`Powerplant ${log.removed} is removed from the game.`}</span>
-        ]
+            details = [
+                <span key="header">{`All players have ${log.removed} or more cities.`}</span>,
+                <br key="br"></br>,
+                <span key="remove">{indent}{`Powerplant ${log.removed} is removed from the game.`}</span>
+            ]
+            break
         default:
             break
     }
