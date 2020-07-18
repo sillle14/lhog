@@ -3,7 +3,7 @@ import { powerplants } from '../static/powerplants'
 class PlayerModel {
     constructor () {
         this.cities = ['Boston', 'New York']
-        this.resources = {coal: 3, oil: 1, trash: 0, uranium: 0}
+        this.resources = {coal: 3, oil: 2, trash: 0, uranium: 0}
         this.powerplants = [3,4,5]
         this.money = 50
         this.boughtPP = false  // Keep track of whether this player has bought a PP (or passed) this round

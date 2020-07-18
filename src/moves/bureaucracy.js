@@ -1,5 +1,5 @@
 import { getPlayerOrder } from './playerOrder'
-import { payment } from '../static/reference'
+import { payment, playerSettings } from '../static/reference'
 import { powerplants } from '../static/powerplants'
 import { INVALID_MOVE } from 'boardgame.io/core'
 
@@ -83,16 +83,30 @@ export function clearToPower(G, ctx) {
 }
 
 export function passPowering(G, ctx) {
-    G.players[ctx.playerID].money += payment[0]
-    G.players[ctx.playerID].bureaucracy.toPower = []
     G.players[ctx.playerID].bureaucracy.poweredCount = 0
-    G.players[ctx.playerID].bureaucracy.hasPowered = true
+    _endPower(G, ctx)
 }
 
 export function endBureaucracy(G, ctx) {
     /************************
      *   REFILL RESOURCES   *
      ************************/
+
+    for (const r in G.resourceMarket) {
+        const onBoard = G.resourceMarket[r].filter(i => i.available).length
+        const onPlayers = Object.values(G.players).reduce((acc, p) => acc + p.resources[r], 0)
+        let toRefill = Math.min(G.resourceMarket[r].length - (onBoard + onPlayers), playerSettings[ctx.numPlayers].refill[G.step][r])
+        console.log(`refilling ${toRefill} ${r}`)
+        let i = G.resourceMarket[r].length - 1
+        // Walk along the resource market, activating spaces as necessary.
+        while (toRefill > 0) {
+            if (!G.resourceMarket[r][i].available) {
+                G.resourceMarket[r][i].available = true
+                toRefill -= 1
+            }
+            i--
+        }
+    }
 
     /*********************
      *   UPDATE MARKET   *

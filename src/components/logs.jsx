@@ -60,7 +60,7 @@ function Log(props) {
             break
         case 'power':
             details = [
-                <span key="header">{playerName}{` powers ${log.count} cit${log.count > 1 ? 'ies': 'y'}:`}</span>,
+                <span key="header">{playerName}{` powers ${log.count} cit${log.count !== 1 ? 'ies': 'y'}:`}</span>,
                 <br key="br"></br>,
                 <span key="earning">{indent}{`Income: ${payment[log.count]}$`}</span>,
             ]
