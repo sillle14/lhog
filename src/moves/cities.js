@@ -130,6 +130,13 @@ export function endCities(G, ctx) {
         // Remove the lowest powerplant from the game.
         removeLowest(G, ctx)
     }
+
+    // End the game if any player has 17 cities.
+    if (Object.values(G.players).some(p => p.cities.length >= 17)) {
+        // The game will end immediately following powering.
+        G.endGame = true
+        G.logs.push({move: '17cities'})
+    }
 }
 
 function removeLowest(G, ctx) {

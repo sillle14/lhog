@@ -89,6 +89,47 @@ export function passPowering(G, ctx) {
 
 export function endBureaucracy(G, ctx) {
     /************************
+     *   CHECK FOR WINNER   *
+     ************************/
+
+    if (G.endGame) {
+        let winnerIDs = []
+        let winnerInfo = {powered: 0, money: 0, cities: 0}
+        for (const player in G.players) {
+            let isWinner = false
+            let isTier = false
+            // If the player has powered more cites, they are the new winner.
+            if (G.players[player].bureaucracy.poweredCount > winnerInfo.powered) {
+                isWinner = true
+            } else if (G.players[player].bureaucracy.poweredCount === winnerInfo.powered) {
+                if (G.players[player].money > winnerInfo.money) {
+                    isWinner = true
+                } else if (G.players[player].money === winnerInfo.money) {
+                    if (G.players[player].cities.length > winnerInfo.cities) {
+                        isWinner = true
+                    } else if (G.players[player].cities.length === winnerInfo.cities) {
+                        isTier = true
+                    }
+                }
+            }
+            if (isWinner) {
+                winnerIDs = [player]
+                winnerInfo = {
+                    powered: G.players[player].bureaucracy.poweredCount, 
+                    money: G.players[player].money, 
+                    cities: G.players[player].cities.length
+                }
+            } else if (isTier) {
+                winnerIDs.push(player)
+            }
+        }
+        // TODO: Make the logs show this (and the action bar)
+        G.logs.push({move: 'endGame', winnerIDs: winnerIDs})
+        ctx.events.endGame({winnerIDs: winnerIDs})
+        return
+    }
+
+    /************************
      *   REFILL RESOURCES   *
      ************************/
 
