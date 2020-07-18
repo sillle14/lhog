@@ -15,13 +15,13 @@ function Log(props) {
         case 'playerOrder':
             const players = log.order.map((id) => <PlayerName key={id} playerID={id} playerMap={props.playerMap}/>)
             details = [
-                <span key="header" className="start-phase">Setting Player Order:</span>,
+                <span key="header" className="header">Setting Player Order:</span>,
                 <br key="br"></br>,
                 <span key="order">{indent}{players}</span>
             ]
             break
         case 'startPhase':
-            details = <span className="start-phase">{'Starting Phase: ' + log.phase}</span>
+            details = <span className="header">{'Starting Phase: ' + log.phase}</span>
             break
         case 'startAuction':
             details = <span>{playerName}{'starts the bidding on PP ' + log.powerplant}</span>
@@ -53,7 +53,7 @@ function Log(props) {
                 }
             }
             details = [
-                <span key="header" className="message">{playerName}{ 'buys resources:'}</span>,
+                <span key="header">{playerName}{ 'buys resources:'}</span>,
                 <br key="br"></br>,
                 <span key="order">{indent}{resources}{' for ' + log.cost + '$'}</span>,
             ]
@@ -64,6 +64,17 @@ function Log(props) {
                 <br key="br"></br>,
                 <span key="earning">{indent}{`Income: ${payment[log.count]}$`}</span>,
             ]
+            break
+        case 'refill':
+            details = <span>{'Refilling '}<ResourceName resource={log.resource} amount={log.amount}/></span>
+            break
+        case 'step2':
+            details = [
+                <span key="header" className="header">--- Entering Step 2 ---</span>,
+                <br key="br"></br>,
+                <span key="order">{indent}{`Powerplant ${log.removed} is removed from the game.`}</span>
+            ]
+            break
         default:
             break
     }

@@ -114,3 +114,14 @@ export function buyCities(G, ctx) {
     G.rerender.activate = !G.rerender.activate
     ctx.events.endTurn()
 }
+
+export function endCities(G, ctx) {
+    // Enter Step 2 if any player has bought at least 7 cities.
+    if (Object.values(G.players).some(p => p.cities.length >= 7 && G.step === 1)) {
+        G.logs.push({move: 'step2', removed: G.powerplantMarket[0]})
+        G.step = 2
+        // Remove the lowest powerplant from the game.
+        G.powerplantMarket[0] = G.powerplantDeck.pop()
+        G.powerplantMarket.sort((a,b) => a-b)
+    }
+}

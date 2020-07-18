@@ -1,4 +1,5 @@
 import { INVALID_MOVE } from 'boardgame.io/core'
+import { getPlayerOrder } from './playerOrder'
 
 export function startAuction(G, ctx) {
     G.auction = {
@@ -93,9 +94,7 @@ function afterBuy(G, ctx) {
     if (nextPlayer >= 0) {
         ctx.events.endTurn({next: nextPlayer})
     } else {
-        G.firstTurn = false
         ctx.events.endPhase()
-        ctx.events.endTurn()
     }
 }
 
@@ -118,4 +117,13 @@ export function passBuyPP(G, ctx) {
     G.players[ctx.currentPlayer].boughtPP = true
     G.logs.push({playerID: ctx.currentPlayer, move: 'passBuy'})
     afterBuy(G, ctx)
+}
+
+export function afterAuction(G, ctx) {
+    // Re-calculate player order if it is the first turn.
+    if (G.firstTurn) {
+        G.firstTurn = false
+        G.playerOrder = getPlayerOrder(G.players)
+        G.logs.push({move: 'playerOrder', order: G.playerOrder})
+    }
 }

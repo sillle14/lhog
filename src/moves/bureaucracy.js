@@ -96,7 +96,7 @@ export function endBureaucracy(G, ctx) {
         const onBoard = G.resourceMarket[r].filter(i => i.available).length
         const onPlayers = Object.values(G.players).reduce((acc, p) => acc + p.resources[r], 0)
         let toRefill = Math.min(G.resourceMarket[r].length - (onBoard + onPlayers), playerSettings[ctx.numPlayers].refill[G.step][r])
-        console.log(`refilling ${toRefill} ${r}`)
+        G.logs.push({move: 'refill', resource: r, amount: toRefill})
         let i = G.resourceMarket[r].length - 1
         // Walk along the resource market, activating spaces as necessary.
         while (toRefill > 0) {
@@ -112,9 +112,18 @@ export function endBureaucracy(G, ctx) {
      *   UPDATE MARKET   *
      *********************/
 
+    G.powerplantsStep3.push(G.powerplantMarket[7])
+    G.powerplantMarket[7] = G.powerplantDeck.pop()
+    G.powerplantMarket.sort((a,b) => a-b)
+
     /********************
      *   PLAYER ORDER   *
      ********************/
+
     G.playerOrder = getPlayerOrder(G.players)
     G.logs.push({move: 'playerOrder', order: G.playerOrder})
+
+    for (const player in G.players) {
+        G.players[player].bureaucracy.hasPowered = false
+    }
 }

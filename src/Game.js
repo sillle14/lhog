@@ -54,12 +54,13 @@ function setup(ctx, setupData) {
     powerplantDeck.push(13)
     powerplantDeck.unshift(STEP_3)
 
-    const playerOrder = getPlayerOrder(players, true, ctx.random.Shuffle)
+    const playerOrder = getPlayerOrder(players, ctx.random.Shuffle)
 
     return {
         cityStatus: cityStatus, 
         powerplantMarket: powerplantMarket, 
         powerplantDeck: powerplantDeck,
+        powerplantsStep3: [],
         players: players,
         resourceMarket: {
             coal: coalMarket,
@@ -104,15 +105,11 @@ const REVERSE_ONCE = {
 }
 
 // TODO:
-// * buy resources
-// * bureaucracy
-// * step 2 and step 3 transitions
+// * step 3 transitions
 // * end of game
 // * pick regions
-// * Scroll to appropriate section on phase start
 // * all other todos!
 // * most selection moves could unselect on double click
-// * set player order after first auction buy
 // * Test, test test!!!!
 // * phases to constants
 
@@ -137,7 +134,19 @@ export const WattMatrix = {
                 passBid: auction.passBid,
                 passBuyPP: auction.passBuyPP,
             },
-            onEnd: G => {}, // If first turn, set player order here and set first turn to false.
+            onEnd: auction.afterAuction,
+            next: 'resources',
+
+        },
+        resources: {
+            onBegin: (G, ctx) => {G.logs.push({move: 'startPhase', phase: 'Buy Resources'}); G.scrollTo = 'resourceMarket'},
+            moves: {
+                selectResource: resourceMoves.selectResource,
+                clearResources: resourceMoves.clearResources,
+                buyResources: resourceMoves.buyResources,
+                pass: pass
+            },
+            turn: REVERSE_ONCE,
             next: 'cities'
         },
         cities: {
@@ -149,18 +158,9 @@ export const WattMatrix = {
                 pass: pass
             },
             turn: REVERSE_ONCE,
-            next: 'resources'
-        },
-        resources: {
-            onBegin: (G, ctx) => {G.logs.push({move: 'startPhase', phase: 'Buy Resources'}); G.scrollTo = 'resourceMarket'},
-            moves: {
-                selectResource: resourceMoves.selectResource,
-                clearResources: resourceMoves.clearResources,
-                buyResources: resourceMoves.buyResources,
-                pass: pass
-            },
-            turn: REVERSE_ONCE,
-            next: 'bureaucracy'
+            onEnd: cityMoves.endCities,
+            next: 'bureaucracy',
+            start: true //TODO
         },
         bureaucracy: {
             onBegin: bureaucracy.startBureaucracy,
@@ -181,7 +181,6 @@ export const WattMatrix = {
             },
             onEnd: bureaucracy.endBureaucracy,
             next: 'auction',
-            start: true //TODO
         }
     },
     minPlayers: 3,
