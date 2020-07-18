@@ -3,6 +3,7 @@ import { animateScroll } from 'react-scroll'
 import './styles/logs.css'
 import { PlayerName } from './players' 
 import { ResourceName } from './actions'
+import { payment } from '../static/reference'
 
 const indent = <span key="span">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
 
@@ -57,6 +58,12 @@ function Log(props) {
                 <span key="order">{indent}{resources}{' for ' + log.cost + '$'}</span>,
             ]
             break
+        case 'power':
+            details = [
+                <span key="header">{playerName}{` powers ${log.count} cit${log.count > 1 ? 'ies': 'y'}:`}</span>,
+                <br key="br"></br>,
+                <span key="earning">{indent}{`Income: ${payment[log.count]}$`}</span>,
+            ]
         default:
             break
     }

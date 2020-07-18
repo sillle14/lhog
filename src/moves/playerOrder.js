@@ -1,3 +1,4 @@
+// TODO reorg this somewhere
 export function getPlayerOrder(players, firstTurn, shuffler) {
     let playerIDs = Object.keys(players)
     if (firstTurn) {

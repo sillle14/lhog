@@ -1,3 +1,4 @@
+import { getPlayerOrder } from './playerOrder'
 import { payment } from '../static/reference'
 import { powerplants } from '../static/powerplants'
 import { INVALID_MOVE } from 'boardgame.io/core'
@@ -48,6 +49,7 @@ export function selectToPower(G, ctx, powerplant) {
 }
 
 function _endPower(G, ctx) {
+    G.logs.push({playerID: ctx.playerID, move: 'power', count: G.players[ctx.playerID].bureaucracy.poweredCount})
     G.players[ctx.playerID].money += payment[G.players[ctx.playerID].bureaucracy.poweredCount]
     G.players[ctx.playerID].bureaucracy.toPower = []
     G.players[ctx.playerID].bureaucracy.hasPowered = true
@@ -85,4 +87,20 @@ export function passPowering(G, ctx) {
     G.players[ctx.playerID].bureaucracy.toPower = []
     G.players[ctx.playerID].bureaucracy.poweredCount = 0
     G.players[ctx.playerID].bureaucracy.hasPowered = true
+}
+
+export function endBureaucracy(G, ctx) {
+    /************************
+     *   REFILL RESOURCES   *
+     ************************/
+
+    /*********************
+     *   UPDATE MARKET   *
+     *********************/
+
+    /********************
+     *   PLAYER ORDER   *
+     ********************/
+    G.playerOrder = getPlayerOrder(G.players)
+    G.logs.push({move: 'playerOrder', order: G.playerOrder})
 }

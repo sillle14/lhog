@@ -179,7 +179,7 @@ export const WattMatrix = {
                     }
                 }
             },
-            onEnd: G => {}, // TODO: Do the rest of the bureaucracy.
+            onEnd: bureaucracy.endBureaucracy,
             next: 'auction',
             start: true //TODO
         }
