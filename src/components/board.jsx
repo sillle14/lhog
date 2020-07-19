@@ -96,6 +96,7 @@ export class WattMatrixTable extends React.Component {
                     firstTurn={this.props.G.firstTurn}
                     budget={this.props.G.players[this.props.playerID].money}
                     pass={this.props.moves.pass}
+                    gameover={this.props.ctx.gameover}
 
                     // Auction
                     selectedPP={this.props.G.auction.selected}

@@ -76,8 +76,16 @@ class Slider extends React.Component {
 // TODO split this out
 export default function ActionBar(props) {
     let action
-    // Bureaucracy need special treatment because all players are active.
-    if (props.phase === 'bureaucracy') {
+    if (props.gameover) {
+        const winners = props.gameover.winnerIDs
+        if (winners.length === 1) {
+            action = <span><PlayerName playerID={winners[0]} playerMap={props.playerMap}/>{ 'wins!'}</span>
+        } else {
+            const players = winners.map((id) => <PlayerName key={id} playerID={id} playerMap={props.playerMap}/>)
+            action = <span>{'Tie Game! Players '}{players}{' win!'}</span>
+        }
+    } else if (props.phase === 'bureaucracy') {
+        // Bureaucracy need special treatment, because all players are active.
         const poweredCount = props.player.bureaucracy.poweredCount
         const income = payment[poweredCount]
         if (props.player.bureaucracy.hasPowered) {

@@ -1,6 +1,7 @@
 import { houseCosts } from '../static/cities'
 import { edgeLookup } from '../static/edges'
 import { STEP_3 } from '../static/powerplants'
+import { playerSettings } from '../static/reference'
 import { INVALID_MOVE } from 'boardgame.io/core'
 
 /* A modified version of Prim's MST algorithm so we can start with some nodes already connected.
@@ -118,24 +119,24 @@ export function buyCities(G, ctx) {
 
 export function endCities(G, ctx) {
     // Remove too small powerplants from the game.
-    // while (G.powerplantMarket[0] <= Math.min(...Object.values(G.players).map(p => p.cities.length))) {
-    //     G.logs.push({move: 'removePP', removed: G.powerplantMarket[0]})
-    //     removeLowest(G, ctx)
-    // }
+    while (G.powerplantMarket[0] <= Math.min(...Object.values(G.players).map(p => p.cities.length))) {
+        G.logs.push({move: 'removePP', removed: G.powerplantMarket[0]})
+        removeLowest(G, ctx)
+    }
 
-    // Enter Step 2 if any player has bought at least 7 cities.
-    if (Object.values(G.players).some(p => p.cities.length >= 7 && G.step === 1)) {
+    // Enter Step 2 if any player has bought enough cities.
+    if (Object.values(G.players).some(p => p.cities.length >= playerSettings[ctx.numPlayers].step2 && G.step === 1)) {
         G.logs.push({move: 'step', removed: G.powerplantMarket[0], step: 2})
         G.step = 2
         // Remove the lowest powerplant from the game.
         removeLowest(G, ctx)
     }
 
-    // End the game if any player has 17 cities.
-    if (Object.values(G.players).some(p => p.cities.length >= 17)) {
+    // End the game if any player has enough cities.
+    if (Object.values(G.players).some(p => p.cities.length >= playerSettings[ctx.numPlayers].end)) {
         // The game will end immediately following powering.
+        G.logs.push({move: 'willEnd'})
         G.endGame = true
-        G.logs.push({move: '17cities'})
     }
 }
 

@@ -3,7 +3,7 @@ import { animateScroll } from 'react-scroll'
 import './styles/logs.css'
 import { PlayerName } from './players' 
 import { ResourceName } from './actions'
-import { payment } from '../static/reference'
+import { payment, playerSettings } from '../static/reference'
 
 const indent = <span key="span">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
 
@@ -82,6 +82,16 @@ function Log(props) {
                 <span key="remove">{indent}{`Powerplant ${log.removed} is removed from the game.`}</span>
             ]
             break
+        case 'endGame':
+            details = [<span key="header" className="header">Game over!</span>, <br key="br"></br>]
+            if (log.winnerIDs.length === 1) {
+                details.push(<span key="winners"><PlayerName playerID={log.winnerIDs[0]} playerMap={props.playerMap}/>{ 'wins.'}</span>)
+            } else {
+                const players = log.winnerIDs.map((id) => <PlayerName key={id} playerID={id} playerMap={props.playerMap}/>)
+                details.push(<span key="winners">{'Tie Game. Players '}{players}{' win.'}</span>)
+            }
+        case 'willEnd':
+            details = <span>{`${playerSettings[Object.keys(props.playerMap).length].end} cities reached. Game will end after powering.`}</span>
         default:
             break
     }
@@ -111,6 +121,10 @@ export class Logs extends React.Component {
     render () {
         let logs = []
         for (let i = this.props.logs.length - 1; i >= 0; i--) {
+            // No logs after game end.
+            if (this.props.logs[i].move === 'endGame') { 
+                logs = [] 
+            }
             logs.push(<Log key={i} log={this.props.logs[i]} playerMap={this.props.playerMap}></Log>)
         }
     
