@@ -1,5 +1,5 @@
 import React from 'react'
-import { payment } from '../static/reference'
+import { payment, playerSettings } from '../static/reference'
 import { PlayerName } from './players' 
 import './styles/action.css'
 import { powerplants } from '../static/powerplants'
@@ -157,6 +157,19 @@ export default function ActionBar(props) {
                         <span key="message">{'Buy '}{resources}{'for ' + props.resourceCost + '$?'}</span>,
                         <button disabled={props.budget >= props.resourceCost ? '' : 'disabled'} key="buy" onClick={() => props.buyResources()}>Buy</button>,
                         <button key="clear" onClick={() => props.clearResources()}>Clear</button>,
+                    ]
+                }
+                break
+            case 'pickRegions':
+                const playerCount = Object.keys(props.playerMap).length
+                if (props.regions.length === 0){
+                    action = <span>{`Pick contiguous ${playerSettings[playerCount].regions} regions to play in.`}</span>
+                } else {
+                    let titleCasedRegions = props.regions.map(r => r[0].toUpperCase() + r.slice(1))
+                    action = [
+                        <span key="message">{`Play in ${titleCasedRegions.join(', ')}?`}</span>,
+                        <button disabled={props.regions.length === playerSettings[playerCount].regions ? '' : 'disabled'} key="buy" onClick={() => props.confirmRegions()}>Confirm</button>,
+                        <button key="clear" onClick={() => props.clearRegions()}>Clear</button>,
                     ]
                 }
                 break

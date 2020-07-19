@@ -101,35 +101,20 @@ const regions = {
                'q -30 12 -10 -15 l 10 -10 l 0 -40 l -40 -20 l -50 50 l -10 135 Q 1380 260 1370 255'
 }
 
-const renderBackground = (gridSize) => {
 
-    let regionPaths = []
-    for (const region in regions) {
-        regionPaths.push(<path
-            key={region}
-            d={regions[region]} 
-            fill={regionColors[region]} 
-            fillOpacity="0.3" 
-            stroke={regionColors[region]} 
-            strokeWidth="4" 
-            onClick={() => {console.log(region)}}
-        />)
-    }
-
-    return <g>{regionPaths}</g>
-}
 
 export default class Map extends React.Component {
 
     constructor(props) {
         super(props);
         this.renderNode = this.renderNode.bind(this)
+        this.renderBackground = this.renderBackground.bind(this)
         this.graphView = React.createRef()
         this.state = {layoutEngineType: 0}
     }
 
     renderNode (nodeRef, data, index, selected, hovered) {
-        let style = {'--region-color': regionColors[data.region]}
+        let style = {'--region-color': this.props.regions.includes(data.region) ? regionColors[data.region] : 'lightgrey'}
         const citySelected = this.props.selectedCities.includes(data.id) && this.props.myTurn
         if (citySelected) {
             style['outline'] = '5px solid orangered'
@@ -143,6 +128,22 @@ export default class Map extends React.Component {
         }
 
         return <use x="-50" y="-50" xlinkHref="#city" className={'node'} style={style}/>
+    }
+
+    renderBackground = (gridSize) => {
+        let regionPaths = []
+        for (const region in regions) {
+            regionPaths.push(<path
+                key={region}
+                d={regions[region]} 
+                fill={this.props.regions.includes(region) ? regionColors[region] : 'lightgrey'} 
+                fillOpacity="0.3" 
+                stroke={this.props.regions.includes(region) ? regionColors[region] : 'grey'} 
+                strokeWidth="4" 
+                onClick={() => this.props.selectRegion(region)}
+            />)
+        }
+        return <g>{regionPaths}</g>
     }
 
     componentDidUpdate(prevProps) {
@@ -166,13 +167,13 @@ export default class Map extends React.Component {
                 edgeArrowSize={0}
                 edgeHandleSize={150}
                 showGraphControls={false}
-                nodes={Object.values(cities)}
+                nodes={this.props.pickRegions ? [] : Object.values(cities)}
                 edges={edges}
                 edgeTypes={EdgeTypes}
                 renderNode={this.renderNode}
                 renderNodeText={renderNodeText}
                 renderDefs={renderDefs}
-                renderBackground={renderBackground}
+                renderBackground={this.renderBackground}
                 initialBBox={{x: 0, y: 0, width: 2000, height: 1000}}
                 onSelectNode={node => {if (node) {this.props.selectCity(node.id)}}}
                 ref={this.graphView} 

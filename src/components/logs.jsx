@@ -15,7 +15,7 @@ function Log(props) {
         case 'playerOrder':
             const players = log.order.map((id) => <PlayerName key={id} playerID={id} playerMap={props.playerMap}/>)
             details = [
-                <span key="header" className="header">Setting Player Order:</span>,
+                <span key="header" className="header">{`Setting ${log.initial ? 'Initial' : ''} Player Order:`}</span>,
                 <br key="br"></br>,
                 <span key="order">{indent}{players}</span>
             ]
@@ -90,8 +90,10 @@ function Log(props) {
                 const players = log.winnerIDs.map((id) => <PlayerName key={id} playerID={id} playerMap={props.playerMap}/>)
                 details.push(<span key="winners">{'Tie Game. Players '}{players}{' win.'}</span>)
             }
+            break
         case 'willEnd':
             details = <span>{`${playerSettings[Object.keys(props.playerMap).length].end} cities reached. Game will end after powering.`}</span>
+            break
         default:
             break
     }

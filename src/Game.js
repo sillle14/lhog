@@ -9,6 +9,7 @@ import * as auction from './moves/auction'
 import * as cityMoves from './moves/cities'
 import * as resourceMoves from './moves/resources'
 import * as bureaucracy from './moves/bureaucracy'
+import * as region from './moves/regions'
 
 
 function setup(ctx, setupData) {
@@ -71,7 +72,8 @@ function setup(ctx, setupData) {
         step: 1,
         firstTurn: true,
         playerOrder: playerOrder,
-        logs: [{move: 'playerOrder', order: playerOrder}],
+        logs: [{move: 'playerOrder', order: playerOrder, initial: true}],
+        regions: [],
 
         auction: {upForAuction: null, selected: null, currentBid: null},
 
@@ -105,8 +107,6 @@ const REVERSE_ONCE = {
 }
 
 // TODO:
-// * end of game
-// * pick regions
 // * all other todos!
 // * most selection moves could unselect on double click
 // * Test, test test!!!!
@@ -122,6 +122,16 @@ export const WattMatrix = {
     name: 'WattMatrix',
     setup: setup,
     phases: {
+        pickRegions: {
+            onBegin: (G, ctx) => {G.scrollTo = 'map'},
+            start: true,
+            moves: {
+                selectRegion: region.selectRegion,
+                clearRegions: region.clear,
+                confirmRegions: region.confirm,
+            },
+            next: 'auction'
+        },
         auction: {
             onBegin: auction.startAuction,  
             turn: {
@@ -159,7 +169,6 @@ export const WattMatrix = {
             turn: REVERSE_ONCE,
             onEnd: cityMoves.endCities,
             next: 'bureaucracy',
-            start: true //TODO
         },
         bureaucracy: {
             onBegin: bureaucracy.startBureaucracy,

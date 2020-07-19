@@ -64,6 +64,9 @@ export class WattMatrixTable extends React.Component {
                         myTurn={myTurn}
                         selectCity={this.props.moves.selectCity}
                         rerender={this.props.G.rerender}
+                        pickRegions={this.props.ctx.phase === 'pickRegions'}
+                        selectRegion={this.props.moves.selectRegion}
+                        regions={this.props.G.regions}
                     /><hr/>
                     <ResourceMarket 
                         resourceMarket={this.props.G.resourceMarket}
@@ -97,6 +100,11 @@ export class WattMatrixTable extends React.Component {
                     budget={this.props.G.players[this.props.playerID].money}
                     pass={this.props.moves.pass}
                     gameover={this.props.ctx.gameover}
+
+                    // Pick regions
+                    regions={this.props.G.regions}
+                    clearRegions={this.props.moves.clearRegions}
+                    confirmRegions={this.props.moves.confirmRegions}
 
                     // Auction
                     selectedPP={this.props.G.auction.selected}

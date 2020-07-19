@@ -1,4 +1,4 @@
-import { houseCosts } from '../static/cities'
+import { houseCosts, cities } from '../static/cities'
 import { edgeLookup } from '../static/edges'
 import { STEP_3 } from '../static/powerplants'
 import { playerSettings } from '../static/reference'
@@ -38,6 +38,10 @@ function getMST(nodeMap) {
 }
 
 export function selectCity(G, ctx, city) {
+    if (!G.regions.includes(cities[city].region)) {
+        return INVALID_MOVE
+    }
+
     // If the city has already been selected this turn, or is already owned by the player, it is an invalid move.
     if (city in G.selectedCities || G.cityStatus[city].includes(ctx.currentPlayer)) {
         return INVALID_MOVE
