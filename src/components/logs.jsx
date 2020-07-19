@@ -68,19 +68,10 @@ function Log(props) {
         case 'refill':
             details = <span>{'Refilling '}<ResourceName resource={log.resource} amount={log.amount}/></span>
             break
-        case 'step2':
+        case 'step':
             details = [
-                <span key="header" className="header">{indent}---- Entering Step 2 ----</span>,
+                <div key="header" className="header step-header">{`---- Entering Step ${log.step} ----`}</div>,
                 <br key="br"></br>,
-                <br key="br2"></br>,
-                <span key="remove">{indent}{`Powerplant ${log.removed} is removed from the game.`}</span>
-            ]
-            break
-        case 'step3':
-            details = [
-                <span key="header" className="header">{indent}---- Entering Step 3 ----</span>,
-                <br key="br"></br>,
-                <br key="br2"></br>,
                 <span key="remove">{indent}{`Powerplant ${log.removed} is removed from the game.`}</span>
             ]
             break

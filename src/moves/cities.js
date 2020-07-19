@@ -118,14 +118,14 @@ export function buyCities(G, ctx) {
 
 export function endCities(G, ctx) {
     // Remove too small powerplants from the game.
-    while (G.powerplantMarket[0] <= Math.min(...Object.values(G.players).map(p => p.cities.length))) {
-        G.logs.push({move: 'removePP', removed: G.powerplantMarket[0]})
-        removeLowest(G, ctx)
-    }
+    // while (G.powerplantMarket[0] <= Math.min(...Object.values(G.players).map(p => p.cities.length))) {
+    //     G.logs.push({move: 'removePP', removed: G.powerplantMarket[0]})
+    //     removeLowest(G, ctx)
+    // }
 
     // Enter Step 2 if any player has bought at least 7 cities.
     if (Object.values(G.players).some(p => p.cities.length >= 7 && G.step === 1)) {
-        G.logs.push({move: 'step2', removed: G.powerplantMarket[0]})
+        G.logs.push({move: 'step', removed: G.powerplantMarket[0], step: 2})
         G.step = 2
         // Remove the lowest powerplant from the game.
         removeLowest(G, ctx)
@@ -147,7 +147,7 @@ function removeLowest(G, ctx) {
     // If we've drawn step 3, start the next step.
     if (G.powerplantMarket[7] === STEP_3) {
         G.powerplantDeck = ctx.random.Shuffle(G.powerplantsStep3)
-        G.logs.push({move: 'step3', removed: G.powerplantMarket[0]})
+        G.logs.push({move: 'step', removed: G.powerplantMarket[0], step: 3})
         // Remove the most expensive and least expensive powerplants. Note that the most expensive will always
         //  be the step 3 card.
         G.powerplantMarket = G.powerplantMarket.slice(1, 7)

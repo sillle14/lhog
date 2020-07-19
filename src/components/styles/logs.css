@@ -28,3 +28,8 @@
     font-size: 1.1vw;
     font-weight: bold;
 }
+
+.step-header {
+    width: 100%;
+    text-align: center;
+}

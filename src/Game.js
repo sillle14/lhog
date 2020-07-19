@@ -159,6 +159,7 @@ export const WattMatrix = {
             turn: REVERSE_ONCE,
             onEnd: cityMoves.endCities,
             next: 'bureaucracy',
+            start: true //TODO
         },
         bureaucracy: {
             onBegin: bureaucracy.startBureaucracy,
@@ -179,7 +180,7 @@ export const WattMatrix = {
             },
             onEnd: bureaucracy.endBureaucracy,
             next: 'auction',
-            start: true //TODO
+
         }
     },
     minPlayers: 3,

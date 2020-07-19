@@ -160,7 +160,7 @@ export function endBureaucracy(G, ctx) {
     // If we've drawn step 3, start the next step.
     if (G.powerplantMarket[7] === STEP_3) {
         G.powerplantDeck = ctx.random.Shuffle(G.powerplantsStep3)
-        G.logs.push({move: 'step3', removed: G.powerplantMarket[0]})
+        G.logs.push({move: 'step', removed: G.powerplantMarket[0], step: 3})
         // Remove the most expensive and least expensive powerplants. Note that the most expensive will always
         //  be the step 3 card.
         G.powerplantMarket = G.powerplantMarket.slice(1, 7)
