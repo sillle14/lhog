@@ -1,9 +1,13 @@
 import React from 'react'
+
 import PowerPlant from './powerplant'
+import { PlayerName } from './names'
+
+import { playerColors } from '../static/playerColors'
+import { BUREAUCRACY } from '../Game'
+
 import './styles/player.css'
 import './styles/symbols.css'
-import { playerColors } from '../static/playerColors'
-import { PlayerName } from './names' 
 
 export function Player(props) {
     const powerplants = props.player.powerplants.map(function (i) {
@@ -59,7 +63,7 @@ export function Players(props) {
             playerID={playerID} 
             key={playerID} 
             playerMap={props.playerMap} 
-            selected={props.currentPlayer === playerID && props.phase !== 'bureaucracy'}  // No single player active in bureacracy
+            selected={props.currentPlayer === playerID && props.phase !== BUREAUCRACY}  // No single player active in bureacracy
         />) 
     }
     return (

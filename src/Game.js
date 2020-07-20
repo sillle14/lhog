@@ -104,9 +104,14 @@ const REVERSE_ONCE = {
     }
 }
 
+export const REGIONS = 'regions'
+export const AUCTION = 'auction'
+export const CITY = 'city'
+export const RESOURCE = 'resource'
+export const BUREAUCRACY = 'bureaucracy'
+
 // TODO:
 // * Test, test test!!!!
-// * phases to constants
 
 // TODO LONG TERM:
 // * Rewrite lobby -- this enables the below
@@ -117,7 +122,7 @@ export const WattMatrix = {
     name: 'WattMatrix',
     setup: setup,
     phases: {
-        pickRegions: {
+        [REGIONS]: {
             onBegin: (G, ctx) => {G.scrollTo = 'map'},
             start: true,
             moves: {
@@ -125,9 +130,9 @@ export const WattMatrix = {
                 clearRegions: region.clear,
                 confirmRegions: region.confirm,
             },
-            next: 'auction'
+            next: AUCTION
         },
-        auction: {
+        [AUCTION]: {
             onBegin: auction.startAuction,  
             turn: {
                 order: {first: G => parseInt(G.playerOrder[0])},
@@ -140,9 +145,9 @@ export const WattMatrix = {
                 passBuyPP: auction.passBuyPP,
             },
             onEnd: auction.afterAuction,
-            next: 'resources',
+            next: RESOURCE,
         },
-        resources: {
+        [RESOURCE]: {
             onBegin: (G, ctx) => {G.logs.push({move: 'startPhase', phase: 'Buy Resources'}); G.scrollTo = 'resourceMarket'},
             moves: {
                 selectResource: resourceMoves.selectResource,
@@ -151,9 +156,9 @@ export const WattMatrix = {
                 pass: pass
             },
             turn: REVERSE_ONCE,
-            next: 'cities'
+            next: CITY
         },
-        cities: {
+        [CITY]: {
             onBegin: (G, ctx) => {G.logs.push({move: 'startPhase', phase: 'Buy Cities'}); G.scrollTo = 'map'},
             moves: {
                 selectCity: cityMoves.selectCity,
@@ -163,9 +168,9 @@ export const WattMatrix = {
             },
             turn: REVERSE_ONCE,
             onEnd: cityMoves.endCities,
-            next: 'bureaucracy',
+            next: BUREAUCRACY,
         },
-        bureaucracy: {
+        [BUREAUCRACY]: {
             onBegin: bureaucracy.startBureaucracy,
             endIf: G => Object.values(G.players).every(p => p.bureaucracy.hasPowered),
             moves: {
@@ -183,7 +188,7 @@ export const WattMatrix = {
                 }
             },
             onEnd: bureaucracy.endBureaucracy,
-            next: 'auction',
+            next: AUCTION,
 
         }
     },

@@ -5,6 +5,8 @@ import { PlayerName, ResourceName } from './names'
 import { Slider } from './slider'
 import { payment, playerSettings } from '../static/reference'
 
+import { AUCTION, BUREAUCRACY, CITY, REGIONS, RESOURCE } from '../Game'
+
 import './styles/action.css'
 
 export default function ActionBar(props) {
@@ -17,7 +19,7 @@ export default function ActionBar(props) {
             const players = winners.map((id) => <PlayerName key={id} playerID={id} playerMap={props.playerMap}/>)
             action = <span>{'Tie Game! Players '}{players}{' win!'}</span>
         }
-    } else if (props.phase === 'bureaucracy') {
+    } else if (props.phase === BUREAUCRACY) {
         // Bureaucracy need special treatment, because all players are active.
         const poweredCount = props.player.bureaucracy.poweredCount
         const income = payment[poweredCount]
@@ -46,7 +48,7 @@ export default function ActionBar(props) {
         action = <span>{'Wait for '}<PlayerName playerID={props.currentPlayer} playerMap={props.playerMap}/></span>
     } else {
         switch (props.phase) {
-            case 'auction':
+            case AUCTION:
                 if (!props.upForAuction) {
                     if (!props.selectedPP) {
                         action = [
@@ -63,7 +65,7 @@ export default function ActionBar(props) {
                     action = <Bidder currentBid={props.currentBid} maxBid={props.budget} makeBid={props.makeBid} pass={props.passBid} powerplant={props.upForAuction}/>
                 }
                 break
-            case 'cities':
+            case CITY:
                 if (Object.keys(props.selectedCities).length === 0) {
                     action = [<span key="message">Select a city or pass.</span>, <button key="pass" onClick={() => props.pass()}>Pass</button>]
                 } else {
@@ -76,7 +78,7 @@ export default function ActionBar(props) {
                     ]
                 }
                 break
-            case 'resources':
+            case RESOURCE:
                 if (props.resourceCost === 0){
                     action = [<span key="message">Select resources or pass.</span>, <button key="pass" onClick={() => props.pass()}>Pass</button>]
                 } else {
@@ -93,7 +95,7 @@ export default function ActionBar(props) {
                     ]
                 }
                 break
-            case 'pickRegions':
+            case REGIONS:
                 const playerCount = Object.keys(props.playerMap).length
                 if (props.regions.length === 0){
                     action = <span>{`Pick contiguous ${playerSettings[playerCount].regions} regions to play in.`}</span>

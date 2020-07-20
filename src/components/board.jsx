@@ -8,6 +8,9 @@ import Reference from './reference'
 import ActionBar from './actions'
 import { Logs } from './logs'
 import { Players, Player}  from './players'
+
+import { REGIONS } from '../Game'
+
 import './styles/board.css'
 
 export class WattMatrixTable extends React.Component {
@@ -64,7 +67,7 @@ export class WattMatrixTable extends React.Component {
                         myTurn={myTurn}
                         selectCity={this.props.moves.selectCity}
                         rerender={this.props.G.rerender}
-                        pickRegions={this.props.ctx.phase === 'pickRegions'}
+                        pickRegions={this.props.ctx.phase === REGIONS}
                         selectRegion={this.props.moves.selectRegion}
                         regions={this.props.G.regions}
                     /><hr/>
