@@ -1,6 +1,6 @@
 import React from 'react'
 import { playerColors } from '../static/playerColors'
-import './styles/action.css'
+import './styles/names.css'
 
 const resourceColorMap = {
     coal: 'brown',

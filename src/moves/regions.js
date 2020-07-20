@@ -1,9 +1,10 @@
 import { INVALID_MOVE } from 'boardgame.io/core'
 
+// TODO: Const for regions
 const regionGraph = {
-    northeast: ['midwest', 'southest'],
+    northeast: ['midwest', 'southeast'],
     midwest: ['northeast', 'southeast', 'texas', 'northwest'],
-    southeast: ['northeast', 'midwest'],
+    southeast: ['northeast', 'midwest', 'texas'],
     texas: ['midwest', 'southeast', 'northwest', 'southwest'],
     southwest: ['texas', 'northwest'],
     northwest: ['midwest', 'texas', 'southwest']
