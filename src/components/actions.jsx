@@ -1,79 +1,12 @@
 import React from 'react'
+
+import { Bidder } from './bidder'
+import { PlayerName, ResourceName } from './names'
+import { Slider } from './slider'
 import { payment, playerSettings } from '../static/reference'
-import { PlayerName } from './players' 
+
 import './styles/action.css'
-import { powerplants } from '../static/powerplants'
 
-const resourceColorMap = {
-    coal: 'brown',
-    oil: 'black',
-    trash: 'rgb(255, 255, 45)',
-    uranium: 'red'
-}
-
-export function ResourceName(props) {
-    return <span className="resource-name" style={{color: resourceColorMap[props.resource]}}>{props.amount + ' ' + props.resource + ' '}</span>
-}
-
-class Bidder extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {bid: parseInt(props.currentBid) + 1};
-  
-        this.handleChange = this.handleChange.bind(this);
-    }
-  
-    handleChange(event) {
-        this.setState({bid: event.target.value.replace(/\D/,'')})
-    }
-  
-    render() {
-        const validBid = this.state.bid > this.props.currentBid && this.state.bid <= this.props.maxBid
-        const passAllowed = this.props.currentBid >= this.props.powerplant
-        return (
-            <div className="bidder">
-                <span>{'Bid more than ' + this.props.currentBid + ' on PP ' + this.props.powerplant + (passAllowed ? ' or pass.' : '')}</span>
-                <input type="text" value={this.state.bid} onChange={this.handleChange}/>
-                <button disabled={validBid ? '' : 'disabled'} onClick={() => this.props.makeBid(this.state.bid)}>{'Bid ' + this.state.bid}</button>
-                <button disabled={passAllowed ? '' : 'disabled'} onClick={() => this.props.pass()}>Pass</button>
-            </div>
-        )
-    }
-}
-
- 
-class Slider extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {coal: 0};
-        this.coilPlants = props.player.bureaucracy.toPower.filter(p => powerplants[p].resource === 'coil')
-        this.total = this.coilPlants.reduce((acc, p) => acc + powerplants[p].resourceCost, 0)
-        this.maxCoal = props.player.resources.coal
-        this.maxOil = props.player.resources.oil
-        this.handleChange = this.handleChange.bind(this);
-    }
-  
-    handleChange(event) {
-        this.setState({coal: event.target.value})
-    }
-  
-    render() {
-        return (<div className="slider-box">
-            <span>{`Select resources to power PP${this.coilPlants.length > 1 ? 's' : ''} ${this.coilPlants.join(', ')}: `}</span>
-            <ResourceName resource="oil" amount={this.total - this.state.coal}/>
-            <input className="slider" type="range" min="0" max={this.total} value={this.state.coal} onChange={this.handleChange}/>
-            <ResourceName resource="coal" amount={this.state.coal}/>
-            <button 
-                onClick={() => this.props.spendCoil(this.state.coal, this.total - this.state.coal)} 
-                disabled={this.maxOil >= this.total - this.state.coal && this.maxCoal >= this.state.coal ? '' : 'disabled'}
-            >Confirm</button>
-        </div>
-        )
-    }
-}
-
-// TODO: Use backtick strings
-// TODO split this out
 export default function ActionBar(props) {
     let action
     if (props.gameover) {
@@ -117,12 +50,12 @@ export default function ActionBar(props) {
                 if (!props.upForAuction) {
                     if (!props.selectedPP) {
                         action = [
-                            <span key="message">{'Select a powerplant' + (props.firstTurn ? '' : ' or pass.')}</span>,
+                            <span key="message">{`Select a powerplant${props.firstTurn ? '.' : ' or pass.'}`}</span>,
                             <button key="pass" onClick={() => props.passBuyPP()} disabled={props.firstTurn ? 'disabled' : ''}>Pass</button>
                         ]
                     } else {
                         action = [
-                            <span key="message">{'Start the bidding on powerplant ' + props.selectedPP + '?'}</span>,
+                            <span key="message">{`Start the bidding on powerplant ${props.selectedPP}?`}</span>,
                             <button key="confirm" onClick={() => props.startBidding()}>Confirm</button>
                         ]
                     }
@@ -137,7 +70,7 @@ export default function ActionBar(props) {
                     const cities = Object.keys(props.selectedCities).join(', ')
                     const cost = Object.values(props.selectedCities).map(i => i.cost).reduce((a,b) => a+b, 0) + props.connectionCost
                     action = [
-                        <span key="message">{'Buy ' + cities + ' for ' + cost + '$?'}</span>,
+                        <span key="message">{`Buy ${cities} for ${cost}$?`}</span>,
                         <button disabled={props.budget >= cost ? '' : 'disabled'} key="buy" onClick={() => props.buyCities()}>Buy</button>,
                         <button key="clear" onClick={() => props.clearCities()}>Clear</button>,
                     ]
@@ -154,7 +87,7 @@ export default function ActionBar(props) {
                         }                       
                     }
                     action = [
-                        <span key="message">{'Buy '}{resources}{'for ' + props.resourceCost + '$?'}</span>,
+                        <span key="message">{'Buy '}{resources}{`for ${props.resourceCost}$?`}</span>,
                         <button disabled={props.budget >= props.resourceCost ? '' : 'disabled'} key="buy" onClick={() => props.buyResources()}>Buy</button>,
                         <button key="clear" onClick={() => props.clearResources()}>Clear</button>,
                     ]

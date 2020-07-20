@@ -1,0 +1,14 @@
+.bidder {
+    display: flex;
+    justify-content: center;
+}
+
+.bidder > span {
+    flex-basis: 50%;
+}
+
+.bidder > input {
+    width: 7%;
+    text-align: center;
+    font-size: 1.7vw;
+}

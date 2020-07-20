@@ -3,10 +3,7 @@ import PowerPlant from './powerplant'
 import './styles/player.css'
 import './styles/symbols.css'
 import { playerColors } from '../static/playerColors'
-
-export function PlayerName(props) {
-    return <span className="player-name" style={{color: playerColors[props.playerID].houseBackground}}>{props.playerMap[props.playerID] + ' '}</span>
-}
+import { PlayerName } from './names' 
 
 export function Player(props) {
     const powerplants = props.player.powerplants.map(function (i) {

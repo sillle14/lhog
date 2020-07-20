@@ -22,38 +22,3 @@
     margin-left: 1%;
     margin-right: 1%;
 }
-
-.bidder {
-    display: flex;
-    justify-content: center;
-}
-
-.bidder > span {
-    flex-basis: 50%;
-}
-
-.bidder > input {
-    width: 7%;
-    text-align: center;
-    font-size: 1.7vw;
-}
-
-.resource-name {
-    font-weight: bold;
-}
-
-
-.slider-box {
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    flex-basis: 60%;
-}
-
-.slider-box > .resource-name {
-    flex-basis: 10%;
-}
-
-.slider-box > .resource-name:nth-child(2) {
-    text-align: right;
-}

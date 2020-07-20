@@ -1,7 +1,8 @@
 import React from 'react'
 
-import { PlayerName } from './players' 
+import { PlayerName } from './names'
 import { payment, playerSettings } from '../static/reference'
+
 import './styles/symbols.css'
 import './styles/reference.css'
 

@@ -1,0 +1,14 @@
+.slider-box {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-basis: 60%;
+}
+
+.slider-box > .resource-name {
+    flex-basis: 10%;
+}
+
+.slider-box > .resource-name:nth-child(2) {
+    text-align: right;
+}
