@@ -1,4 +1,4 @@
-import { getPlayerOrder } from './playerOrder'
+import { getPlayerOrder } from './common'
 import { payment, playerSettings } from '../static/reference'
 import { powerplants, STEP_3 } from '../static/powerplants'
 import { INVALID_MOVE } from 'boardgame.io/core'
@@ -123,7 +123,6 @@ export function endBureaucracy(G, ctx) {
                 winnerIDs.push(player)
             }
         }
-        // TODO: Make the logs show this (and the action bar)
         G.logs.push({move: 'endGame', winnerIDs: winnerIDs})
         ctx.events.endGame({winnerIDs: winnerIDs})
         return

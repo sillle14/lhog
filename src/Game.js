@@ -3,8 +3,10 @@ import { ActivePlayers } from 'boardgame.io/core';
 import { cities } from './static/cities'
 import { powerplants, STEP_3 } from './static/powerplants'
 import { playerSettings } from './static/reference'
+
 import PlayerModel from './models/player'
-import { getPlayerOrder } from './moves/playerOrder'
+
+import { getPlayerOrder, pass } from './moves/common'
 import * as auction from './moves/auction'
 import * as cityMoves from './moves/cities'
 import * as resourceMoves from './moves/resources'
@@ -93,11 +95,7 @@ function setup(ctx, setupData) {
     }
 }
 
-function pass(G, ctx) {
-    G.logs.push({playerID: ctx.currentPlayer, move: 'pass'})
-    ctx.events.endTurn()
-}
-
+// Turn order constant to have each player make one move in reverse player order.
 const REVERSE_ONCE = {
     order: {
         first: (G, ctx) => ctx.playOrder.length - 1,
@@ -107,11 +105,8 @@ const REVERSE_ONCE = {
 }
 
 // TODO:
-// * all other todos!
-// * most selection moves could unselect on double click
 // * Test, test test!!!!
 // * phases to constants
-// * probably a lot of reorg
 
 // TODO LONG TERM:
 // * Rewrite lobby -- this enables the below

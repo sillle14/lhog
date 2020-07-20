@@ -1,6 +1,6 @@
 import { INVALID_MOVE } from 'boardgame.io/core'
 import { STEP_3 } from '../static/powerplants'
-import { getPlayerOrder } from './playerOrder'
+import { getPlayerOrder } from './common'
 
 export function startAuction(G, ctx) {
     G.auction = {
@@ -16,6 +16,11 @@ export function startAuction(G, ctx) {
 }
 
 export function selectPowerplant(G, ctx, powerplant) {
+    if (G.auction.selected === powerplant) {
+        G.auction.selected = null
+        return
+    }
+
     // Only can select from current market (in step 3, all are current)
     if (G.powerplantMarket.indexOf(powerplant) > 3 && G.step < 3) {
         return INVALID_MOVE

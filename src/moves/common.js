@@ -1,4 +1,3 @@
-// TODO reorg this somewhere
 export function getPlayerOrder(players, shuffler) {
     let playerIDs = Object.keys(players)
     if (shuffler) {
@@ -15,4 +14,12 @@ Function to score a player on first city count, and then highest PP.
 */
 function playerSortScore(player) {
     return player.cities.length + (Math.max(...player.powerplants) / 100)
+}
+
+/**
+ * Generic pass move.
+ */
+export function pass(G, ctx) {
+    G.logs.push({playerID: ctx.currentPlayer, move: 'pass'})
+    ctx.events.endTurn()
 }

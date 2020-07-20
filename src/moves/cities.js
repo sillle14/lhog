@@ -4,16 +4,21 @@ import { STEP_3 } from '../static/powerplants'
 import { playerSettings } from '../static/reference'
 import { INVALID_MOVE } from 'boardgame.io/core'
 
+// Since the Infinity builtin is not JSON serializable, use a big constant instead.
+//  This just needs to be greater than all edge costs.
+const INFINITY = 1000
+
 /* A modified version of Prim's MST algorithm so we can start with some nodes already connected.
  * This is used to find the cheapest way to connect a group of new nodes.
  *
  * @param nodeMap: A map of cities to the cost to connect that city to the existing network.
 */
 function getMST(nodeMap) {
+    console.log(nodeMap)
     let cost = 0
     // While there are new nodes, add the newest node to the network.
     while (Object.keys(nodeMap).length > 0) {
-        let minEdgeCost = Infinity
+        let minEdgeCost = INFINITY
         let cheapestNode
         for (const node in nodeMap) {
             if (nodeMap[node] < minEdgeCost) {
@@ -22,7 +27,7 @@ function getMST(nodeMap) {
             }
         }
         // If the cheapest node still can't be connected, the nodes are disconnected.
-        if (minEdgeCost === Infinity) {
+        if (minEdgeCost === INFINITY) {
             throw new Error('disconnected')
         }
         // Connect the cheapest node, remove it from the list of nodes, and update all remaining nodes.
@@ -42,17 +47,23 @@ export function selectCity(G, ctx, city) {
         return INVALID_MOVE
     }
 
+    // Keep track of whether we are adding or removing a city.
+    const addCity = !(city in G.selectedCities)
+
+    // Keep track of whether or not we've elected a new head.
+    let newHead = false
+
     // If the city has already been selected this turn, or is already owned by the player, it is an invalid move.
-    if (city in G.selectedCities || G.cityStatus[city].includes(ctx.currentPlayer)) {
+    if (G.cityStatus[city].includes(ctx.currentPlayer)) {
         return INVALID_MOVE
     }
     const player = G.players[ctx.currentPlayer]
 
-    let connCost = Infinity
+    let connCost = INFINITY
 
     // Check the cost to connect the new city to the current network. This cost remains at infinity if it 
     //  cannot be directly connected, and is 0 for the first city selected if there is no current network.
-    if (player.cities.length > 0) {
+    if (player.cities.length > 0 && addCity) {
         for (let i = 0; i < player.cities.length; i++) {
             if (city in edgeLookup[player.cities[i]]) {
                 if (edgeLookup[player.cities[i]][city] < connCost) {
@@ -61,6 +72,8 @@ export function selectCity(G, ctx, city) {
             }
         }
     } else if (Object.keys(G.selectedCities).length === 0) {
+        // If we are adding the first city to an empty network, it will be the head of the graph, and so free
+        //  to connect.
         connCost = 0
     }
     const nextAvailable = G.cityStatus[city].findIndex(i => i === null)
@@ -73,11 +86,26 @@ export function selectCity(G, ctx, city) {
         // Construct a map of cities to be connected to the cost to connect them.
         let nodeMap = {}
         for (const selectedCity in G.selectedCities) {
-            nodeMap[selectedCity] = G.selectedCities[selectedCity].connCost
+            // Add the city to the inital edge costs, unless the city is already selected.
+            //  In that case, we want to test if the network is connected without the city.
+            if (selectedCity !== city) {
+                nodeMap[selectedCity] = G.selectedCities[selectedCity].connCost
+            }
         }
-        nodeMap[city] = connCost
+        
+        // If there is a new city to be added, add it here.
+        if (addCity) {
+            nodeMap[city] = connCost
+        }
+        // If we are removing the head of the current network (the first city added), make sure that we elect a new head.
+        if (!addCity && player.cities.length === 0 && G.selectedCities[city].connCost === 0 && Object.keys(nodeMap).length > 0) {
+            // Arbitrarily set one city as the head.
+            nodeMap[Object.keys(nodeMap)[0]] = 0
+            newHead = Object.keys(nodeMap)[0]
+        }
+
         totalConnCost = getMST(nodeMap)
-    } catch {
+    } catch (error) {
         // The algorithm fails if the new city cannot be connected.
         return INVALID_MOVE
     }
@@ -87,7 +115,15 @@ export function selectCity(G, ctx, city) {
     G.rerender.activate = !G.rerender.activate
 
     G.connectionCost = totalConnCost
-    G.selectedCities[city] = {cost: cost, connCost: connCost}
+    if (addCity) {
+        G.selectedCities[city] = {cost: cost, connCost: connCost}
+    } else {
+        delete G.selectedCities[city]
+        // If a new head has been successfully elected, set it here.
+        if (newHead) {
+            G.selectedCities[newHead].connCost = 0
+        }
+    }
 }
 
 export function clearCities(G, ctx) {
