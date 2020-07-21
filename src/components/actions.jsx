@@ -67,7 +67,7 @@ export default function ActionBar(props) {
                 break
             case CITY:
                 if (Object.keys(props.selectedCities).length === 0) {
-                    action = [<span key="message">Select a city or pass.</span>, <button key="pass" onClick={() => props.pass()}>Pass</button>]
+                    action = [<span key="message">Select cities or pass.</span>, <button key="pass" onClick={() => props.pass()}>Pass</button>]
                 } else {
                     const cities = Object.keys(props.selectedCities).join(', ')
                     const cost = Object.values(props.selectedCities).map(i => i.cost).reduce((a,b) => a+b, 0) + props.connectionCost

@@ -127,7 +127,7 @@ export function passBid(G, ctx) {
 
 export function passBuyPP(G, ctx) {
     G.players[ctx.currentPlayer].boughtPP = true
-    G.logs.push({playerID: ctx.currentPlayer, move: 'passBuy'})
+    G.logs.push({playerID: ctx.currentPlayer, move: 'pass'})
     afterBuy(G, ctx)
 }
 

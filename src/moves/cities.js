@@ -14,7 +14,6 @@ const INFINITY = 1000
  * @param nodeMap: A map of cities to the cost to connect that city to the existing network.
 */
 function getMST(nodeMap) {
-    console.log(nodeMap)
     let cost = 0
     // While there are new nodes, add the newest node to the network.
     while (Object.keys(nodeMap).length > 0) {

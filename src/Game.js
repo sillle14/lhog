@@ -63,7 +63,7 @@ function setup(ctx, setupData) {
         cityStatus: cityStatus, 
         powerplantMarket: powerplantMarket, 
         powerplantDeck: powerplantDeck,
-        powerplantsStep3: [40, 42, 44, 46, 50],
+        powerplantsStep3: [],
         players: players,
         resourceMarket: {
             coal: coalMarket,
