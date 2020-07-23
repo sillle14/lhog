@@ -62,11 +62,14 @@ function afterBid(G, ctx) {
 
         // Remove the powerplant from the market, replace it, and resort it.
         G.powerplantMarket.splice(G.powerplantMarket.indexOf(G.auction.upForAuction), 1)
-        G.powerplantMarket.push(G.powerplantDeck.pop())
+        const nextPlant = G.powerplantDeck.pop()
+        if (nextPlant) {
+            G.powerplantMarket.push(nextPlant)
+        }
         G.powerplantMarket.sort((a,b) => a-b)
 
-        // If the step 3 card was drawn, shuffle the new PP deck. Note that it will always be the most expensive PP.
-        if (G.powerplantMarket[7] === STEP_3) {
+        // If the step 3 card was drawn, shuffle the new PP deck.
+        if (nextPlant === STEP_3 && !G.startStep3) {
             G.powerplantDeck = ctx.random.Shuffle(G.powerplantsStep3)
             G.startStep3 = true
         }

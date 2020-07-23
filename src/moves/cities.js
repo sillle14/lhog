@@ -181,11 +181,16 @@ export function endCities(G, ctx) {
 
 function removeLowest(G, ctx) {
     // Remove the lowest powerplant from the game.
-    G.powerplantMarket[0] = G.powerplantDeck.pop()
+    const nextPlant = G.powerplantDeck.pop()
+    if (nextPlant) {
+        G.powerplantMarket[0] = nextPlant
+    } else {
+        G.powerplantMarket.splice(0, 1)
+    }
     G.powerplantMarket.sort((a,b) => a-b)
 
     // If we've drawn step 3, start the next step.
-    if (G.powerplantMarket[7] === STEP_3) {
+    if (G.step < 3 && G.powerplantMarket[7] === STEP_3) {
         G.powerplantDeck = ctx.random.Shuffle(G.powerplantsStep3)
         G.logs.push({move: 'step', removed: G.powerplantMarket[0], step: 3})
         // Remove the most expensive and least expensive powerplants. Note that the most expensive will always

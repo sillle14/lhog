@@ -156,18 +156,28 @@ export function endBureaucracy(G, ctx) {
      *   UPDATE MARKET   *
      *********************/
 
-    G.powerplantsStep3.push(G.powerplantMarket[7])
-    G.powerplantMarket[7] = G.powerplantDeck.pop()
-    G.powerplantMarket.sort((a,b) => a-b)
-
-    // If we've drawn step 3, start the next step.
-    if (G.powerplantMarket[7] === STEP_3) {
-        G.powerplantDeck = ctx.random.Shuffle(G.powerplantsStep3)
-        G.logs.push({move: 'step', removed: G.powerplantMarket[0], step: 3})
-        // Remove the most expensive and least expensive powerplants. Note that the most expensive will always
-        //  be the step 3 card.
-        G.powerplantMarket = G.powerplantMarket.slice(1, 7)
-        G.step = 3
+    if (G.step !== 3) {
+        G.powerplantsStep3.push(G.powerplantMarket[7])
+        G.powerplantMarket[7] = G.powerplantDeck.pop()
+        G.powerplantMarket.sort((a,b) => a-b)
+        // If we've drawn step 3, start the next step.
+        if (G.powerplantMarket[7] === STEP_3) {
+            G.powerplantDeck = ctx.random.Shuffle(G.powerplantsStep3)
+            G.logs.push({move: 'step', removed: G.powerplantMarket[0], step: 3})
+            // Remove the most expensive and least expensive powerplants. Note that the most expensive will always
+            //  be the step 3 card.
+            G.powerplantMarket = G.powerplantMarket.slice(1, 7)
+            G.step = 3
+        }
+    } else {
+        // Swap out the lowest powerplant with a new powerplant.
+        const nextPlant = G.powerplantDeck.pop()
+        if (nextPlant) {
+            G.powerplantMarket[0] = nextPlant
+        } else {
+            G.powerplantMarket.splice(0, 1)
+        }
+        G.powerplantMarket.sort((a,b) => a-b)
     }
 
     /********************
