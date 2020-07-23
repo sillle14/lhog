@@ -24,7 +24,7 @@ export default function ActionBar(props) {
         const poweredCount = props.player.bureaucracy.poweredCount
         const income = payment[poweredCount]
         if (props.player.bureaucracy.hasPowered) {
-            action = <span>{`You earned ${income}$. Wait for others to power.`}</span>
+            action = <span>{`You earned $${income}. Wait for others to power.`}</span>
         } else if (props.player.bureaucracy.toPower.length === 0) {
             action = [
                 <span key="message">Choose powerplants to power using the player mat in the upper right.</span>,
@@ -37,7 +37,7 @@ export default function ActionBar(props) {
                 <span key="message">{
                     `Use powerplant${props.player.bureaucracy.toPower.length > 1 ? 's' : ''} 
                     ${props.player.bureaucracy.toPower.join(', ')} to power ${poweredCount} 
-                    cit${poweredCount !== 1 ? 'ies': 'y'} for ${income}$?`
+                    cit${poweredCount !== 1 ? 'ies': 'y'} for $${income}?`
                 }</span>,
                 <button key="power" onClick={() => props.power()}>Power</button>,
                 <button key="clear" onClick={() => props.clearToPower()}>Clear</button>,
@@ -72,7 +72,7 @@ export default function ActionBar(props) {
                     const cities = Object.keys(props.selectedCities).join(', ')
                     const cost = Object.values(props.selectedCities).map(i => i.cost).reduce((a,b) => a+b, 0) + props.connectionCost
                     action = [
-                        <span key="message">{`Buy ${cities} for ${cost}$?`}</span>,
+                        <span key="message">{`Buy ${cities} for $${cost}?`}</span>,
                         <button disabled={props.budget >= cost ? '' : 'disabled'} key="buy" onClick={() => props.buyCities()}>Buy</button>,
                         <button key="clear" onClick={() => props.clearCities()}>Clear</button>,
                     ]
@@ -89,7 +89,7 @@ export default function ActionBar(props) {
                         }                       
                     }
                     action = [
-                        <span key="message">{'Buy '}{resources}{`for ${props.resourceCost}$?`}</span>,
+                        <span key="message">{'Buy '}{resources}{`for $${props.resourceCost}?`}</span>,
                         <button disabled={props.budget >= props.resourceCost ? '' : 'disabled'} key="buy" onClick={() => props.buyResources()}>Buy</button>,
                         <button key="clear" onClick={() => props.clearResources()}>Clear</button>,
                     ]

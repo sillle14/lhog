@@ -26,7 +26,7 @@ export function Player(props) {
     let resources = [
         <div className="player-resource" key="money">
             <div className="player-symbol house" style={houseStyle}>{props.player.cities.length}</div>
-            <span>{props.player.money + '$'}</span>
+            <span>{'$' + props.player.money}</span>
         </div>
     ]
 

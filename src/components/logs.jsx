@@ -20,13 +20,13 @@ function Log(props) {
             ]
             break
         case 'startPhase':
-            details = <span className="header">{'Starting Phase: ' + log.phase}</span>
+            details = <span className="header">{`Starting Phase: ${log.phase}`}</span>
             break
         case 'startAuction':
-            details = <span>{playerName}{'starts the bidding on PP ' + log.powerplant}</span>
+            details = <span>{playerName}{`starts the bidding on PP ${log.powerplant}`}</span>
             break
         case 'bid':
-            details = <span>{indent}{playerName}{'bids ' + log.bid + '$'}</span>
+            details = <span>{indent}{playerName}{`bids $${log.bid}`}</span>
             break
         case 'passAuction':
             details = <span>{indent}{playerName}{' passes'}</span>
@@ -35,13 +35,13 @@ function Log(props) {
             details = <span>{playerName}{' passes'}</span>
             break
         case 'buyPP':
-            details = <span>{playerName}{' buys PP ' + log.powerplant + ' for ' + log.cost + '$'}</span>
+            details = <span>{playerName}{` buys PP ${log.powerplant} for $${log.cost}`}</span>
             break
         case 'buyCities':
             details = [
                 <span key="header">{playerName}{ 'buys cities:'}</span>,
                 <br key="br"></br>,
-                <span key="cities">{indent}{log.cities.join(', ') + ' for ' + log.cost + '$'}</span>,
+                <span key="cities">{indent}{`${log.cities.join(', ')} for $${log.cost}`}</span>,
             ]
             break
         case 'buyResources':
@@ -54,14 +54,14 @@ function Log(props) {
             details = [
                 <span key="header">{playerName}{ 'buys resources:'}</span>,
                 <br key="br"></br>,
-                <span key="order">{indent}{resources}{' for ' + log.cost + '$'}</span>,
+                <span key="order">{indent}{resources}{` for $${log.cost}`}</span>,
             ]
             break
         case 'power':
             details = [
                 <span key="header">{playerName}{` powers ${log.count} cit${log.count !== 1 ? 'ies': 'y'}:`}</span>,
                 <br key="br"></br>,
-                <span key="earning">{indent}{`Income: ${payment[log.count]}$`}</span>,
+                <span key="earning">{indent}{`Income: $${payment[log.count]}`}</span>,
             ]
             break
         case 'refill':
@@ -108,7 +108,7 @@ export class Logs extends React.Component {
     }
 
     scrollToBottom = () => {
-        animateScroll.scrollToBottom({containerId: this.props.playerID + '-log', duration: 0});
+        animateScroll.scrollToBottom({containerId: `${this.props.playerID}-log`, duration: 0});
     }
     
     componentDidMount() { this.scrollToBottom() }
@@ -133,7 +133,7 @@ export class Logs extends React.Component {
             <div className="logs">
                 <span>Game Log:</span>
                 <hr className="log-break"></hr>
-                <div className="scroll" id={this.props.playerID + '-log'}>
+                <div className="scroll" id={`${this.props.playerID}-log`}>
                     {logs}
                 </div>
             </div>
