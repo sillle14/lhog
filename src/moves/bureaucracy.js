@@ -19,6 +19,10 @@ export function selectToPower(G, ctx, powerplant) {
     // If already selected, unselect.
     if (player.bureaucracy.toPower.includes(powerplant)) {
         player.bureaucracy.toPower.splice(player.bureaucracy.toPower.indexOf(powerplant), 1)
+        player.bureaucracy.poweredCount = Math.min(
+            player.cities.length, 
+            player.bureaucracy.toPower.map(p => powerplants[p].production).reduce((a,b) => a+b, 0)
+        )
         return
     }
     // Check that the player can afford to power all selected powerplants.
