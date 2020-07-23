@@ -75,8 +75,8 @@ export function selectCity(G, ctx, city) {
         //  to connect.
         connCost = 0
     }
-    const nextAvailable = G.cityStatus[city].findIndex(i => i === null)
-    if (nextAvailable >= G.step) {
+    const nextAvailable = G.cityStatus[city].indexOf(null)
+    if (nextAvailable >= G.step || nextAvailable === -1) {
         return INVALID_MOVE
     }
     const cost = houseCosts[nextAvailable]
