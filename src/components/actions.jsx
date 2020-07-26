@@ -4,6 +4,9 @@ import { Bidder } from './bidder'
 import { PlayerName, ResourceName } from './names'
 import { Slider } from './slider'
 import { payment, playerSettings } from '../static/reference'
+import { powerplants } from '../static/powerplants'
+
+import PlayerModel from '../models/player'
 
 import { AUCTION, BUREAUCRACY, CITY, REGIONS, RESOURCE } from '../Game'
 
@@ -19,31 +22,72 @@ export default function ActionBar(props) {
             const players = winners.map((id) => <PlayerName key={id} playerID={id} playerMap={props.playerMap}/>)
             action = <span>{'Tie Game! Players '}{players}{' win!'}</span>
         }
-    } else if (props.phase === BUREAUCRACY) {
-        // Bureaucracy need special treatment, because all players are active.
-        const poweredCount = props.player.bureaucracy.poweredCount
-        const income = payment[poweredCount]
-        if (props.player.bureaucracy.hasPowered) {
-            action = <span>{`You earned $${income}. Wait for others to power.`}</span>
-        } else if (props.player.bureaucracy.toPower.length === 0) {
-            action = [
-                <span key="message">Choose powerplants to power using the player mat in the upper right.</span>,
-                <button key="pass" onClick={() => props.passPowering()}>Pass</button>
-            ]
-        } else if (props.playerStages[props.playerID] === 'coil') {
-            action = <Slider player={props.player} spendCoil={props.spendCoil}/>
+    } else if (props.playerStages) {
+        // Handle staged turns separately.
+        if (props.phase === BUREAUCRACY) {
+            // Bureaucracy need special treatment, because all players are active.
+            const poweredCount = props.player.bureaucracy.poweredCount
+            const income = payment[poweredCount]
+            if (props.player.bureaucracy.hasPowered) {
+                action = <span>{`You earned $${income}. Wait for others to power.`}</span>
+            } else if (props.player.bureaucracy.toPower.length === 0) {
+                action = [
+                    <span key="message">Choose powerplants to power using the player mat in the upper right.</span>,
+                    <button key="pass" onClick={() => props.passPowering()}>Pass</button>
+                ]
+            } else if (props.playerStages[props.playerID] === 'coil') {
+                const coilPlants = props.player.bureaucracy.toPower.filter(p => powerplants[p].resource === 'coil')
+                const total = coilPlants.reduce((acc, p) => acc + powerplants[p].resourceCost, 0)
+                const message = `Select resources to power PP${coilPlants.length > 1 ? 's' : ''} ${coilPlants.join(', ')}: `
+                action = (
+                    <Slider 
+                        player={props.player}
+                        confirm={props.spendCoil}
+                        total={total}
+                        maxCoal={props.player.resources.coal}
+                        maxOil={props.player.resources.oil}
+                        message={message}
+                    />
+                )
+            } else {
+                action = [
+                    <span key="message">{
+                        `Use powerplant${props.player.bureaucracy.toPower.length > 1 ? 's' : ''} 
+                        ${props.player.bureaucracy.toPower.join(', ')} to power ${poweredCount} 
+                        cit${poweredCount !== 1 ? 'ies': 'y'} for $${income}?`
+                    }</span>,
+                    <button key="power" onClick={() => props.power()}>Power</button>,
+                    <button key="clear" onClick={() => props.clearToPower()}>Clear</button>,
+                ]
+            }
+            
         } else {
-            action = [
-                <span key="message">{
-                    `Use powerplant${props.player.bureaucracy.toPower.length > 1 ? 's' : ''} 
-                    ${props.player.bureaucracy.toPower.join(', ')} to power ${poweredCount} 
-                    cit${poweredCount !== 1 ? 'ies': 'y'} for $${income}?`
-                }</span>,
-                <button key="power" onClick={() => props.power()}>Power</button>,
-                <button key="clear" onClick={() => props.clearToPower()}>Clear</button>,
-            ]
+            // Otherwise, it is discard PP/discard resources. Only one player will be active.
+            const currentPlayer = Object.keys(props.playerStages)[0]
+            if (props.playerID !== currentPlayer) {
+                action = <span>{'Wait for '}<PlayerName playerID={currentPlayer} playerMap={props.playerMap}/></span>
+            } else if (props.playerStages[currentPlayer] === 'discardPP') {
+                if (props.toDiscard) {
+                    action = [
+                        <span key="message">{`Discard powerplant ${props.toDiscard}? Note that you may need to discard excess resources.`}</span>,
+                        <button key="confirm" onClick={() => props.discardPP()}>Confirm</button>
+                    ]
+                } else {
+                    action = <span>Select a powerplant to discard.</span>
+                }
+            } else {
+                action = action = (
+                    <Slider 
+                        player={props.player}
+                        confirm={props.discardResources}
+                        total={(props.extraOil + props.extraCoal) - PlayerModel.getCapacity(props.player).coil}
+                        maxCoal={props.extraCoal}
+                        maxOil={props.extraOil}
+                        message={'Discard coal and oil.'}
+                    />
+                )
+            }
         }
-        
     } else if (props.playerID !== props.currentPlayer) {
         action = <span>{'Wait for '}<PlayerName playerID={props.currentPlayer} playerMap={props.playerMap}/></span>
     } else {

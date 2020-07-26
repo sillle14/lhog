@@ -1,21 +1,16 @@
 import React from 'react'
 
 import { ResourceName } from './names'
-import { powerplants } from '../static/powerplants'
 
 import './styles/slider.css'
 
 /**
- * Slider object for choosing how to power coil plants.
+ * Slider object for choosing between coal and oil.
  */
 export class Slider extends React.Component {
     constructor(props) {
         super(props);
         this.state = {coal: 0};
-        this.coilPlants = props.player.bureaucracy.toPower.filter(p => powerplants[p].resource === 'coil')
-        this.total = this.coilPlants.reduce((acc, p) => acc + powerplants[p].resourceCost, 0)
-        this.maxCoal = props.player.resources.coal
-        this.maxOil = props.player.resources.oil
         this.handleChange = this.handleChange.bind(this);
     }
   
@@ -25,13 +20,13 @@ export class Slider extends React.Component {
   
     render() {
         return (<div className="slider-box">
-            <span>{`Select resources to power PP${this.coilPlants.length > 1 ? 's' : ''} ${this.coilPlants.join(', ')}: `}</span>
-            <ResourceName resource="oil" amount={this.total - this.state.coal}/>
-            <input className="slider" type="range" min="0" max={this.total} value={this.state.coal} onChange={this.handleChange}/>
+            <span>{this.props.message}</span>
+            <ResourceName resource="oil" amount={this.props.total - this.state.coal}/>
+            <input className="slider" type="range" min="0" max={this.props.total} value={this.state.coal} onChange={this.handleChange}/>
             <ResourceName resource="coal" amount={this.state.coal}/>
             <button 
-                onClick={() => this.props.spendCoil(this.state.coal, this.total - this.state.coal)} 
-                disabled={this.maxOil >= this.total - this.state.coal && this.maxCoal >= this.state.coal ? '' : 'disabled'}
+                onClick={() => this.props.confirm(this.state.coal, this.props.total - this.state.coal)} 
+                disabled={this.props.maxOil >= this.props.total - this.state.coal && this.props.maxCoal >= this.state.coal ? '' : 'disabled'}
             >Confirm</button>
         </div>
         )

@@ -4,7 +4,7 @@ import PlayerModel from '../models/player'
 export function selectResource(G, ctx, resource) {
     G.selectedResources[resource] += 1
 
-    const capacity = PlayerModel.getCapacity(G.players[ctx.currentPlayer])
+    const capacity = PlayerModel.getExtraCapacity(G.players[ctx.currentPlayer])
     let overflowCoil = 0
 
     // Easiest to just recalculate the resource cost entirely

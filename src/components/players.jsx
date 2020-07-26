@@ -4,18 +4,18 @@ import PowerPlant from './powerplant'
 import { PlayerName } from './names'
 
 import { playerColors } from '../static/playerColors'
-import { BUREAUCRACY } from '../Game'
 
 import './styles/player.css'
 import './styles/symbols.css'
 
 export function Player(props) {
     const powerplants = props.player.powerplants.map(function (i) {
+        const selected = (props.player.bureaucracy.toPower.includes(i) && props.selectPP) || props.selectedPP === i
         return (
             <PowerPlant 
                 cost={i} 
                 key={i} 
-                selected={props.player.bureaucracy.toPower.includes(i) && props.selectPP} 
+                selected={selected} 
                 select={props.selectPP}
             />      
         )
@@ -63,7 +63,6 @@ export function Players(props) {
             playerID={playerID} 
             key={playerID} 
             playerMap={props.playerMap} 
-            selected={props.currentPlayer === playerID && props.phase !== BUREAUCRACY}  // No single player active in bureacracy
         />) 
     }
     return (

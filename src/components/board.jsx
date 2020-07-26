@@ -44,6 +44,7 @@ export class WattMatrixTable extends React.Component {
 
     render () {
         const myTurn = this.props.playerID === this.props.ctx.currentPlayer
+        const discardStage = this.props.ctx.activePlayers && Object.values(this.props.ctx.activePlayers).includes('discardPP')
         return (
             <div className="board">
                 <div className="main" id={'main-' + this.props.playerID}>
@@ -58,8 +59,6 @@ export class WattMatrixTable extends React.Component {
                     <Players 
                         players={this.props.G.players} 
                         playerMap={this.playerMap} 
-                        currentPlayer={this.props.ctx.currentPlayer} 
-                        phase={this.props.ctx.phase}
                     /><hr/>
                     <Map 
                         cityStatus={this.props.G.cityStatus}
@@ -87,7 +86,8 @@ export class WattMatrixTable extends React.Component {
                         player={this.props.G.players[this.props.playerID]} 
                         playerID={this.props.playerID} 
                         playerMap={this.playerMap}
-                        selectPP={this.props.moves.selectToPower}
+                        selectPP={discardStage ? this.props.moves.selectToDiscard : this.props.moves.selectToPower}
+                        selectedPP={discardStage && this.props.ctx.activePlayers[this.props.playerID] ? this.props.G.auction.toDiscard : null}
                     />
                     <Logs logs={this.props.G.logs} playerMap={this.playerMap} playerID={this.props.playerID}/>
                 </div>
@@ -117,6 +117,12 @@ export class WattMatrixTable extends React.Component {
                     currentBid={this.props.G.auction.currentBid}
                     passBid={this.props.moves.passBid}
                     passBuyPP={this.props.moves.passBuyPP}
+                    // Discard after buy
+                    toDiscard={this.props.G.auction.toDiscard}
+                    discardPP={this.props.moves.discardPP}
+                    discardResources={this.props.moves.discardResources}
+                    extraCoal={this.props.G.extraCoal}
+                    extraOil={this.props.G.extraOil}
                     
                     // Buy cities
                     selectedCities={this.props.G.selectedCities}

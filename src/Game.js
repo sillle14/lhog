@@ -77,7 +77,7 @@ function setup(ctx, setupData) {
         logs: [{move: 'playerOrder', order: playerOrder, initial: true}],
         regions: [],
 
-        auction: {upForAuction: null, selected: null, currentBid: null},
+        auction: {upForAuction: null, selected: null, currentBid: null, toDiscard: null},
 
         selectedCities: {},
         connectionCost: 0,
@@ -136,6 +136,19 @@ export const WattMatrix = {
             onBegin: auction.startAuction,  
             turn: {
                 order: {first: G => parseInt(G.playerOrder[0])},
+                stages: {
+                    discardPP: {
+                        moves: {
+                            selectToDiscard: auction.selectToDiscard,
+                            discardPP: auction.discardPP,
+                        },
+                    },
+                    discardResources: {
+                        moves: {
+                            discardResources: auction.discardResources
+                        }
+                    }
+                }
             },
             moves: {
                 selectPowerplant: auction.selectPowerplant,
@@ -194,4 +207,4 @@ export const WattMatrix = {
     },
     minPlayers: 3,
     maxPlayers: 6,
-};
+}

@@ -31,6 +31,13 @@ function Log(props) {
         case 'passAuction':
             details = <span>{indent}{playerName}{' passes'}</span>
             break
+        case 'discard':
+            if (log.powerplant) {
+                details = <span>{indent}{playerName}{` discards PP ${log.powerplant}`}</span>
+            } else {
+                details = <span>{indent}{playerName}{' discards '}{<ResourceName resource={log.resource} amount={log.count}/>}</span>
+            }
+            break
         case 'pass':
             details = <span>{playerName}{' passes'}</span>
             break

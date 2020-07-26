@@ -2,6 +2,8 @@ import { INVALID_MOVE } from 'boardgame.io/core'
 import { STEP_3 } from '../static/powerplants'
 import { getPlayerOrder } from './common'
 
+import PlayerModel from '../models/player'
+
 export function startAuction(G, ctx) {
     G.auction = {
         upForAuction: null, 
@@ -57,29 +59,15 @@ function afterBid(G, ctx) {
 
         // Buy the powerplant.
         G.players[winningID].boughtPP = true
-        G.players[winningID].powerplants.push(G.auction.upForAuction)
         G.players[winningID].money -= G.auction.currentBid
-
-        // Remove the powerplant from the market, replace it, and resort it.
-        G.powerplantMarket.splice(G.powerplantMarket.indexOf(G.auction.upForAuction), 1)
-        const nextPlant = G.powerplantDeck.pop()
-        if (nextPlant) {
-            G.powerplantMarket.push(nextPlant)
+        if (G.players[winningID].powerplants.length > 2) {
+            // Move the winner into the discard stage.
+            ctx.events.setActivePlayers({ value: {[winningID]: 'discardPP'}})
+        } else {
+            // Buy the PP.
+            G.players[winningID].powerplants.push(G.auction.upForAuction)
+            afterBuy(G, ctx)
         }
-        G.powerplantMarket.sort((a,b) => a-b)
-
-        // If the step 3 card was drawn, shuffle the new PP deck.
-        if (nextPlant === STEP_3 && !G.startStep3) {
-            G.powerplantDeck = ctx.random.Shuffle(G.powerplantsStep3)
-            G.startStep3 = true
-        }
-
-        // Reset the auction. 
-        G.auction.upForAuction = null
-        G.auction.selected = null
-        G.auction.currentBid = null
-
-        afterBuy(G, ctx)
     } else {
         // Otherwise, just pass the bidding to the next player in a clockwise fashion.
         let nextPlayer
@@ -97,6 +85,25 @@ function afterBid(G, ctx) {
 
 // After a player buys a PP or passes, set the turn to the next player, or end the phase.
 function afterBuy(G, ctx) {
+    // Remove the powerplant from the market, replace it, and resort it.
+    G.powerplantMarket.splice(G.powerplantMarket.indexOf(G.auction.upForAuction), 1)
+    const nextPlant = G.powerplantDeck.pop()
+    if (nextPlant) {
+        G.powerplantMarket.push(nextPlant)
+    }
+    G.powerplantMarket.sort((a,b) => a-b)
+
+    // If the step 3 card was drawn, shuffle the new PP deck.
+    if (nextPlant === STEP_3 && !G.startStep3) {
+        G.powerplantDeck = ctx.random.Shuffle(G.powerplantsStep3)
+        G.startStep3 = true
+    }
+
+    // Reset the auction. 
+    G.auction.selected = null
+    G.auction.currentBid = null
+    G.auction.upForAuction = null
+
     // The next player to open bidding is the first player in order who has not bought a PP.
     let nextPlayer = -1
     for (let i = 0; i < G.playerOrder.length; i++) {
@@ -149,4 +156,83 @@ export function afterAuction(G, ctx) {
         G.powerplantMarket = G.powerplantMarket.slice(1, 7)
         G.step = 3
     }
+}
+
+/*********************
+ *   DISCARD MOVES   *
+ *********************/
+
+export function selectToDiscard(G, ctx, powerplant) {
+    if (G.auction.toDiscard === powerplant) {
+        G.auction.toDiscard = null
+    } else {
+        G.auction.toDiscard = powerplant
+    }
+}
+
+export function discardPP(G, ctx) {
+    // Buy the PP, replacing the PP to discard with the new one.
+    const activePlayer = Object.keys(ctx.activePlayers)[0]
+    G.players[activePlayer].powerplants[G.players[activePlayer].powerplants.indexOf(G.auction.toDiscard)] = G.auction.upForAuction
+    G.logs.push({playerID: activePlayer, move: 'discard', powerplant: G.auction.toDiscard})
+    G.auction.toDiscard = null
+
+    // Since changes to G aren't propagated until the end of the move, here is a hacky fix to get capacity.
+    const capacity = PlayerModel.getCapacity({powerplants: [...G.players[activePlayer].powerplants]})
+
+    // Automatically discard uranium and trash which exceeds capacity.
+    for (const r in {uranium: null, trash: null}) {
+        if (G.players[activePlayer].resources[r] > capacity[r]) {
+            G.logs.push({playerID: activePlayer, move: 'discard', resource: r, count: G.players[activePlayer].resources[r] - capacity[r]})
+            G.players[activePlayer].resources[r] = capacity[r]
+        }
+    }
+    // If there is no coil capacity, then just discard excess coal and oil as well.
+    if (capacity.coil === 0) {
+        for (const r in {coal: null, oil: null}) {
+            if (G.players[activePlayer].resources[r] > capacity[r]) {
+                G.logs.push({playerID: activePlayer, move: 'discard', resource: r, count: G.players[activePlayer].resources[r] - capacity[r]})
+                G.players[activePlayer].resources[r] = capacity[r]
+            }
+        }
+    } else {
+        // Calculate the overflow.
+        const extraCoal = Math.max(G.players[activePlayer].resources.coal - capacity.coal, 0)
+        const extraOil = Math.max(G.players[activePlayer].resources.oil - capacity.oil, 0)
+
+        // If there isn't enough coil capacity, handle discards.
+        if (extraCoal + extraOil > capacity.coil) {
+            if (extraOil === 0) {
+                // Just discard the extra coal.
+                G.logs.push({playerID: activePlayer, move: 'discard', resource: 'coal', count: extraCoal - capacity.coil})
+                G.players[activePlayer].resources.coal -= extraCoal - capacity.coil
+            } else if (extraCoal === 0) {
+                // Just discard the extra oil.
+                G.logs.push({playerID: activePlayer, move: 'discard', resource: 'oil', count: extraOil - capacity.coil})
+                G.players[activePlayer].resources.oil -= extraOil - capacity.coil
+            } else {
+                G.extraCoal = extraCoal
+                G.extraOil = extraOil
+                ctx.events.setActivePlayers({ value: {[activePlayer]: 'discardResources'}})
+                return
+            }
+        }
+    }
+
+    ctx.events.endStage()
+    afterBuy(G, ctx)
+}
+
+export function discardResources(G, ctx, coal, oil) {
+    const activePlayer = Object.keys(ctx.activePlayers)[0]
+    if (coal > 0) {
+        G.logs.push({playerID: activePlayer, move: 'discard', resource: 'coal', count: coal})
+        G.players[activePlayer].resources.coal -= coal
+    }
+    if (oil > 0) {
+        G.logs.push({playerID: activePlayer, move: 'discard', resource: 'oil', count: oil})
+        G.players[activePlayer].resources.oil -= oil
+    }
+    ctx.events.endStage()
+    afterBuy(G, ctx)
 }
