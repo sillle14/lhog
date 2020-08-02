@@ -27,13 +27,6 @@
     background-color: lightsteelblue;
 }
 
-.tab-content {
-    flex: 1;
-    display: flex;
-    justify-content: space-evenly;
-    flex-direction: column;
-}
-
 .main hr {
     border-width: 5px;
     width: 100%;

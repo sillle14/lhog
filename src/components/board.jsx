@@ -1,7 +1,6 @@
 import React from 'react'
-import { scroller } from 'react-scroll'
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
+import Tabs from '@material-ui/core/Tabs'
+import Tab from '@material-ui/core/Tab'
 
 import Map from './map'
 import Market from './market'
@@ -10,19 +9,11 @@ import Reference from './reference'
 import ActionBar from './actions'
 import { Logs } from './logs'
 import { Players, Player}  from './players'
+import { TabLabel, TabPanel } from './tabHelpers'
 
-import { REGIONS } from '../Game'
+import { REGIONS, MAP, MARKETS, REFERENCE } from '../Game'
 
 import './styles/board.css'
-
-function TabPanel(props) {
-    const active = props.currentTab === props.tab
-    return (
-        <div className={active && 'tab-content'} hidden={!active}>
-            {active && props.children}
-        </div>
-    )
-}
 
 export class WattMatrixTable extends React.Component {
 
@@ -39,20 +30,8 @@ export class WattMatrixTable extends React.Component {
                 this.playerMap[i] = 'Player ' + i
             }
         }
-        this.state = {tab: "map"}
+        this.state = {tab: MAP}
         this.switchToTab = this.switchToTab.bind(this)
-    }
-
-    scrollToElement(element) {
-        scroller.scrollTo(element, {containerId: 'main-' + this.props.playerID})
-    }
-
-    componentDidMount() { this.scrollToElement(this.props.G.scrollTo) }
-
-    componentDidUpdate(prevProps) { 
-        if (prevProps.G.scrollTo !== this.props.G.scrollTo) {
-            this.scrollToElement(this.props.G.scrollTo)
-        }
     }
 
     switchToTab(newTab) {
@@ -66,9 +45,9 @@ export class WattMatrixTable extends React.Component {
             <div className="board">
                 <div className="main" id={'main-' + this.props.playerID}>
                     <Tabs className="tabs" value={this.state.tab} onChange={(e, tab) => {this.switchToTab(tab)}} centered>
-                        <Tab label="Map" value="map"/>
-                        <Tab label="Markets" value="markets"/>
-                        <Tab label="Reference" value="reference"/>
+                        <Tab icon={<TabLabel label="Map" warning={myTurn && this.state.tab !== MAP && this.props.G.tab === MAP}/>} value={MAP}/>
+                        <Tab icon={<TabLabel label="Markets" warning={myTurn && this.state.tab !== MARKETS && this.props.G.tab === MARKETS}/>} value={MARKETS}/>
+                        <Tab icon={<TabLabel label="Reference" warning={myTurn && this.state.tab !== REFERENCE && this.props.G.tab === REFERENCE}/>} value={REFERENCE}/>
                     </Tabs>
                     <TabPanel tab="map" currentTab={this.state.tab}>
                         <Map 

@@ -4,6 +4,8 @@ import { getPlayerOrder } from './common'
 
 import PlayerModel from '../models/player'
 
+import { MARKETS } from '../Game'
+
 export function startAuction(G, ctx) {
     G.auction = {
         upForAuction: null, 
@@ -14,7 +16,7 @@ export function startAuction(G, ctx) {
         G.players[playerID].boughtPP = false
     }
     G.logs.push({move: 'startPhase', phase: 'Auction'})
-    G.scrollTo = 'ppMarket'
+    G.tab = MARKETS
 }
 
 export function selectPowerplant(G, ctx, powerplant) {

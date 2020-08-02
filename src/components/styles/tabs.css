@@ -1,0 +1,17 @@
+.tab-content {
+    flex: 1;
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: column;
+}
+
+.tab-label {
+    margin-bottom: 10%;
+    font-size: large;
+}
+
+.tab-warning {
+    color: red; 
+    font-weight: bolder;
+    /* font-family: "Arial Black", Gadget, sans-serif; */
+}

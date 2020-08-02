@@ -3,9 +3,11 @@ import { payment, playerSettings } from '../static/reference'
 import { powerplants, STEP_3 } from '../static/powerplants'
 import { INVALID_MOVE } from 'boardgame.io/core'
 
+import { REFERENCE } from '../Game'
+
 export function startBureaucracy(G, ctx) {
     G.logs.push({move: 'startPhase', phase: 'Bureaucracy'})
-    G.scrollTo = 'reference'
+    G.tab = REFERENCE
     for (const playerID in G.players) {
         G.players[playerID].bureaucracy.hasPowered = false
     }

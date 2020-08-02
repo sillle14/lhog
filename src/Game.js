@@ -13,6 +13,9 @@ import * as resourceMoves from './moves/resources'
 import * as bureaucracy from './moves/bureaucracy'
 import * as region from './moves/regions'
 
+export const MAP = 'map'
+export const MARKETS = 'markets'
+export const REFERENCE = 'reference'
 
 function setup(ctx, setupData) {
     let cityStatus = {}
@@ -91,7 +94,6 @@ function setup(ctx, setupData) {
             activate: true,
             cities: []
         },
-        scrollTo: null
     }
 }
 
@@ -123,7 +125,7 @@ export const WattMatrix = {
     setup: setup,
     phases: {
         [REGIONS]: {
-            onBegin: (G, ctx) => {G.scrollTo = 'map'},
+            onBegin: (G, ctx) => {G.tab = MAP},
             start: true,
             moves: {
                 selectRegion: region.selectRegion,
@@ -161,7 +163,7 @@ export const WattMatrix = {
             next: RESOURCE,
         },
         [RESOURCE]: {
-            onBegin: (G, ctx) => {G.logs.push({move: 'startPhase', phase: 'Buy Resources'}); G.scrollTo = 'resourceMarket'},
+            onBegin: (G, ctx) => {G.logs.push({move: 'startPhase', phase: 'Buy Resources'}); G.tab = MARKETS},
             moves: {
                 selectResource: resourceMoves.selectResource,
                 clearResources: resourceMoves.clearResources,
@@ -172,7 +174,7 @@ export const WattMatrix = {
             next: CITY
         },
         [CITY]: {
-            onBegin: (G, ctx) => {G.logs.push({move: 'startPhase', phase: 'Buy Cities'}); G.scrollTo = 'map'},
+            onBegin: (G, ctx) => {G.logs.push({move: 'startPhase', phase: 'Buy Cities'}); G.tab = MAP},
             moves: {
                 selectCity: cityMoves.selectCity,
                 clearCities: cityMoves.clearCities,
