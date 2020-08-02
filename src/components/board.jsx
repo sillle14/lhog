@@ -41,15 +41,17 @@ export class WattMatrixTable extends React.Component {
     render () {
         const myTurn = this.props.playerID === this.props.ctx.currentPlayer
         const discardStage = this.props.ctx.activePlayers && Object.values(this.props.ctx.activePlayers).includes('discardPP')
+        const tabs = [MAP, MARKETS, REFERENCE].map(
+            (tab) => {
+                const warning = myTurn && this.state.tab !== tab && this.props.G.tab === tab
+                return <Tab classes={warning ? {root: 'alert-tab'} : {}} key={tab} icon={<TabLabel label={tab} warning={warning}/>} value={tab}/>
+            }
+        )
         return (
             <div className="board">
                 <div className="main" id={'main-' + this.props.playerID}>
-                    <Tabs className="tabs" value={this.state.tab} onChange={(e, tab) => {this.switchToTab(tab)}} centered>
-                        <Tab icon={<TabLabel label="Map" warning={myTurn && this.state.tab !== MAP && this.props.G.tab === MAP}/>} value={MAP}/>
-                        <Tab icon={<TabLabel label="Markets" warning={myTurn && this.state.tab !== MARKETS && this.props.G.tab === MARKETS}/>} value={MARKETS}/>
-                        <Tab icon={<TabLabel label="Reference" warning={myTurn && this.state.tab !== REFERENCE && this.props.G.tab === REFERENCE}/>} value={REFERENCE}/>
-                    </Tabs>
-                    <TabPanel tab="map" currentTab={this.state.tab}>
+                    <Tabs className="tabs" value={this.state.tab} onChange={(e, tab) => {this.switchToTab(tab)}} centered>{tabs}</Tabs>
+                    <TabPanel tab={MAP} currentTab={this.state.tab}>
                         <Map 
                             cityStatus={this.props.G.cityStatus}
                             selectedCities={Object.keys(this.props.G.selectedCities)}
@@ -61,7 +63,7 @@ export class WattMatrixTable extends React.Component {
                             regions={this.props.G.regions}
                         />
                     </TabPanel>
-                    <TabPanel tab="markets" currentTab={this.state.tab}>
+                    <TabPanel tab={MARKETS} currentTab={this.state.tab}>
                         <Market 
                             powerplantMarket={this.props.G.powerplantMarket} 
                             selected={this.props.G.auction.selected}
@@ -75,7 +77,7 @@ export class WattMatrixTable extends React.Component {
                             selectResource={this.props.moves.selectResource}
                         />
                     </TabPanel>
-                    <TabPanel tab="reference" currentTab={this.state.tab}>
+                    <TabPanel tab={REFERENCE} currentTab={this.state.tab}>
                         <Reference 
                             numPlayers={this.props.ctx.numPlayers} 
                             step={this.props.G.step}

@@ -40,3 +40,7 @@
     background-color: steelblue;
     height: 48px;
 }
+
+.alert-tab {
+    background-color: yellow !important;
+}

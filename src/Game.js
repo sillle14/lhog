@@ -13,9 +13,9 @@ import * as resourceMoves from './moves/resources'
 import * as bureaucracy from './moves/bureaucracy'
 import * as region from './moves/regions'
 
-export const MAP = 'map'
-export const MARKETS = 'markets'
-export const REFERENCE = 'reference'
+export const MAP = 'Map'
+export const MARKETS = 'Markets'
+export const REFERENCE = 'Reference'
 
 function setup(ctx, setupData) {
     let cityStatus = {}
