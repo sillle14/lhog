@@ -25,6 +25,18 @@
     justify-content: space-between;
 }
 
+.player-reference {
+    display: flex;
+    flex-direction: column;
+}
+
+.player-title {
+    font-size: 1.7vw;
+    align-self: center;
+    margin-top: -2%;
+    margin-bottom: 2%;
+}
+
 .players {
     display: flex;
     flex-wrap: wrap;

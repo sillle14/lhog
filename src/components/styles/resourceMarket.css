@@ -5,6 +5,13 @@
     justify-content: space-evenly;
 }
 
+.resource-title {
+    font-size: 1.7vw;
+    align-self: center;
+    margin-top: -2%;
+    margin-bottom: 2%;
+}
+
 .resource-market-row {
     display: flex;
     justify-content: space-evenly;

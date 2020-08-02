@@ -24,7 +24,7 @@ export default function ResourceMarket(props) {
         })
     }
     resources.uranium.push(<div className="uranium-spacer" key="spacer"/>)
-    const resourceRows = []
+    const resourceRows = [<span className="resource-title" key="title">Resource Market</span>]
     for (const resource in resources) {
         resourceRows.push(<div key={resource} className="resource-market-row" onClick={() => props.selectResource(resource)}>{resources[resource]}</div>)
     }

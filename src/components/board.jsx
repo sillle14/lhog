@@ -1,5 +1,7 @@
 import React from 'react'
 import { scroller } from 'react-scroll'
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
 
 import Map from './map'
 import Market from './market'
@@ -12,6 +14,15 @@ import { Players, Player}  from './players'
 import { REGIONS } from '../Game'
 
 import './styles/board.css'
+
+function TabPanel(props) {
+    const active = props.currentTab === props.tab
+    return (
+        <div className={active && 'tab-content'} hidden={!active}>
+            {active && props.children}
+        </div>
+    )
+}
 
 export class WattMatrixTable extends React.Component {
 
@@ -28,6 +39,8 @@ export class WattMatrixTable extends React.Component {
                 this.playerMap[i] = 'Player ' + i
             }
         }
+        this.state = {tab: "map"}
+        this.switchToTab = this.switchToTab.bind(this)
     }
 
     scrollToElement(element) {
@@ -42,44 +55,59 @@ export class WattMatrixTable extends React.Component {
         }
     }
 
+    switchToTab(newTab) {
+        this.setState({tab: newTab})
+    }
+
     render () {
         const myTurn = this.props.playerID === this.props.ctx.currentPlayer
         const discardStage = this.props.ctx.activePlayers && Object.values(this.props.ctx.activePlayers).includes('discardPP')
         return (
             <div className="board">
                 <div className="main" id={'main-' + this.props.playerID}>
-                    <Market 
-                        powerplantMarket={this.props.G.powerplantMarket} 
-                        selected={this.props.G.auction.selected}
-                        upForAuction={this.props.G.auction.upForAuction}
-                        selectPowerplant={this.props.moves.selectPowerplant}
-                        myTurn={myTurn}
-                        step={this.props.G.step}
-                    /><hr/>
-                    <Players 
-                        players={this.props.G.players} 
-                        playerMap={this.playerMap} 
-                    /><hr/>
-                    <Map 
-                        cityStatus={this.props.G.cityStatus}
-                        selectedCities={Object.keys(this.props.G.selectedCities)}
-                        myTurn={myTurn}
-                        selectCity={this.props.moves.selectCity}
-                        rerender={this.props.G.rerender}
-                        pickRegions={this.props.ctx.phase === REGIONS}
-                        selectRegion={this.props.moves.selectRegion}
-                        regions={this.props.G.regions}
-                    /><hr/>
-                    <ResourceMarket 
-                        resourceMarket={this.props.G.resourceMarket}
-                        selectResource={this.props.moves.selectResource}
-                    /><hr/>
-                    <Reference 
-                        numPlayers={this.props.ctx.numPlayers} 
-                        step={this.props.G.step}
-                        playerOrder={this.props.G.playerOrder}
-                        playerMap={this.playerMap}
-                    />
+                    <Tabs className="tabs" value={this.state.tab} onChange={(e, tab) => {this.switchToTab(tab)}} centered>
+                        <Tab label="Map" value="map"/>
+                        <Tab label="Markets" value="markets"/>
+                        <Tab label="Reference" value="reference"/>
+                    </Tabs>
+                    <TabPanel tab="map" currentTab={this.state.tab}>
+                        <Map 
+                            cityStatus={this.props.G.cityStatus}
+                            selectedCities={Object.keys(this.props.G.selectedCities)}
+                            myTurn={myTurn}
+                            selectCity={this.props.moves.selectCity}
+                            rerender={this.props.G.rerender}
+                            pickRegions={this.props.ctx.phase === REGIONS}
+                            selectRegion={this.props.moves.selectRegion}
+                            regions={this.props.G.regions}
+                        />
+                    </TabPanel>
+                    <TabPanel tab="markets" currentTab={this.state.tab}>
+                        <Market 
+                            powerplantMarket={this.props.G.powerplantMarket} 
+                            selected={this.props.G.auction.selected}
+                            upForAuction={this.props.G.auction.upForAuction}
+                            selectPowerplant={this.props.moves.selectPowerplant}
+                            myTurn={myTurn}
+                            step={this.props.G.step}
+                        /><hr/>
+                        <ResourceMarket 
+                            resourceMarket={this.props.G.resourceMarket}
+                            selectResource={this.props.moves.selectResource}
+                        />
+                    </TabPanel>
+                    <TabPanel tab="reference" currentTab={this.state.tab}>
+                        <Reference 
+                            numPlayers={this.props.ctx.numPlayers} 
+                            step={this.props.G.step}
+                            playerOrder={this.props.G.playerOrder}
+                            playerMap={this.playerMap}
+                        /><hr/>
+                        <Players 
+                            players={this.props.G.players} 
+                            playerMap={this.playerMap} 
+                        />
+                    </TabPanel>
                 </div>
                 <div className="sidebar">
                     <Player 

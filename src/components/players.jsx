@@ -66,6 +66,9 @@ export function Players(props) {
         />) 
     }
     return (
-        <div className="players">{players}</div>
+        <div className="player-reference">
+            <span className="player-title">Player Reference</span>
+            <div className="players">{players}</div>
+        </div>
     )
 }
