@@ -5,7 +5,7 @@ export function TabPanel(props) {
     const active = props.currentTab === props.tab
     return (
         <div className={active ? 'tab-content': undefined} hidden={!active}>
-            {active && props.children}
+            {props.children}
         </div>
     )
 }
