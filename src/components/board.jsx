@@ -11,7 +11,7 @@ import { Logs } from './logs'
 import { Players, Player}  from './players'
 import { TabLabel, TabPanel } from './tabHelpers'
 
-import { RESOURCE, REGIONS, MAP, MARKETS, REFERENCE } from '../Game'
+import { CITY, RESOURCE, REGIONS, MAP, MARKETS, REFERENCE } from '../Game'
 
 import './styles/board.css'
 
@@ -56,6 +56,7 @@ export class WattMatrixTable extends React.Component {
                             cityStatus={this.props.G.cityStatus}
                             selectedCities={Object.keys(this.props.G.selectedCities)}
                             myTurn={myTurn}
+                            cityPhase={this.props.ctx.phase === CITY}
                             selectCity={this.props.moves.selectCity}
                             rerender={this.props.G.rerender}
                             pickRegions={this.props.ctx.phase === REGIONS}

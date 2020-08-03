@@ -20,3 +20,7 @@
 .edge-mouse-handler {
     cursor: default !important;
 }
+
+.city-selectable + text{
+    cursor: pointer;
+}

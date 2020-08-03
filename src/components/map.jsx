@@ -127,7 +127,18 @@ export default class Map extends React.Component {
             style['--house-' + houseCosts[i] + '-color'] = houseColor
         }
 
-        return <use x="-50" y="-50" xlinkHref="#city" className={'node'} style={style}/>
+        let usePointer = this.props.myTurn && this.props.cityPhase && this.props.regions.includes(data.region)
+
+        return (
+            <use 
+                x="-50" 
+                y="-50" 
+                xlinkHref="#city" 
+                className={'node' + (usePointer ? ' city-selectable' : '')} 
+                style={style} 
+                cursor={usePointer ? 'pointer' : 'auto'}
+            />
+        )
     }
 
     renderBackground = (gridSize) => {
