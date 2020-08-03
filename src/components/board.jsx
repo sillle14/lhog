@@ -71,6 +71,7 @@ export class WattMatrixTable extends React.Component {
                             selectPowerplant={this.props.moves.selectPowerplant}
                             myTurn={myTurn}
                             step={this.props.G.step}
+                            currentBid={this.props.G.auction.currentBid}
                         /><hr/>
                         <ResourceMarket 
                             resourceMarket={this.props.G.resourceMarket}

@@ -8,8 +8,9 @@ export default function Market(props) {
     for (let i = 0; i < props.powerplantMarket.length; i++) {
         const cost = props.powerplantMarket[i]
         const selected = props.upForAuction === cost || (props.selected === cost && props.myTurn)
+        const clickable = props.myTurn && props.currentBid === null && (props.step === 3 || i < 4)
         powerplants.push(
-            <PowerPlant cost={cost} key={i} selected={selected} select={props.selectPowerplant}/>
+            <PowerPlant cost={cost} key={i} selected={selected} select={props.selectPowerplant} clickable={clickable}/>
         )
     }
     let marketLabels = [<span key="current">Current Market:</span>]

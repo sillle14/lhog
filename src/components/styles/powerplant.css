@@ -76,3 +76,7 @@
     width: calc(80% / 3);
     height: 80%
 }
+
+.powerplant-clickable *{
+    cursor: pointer !important;
+}
