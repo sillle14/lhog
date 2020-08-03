@@ -11,7 +11,7 @@ import { Logs } from './logs'
 import { Players, Player}  from './players'
 import { TabLabel, TabPanel } from './tabHelpers'
 
-import { REGIONS, MAP, MARKETS, REFERENCE } from '../Game'
+import { RESOURCE, REGIONS, MAP, MARKETS, REFERENCE } from '../Game'
 
 import './styles/board.css'
 
@@ -76,6 +76,7 @@ export class WattMatrixTable extends React.Component {
                         <ResourceMarket 
                             resourceMarket={this.props.G.resourceMarket}
                             selectResource={this.props.moves.selectResource}
+                            clickable={myTurn && this.props.ctx.phase === RESOURCE}
                         />
                     </TabPanel>
                     <TabPanel tab={REFERENCE} currentTab={this.state.tab}>

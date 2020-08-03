@@ -139,7 +139,8 @@ export default class Map extends React.Component {
                 fill={this.props.regions.includes(region) ? regionColors[region] : 'lightgrey'} 
                 fillOpacity="0.3" 
                 stroke={this.props.regions.includes(region) ? regionColors[region] : 'grey'} 
-                strokeWidth="4" 
+                strokeWidth="4"
+                cursor={this.props.pickRegions ? 'pointer' : 'auto'}
                 onClick={() => this.props.selectRegion(region)}
             />)
         }

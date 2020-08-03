@@ -30,5 +30,10 @@
 
 .resource-disabled {
     background-color: lightgrey;
-    color: black
+    color: black;
+    cursor: not-allowed;
+}
+
+.resource-clickable {
+    cursor: pointer;
 }

@@ -15,6 +15,11 @@
 
 .action button {
     font-size: 1.7vw;
+    cursor: pointer;
+}
+
+.action button:disabled {
+    cursor: not-allowed;
 }
 
 .action > span {

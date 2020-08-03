@@ -7,6 +7,8 @@ function Resource(props) {
     let className = 'resource market-resource resource-' + props.resource
     if (!props.available) {
         className += ' resource-disabled'
+    } else if (props.clickable) {
+        className += ' resource-clickable'
     }
     return <div className={className}>{props.cost}</div>
 }
@@ -20,6 +22,7 @@ export default function ResourceMarket(props) {
                 cost={r.cost} 
                 available={r.available} 
                 key={i}
+                clickable={props.clickable}
             />)
         })
     }
