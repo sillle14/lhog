@@ -9,6 +9,10 @@
     font-size: 1.7vw;
 }
 
+.action-my-turn {
+    background: goldenrod;
+}
+
 .action button {
     font-size: 1.7vw;
 }

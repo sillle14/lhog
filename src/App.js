@@ -12,7 +12,7 @@ const WattMatrixClient = Client({
     debug: false, 
     multiplayer: SocketIO({ server: 'localhost:8000' }),
     enhancer: applyMiddleware(logger),
-    numPlayers: 4
+    numPlayers: 3
 });
 
 export default WattMatrixClient;

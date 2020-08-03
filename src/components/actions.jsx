@@ -14,6 +14,7 @@ import './styles/action.css'
 
 export default function ActionBar(props) {
     let action
+    let myTurn = true
     if (props.gameover) {
         const winners = props.gameover.winnerIDs
         if (winners.length === 1) {
@@ -29,6 +30,7 @@ export default function ActionBar(props) {
             const poweredCount = props.player.bureaucracy.poweredCount
             const income = payment[poweredCount]
             if (props.player.bureaucracy.hasPowered) {
+                myTurn = false
                 action = <span>{`You earned $${income}. Wait for others to power.`}</span>
             } else if (props.player.bureaucracy.toPower.length === 0) {
                 action = [
@@ -65,6 +67,7 @@ export default function ActionBar(props) {
             // Otherwise, it is discard PP/discard resources. Only one player will be active.
             const currentPlayer = Object.keys(props.playerStages)[0]
             if (props.playerID !== currentPlayer) {
+                myTurn = false
                 action = <span>{'Wait for '}<PlayerName playerID={currentPlayer} playerMap={props.playerMap}/></span>
             } else if (props.playerStages[currentPlayer] === 'discardPP') {
                 if (props.toDiscard) {
@@ -89,6 +92,7 @@ export default function ActionBar(props) {
             }
         }
     } else if (props.playerID !== props.currentPlayer) {
+        myTurn = false
         action = <span>{'Wait for '}<PlayerName playerID={props.currentPlayer} playerMap={props.playerMap}/></span>
     } else {
         switch (props.phase) {
@@ -156,5 +160,5 @@ export default function ActionBar(props) {
                 break
         }
     }
-    return <div className="action">{action}</div>
+    return <div className={'action' + (myTurn ? ' action-my-turn' : '')}>{action}</div>
 }
