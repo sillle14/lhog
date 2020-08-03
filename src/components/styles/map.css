@@ -9,5 +9,14 @@
 
 .edge-text {
     fill: black !important;
+    cursor: default !important;
     font-size: 20px;
+}
+
+.edge {
+    cursor: default !important;
+}
+
+.edge-mouse-handler {
+    cursor: default !important;
 }
