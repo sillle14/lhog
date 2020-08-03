@@ -16,6 +16,8 @@
     display: flex;
     justify-content: space-evenly;
     flex-basis: 20%;
+    cursor: default;
+    user-select: none;
 }
 
 .market-resource {

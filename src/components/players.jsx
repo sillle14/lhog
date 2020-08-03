@@ -34,8 +34,8 @@ export function Player(props) {
         const available = props.player.resources[resource]
         resources.push(
             <div className="player-resource" key={resource}>
-            <div className={'player-symbol resource resource-' + resource}>{available}</div>
-        </div>
+                <div className={'player-symbol resource resource-' + resource}>{available}</div>
+            </div>
         )
     }
 
