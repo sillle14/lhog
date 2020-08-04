@@ -4,7 +4,8 @@ import { getPlayerOrder } from './common'
 
 import PlayerModel from '../models/player'
 
-import { MARKETS } from '../Game'
+import { MARKETS } from '../gameStructure'
+import { DISCARD_PP, DISCARD_RESOURCES } from '../gameStructure'
 
 export function startAuction(G, ctx) {
     G.auction = {
@@ -64,7 +65,7 @@ function afterBid(G, ctx) {
         G.players[winningID].money -= G.auction.currentBid
         if (G.players[winningID].powerplants.length > 2) {
             // Move the winner into the discard stage.
-            ctx.events.setActivePlayers({ value: {[winningID]: 'discardPP'}})
+            ctx.events.setActivePlayers({ value: {[winningID]: DISCARD_PP}})
         } else {
             // Buy the PP.
             G.players[winningID].powerplants.push(G.auction.upForAuction)
@@ -215,7 +216,7 @@ export function discardPP(G, ctx) {
             } else {
                 G.extraCoal = extraCoal
                 G.extraOil = extraOil
-                ctx.events.setActivePlayers({ value: {[activePlayer]: 'discardResources'}})
+                ctx.events.setActivePlayers({ value: {[activePlayer]: DISCARD_RESOURCES}})
                 return
             }
         }

@@ -8,7 +8,8 @@ import { powerplants } from '../static/powerplants'
 
 import PlayerModel from '../models/player'
 
-import { AUCTION, BUREAUCRACY, CITY, REGIONS, RESOURCE } from '../Game'
+import { AUCTION, BUREAUCRACY, CITY, REGIONS, RESOURCE } from '../gameStructure'
+import { COIL_STAGE, DISCARD_PP } from '../gameStructure'
 
 import './styles/action.css'
 
@@ -37,7 +38,7 @@ export default function ActionBar(props) {
                     <span key="message">Choose powerplants to power using the player mat in the upper right.</span>,
                     <button key="pass" onClick={() => props.passPowering()}>Pass</button>
                 ]
-            } else if (props.playerStages[props.playerID] === 'coil') {
+            } else if (props.playerStages[props.playerID] === COIL_STAGE) {
                 const coilPlants = props.player.bureaucracy.toPower.filter(p => powerplants[p].resource === 'coil')
                 const total = coilPlants.reduce((acc, p) => acc + powerplants[p].resourceCost, 0)
                 const message = `Select resources to power PP${coilPlants.length > 1 ? 's' : ''} ${coilPlants.join(', ')}: `
@@ -69,7 +70,7 @@ export default function ActionBar(props) {
             if (props.playerID !== currentPlayer) {
                 myTurn = false
                 action = <span>{'Wait for '}<PlayerName playerID={currentPlayer} playerMap={props.playerMap}/></span>
-            } else if (props.playerStages[currentPlayer] === 'discardPP') {
+            } else if (props.playerStages[currentPlayer] === DISCARD_PP) {
                 if (props.toDiscard) {
                     action = [
                         <span key="message">{`Discard powerplant ${props.toDiscard}? Note that you may need to discard excess resources.`}</span>,

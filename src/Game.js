@@ -1,21 +1,12 @@
-import { ActivePlayers } from 'boardgame.io/core';
-
 import { cities } from './static/cities'
 import { powerplants, STEP_3 } from './static/powerplants'
 import { playerSettings } from './static/reference'
 
 import PlayerModel from './models/player'
 
-import { getPlayerOrder, pass } from './moves/common'
-import * as auction from './moves/auction'
-import * as cityMoves from './moves/cities'
-import * as resourceMoves from './moves/resources'
-import * as bureaucracy from './moves/bureaucracy'
-import * as region from './moves/regions'
+import { getPlayerOrder } from './moves/common'
+import { gamePhases } from './gameStructure';
 
-export const MAP = 'Map'
-export const MARKETS = 'Markets'
-export const REFERENCE = 'Reference'
 
 function setup(ctx, setupData) {
     let cityStatus = {}
@@ -97,116 +88,19 @@ function setup(ctx, setupData) {
     }
 }
 
-// Turn order constant to have each player make one move in reverse player order.
-const REVERSE_ONCE = {
-    order: {
-        first: (G, ctx) => ctx.playOrder.length - 1,
-        next: (G, ctx) => {if (ctx.playOrderPos > 0) { return ctx.playOrderPos - 1}},
-        playOrder: (G, ctx) => G.playerOrder
-    }
-}
-
-export const REGIONS = 'regions'
-export const AUCTION = 'auction'
-export const CITY = 'city'
-export const RESOURCE = 'resource'
-export const BUREAUCRACY = 'bureaucracy'
-
 // TODO:
-// * Move constansts (and phase logic)
+// *
 
 // TODO LONG TERM:
 // * Rewrite lobby -- this enables the below
+//    * Do we need logins?
 // * Save game -- use a free mongo add in to heroku, save all necessary in JSON, and add to setupData when loading a game.
 
 
 export const WattMatrix = {
     name: 'WattMatrix',
     setup: setup,
-    phases: {
-        [REGIONS]: {
-            onBegin: (G, ctx) => {G.tab = MAP},
-            start: true,
-            moves: {
-                selectRegion: region.selectRegion,
-                clearRegions: region.clear,
-                confirmRegions: region.confirm,
-            },
-            next: AUCTION
-        },
-        [AUCTION]: {
-            onBegin: auction.startAuction,  
-            turn: {
-                order: {first: G => parseInt(G.playerOrder[0])},
-                stages: {
-                    discardPP: {
-                        moves: {
-                            selectToDiscard: auction.selectToDiscard,
-                            discardPP: auction.discardPP,
-                        },
-                    },
-                    discardResources: {
-                        moves: {
-                            discardResources: auction.discardResources
-                        }
-                    }
-                }
-            },
-            moves: {
-                selectPowerplant: auction.selectPowerplant,
-                startBidding: auction.startBidding,
-                makeBid: auction.makeBid,
-                passBid: auction.passBid,
-                passBuyPP: auction.passBuyPP,
-            },
-            onEnd: auction.afterAuction,
-            next: RESOURCE,
-        },
-        [RESOURCE]: {
-            onBegin: (G, ctx) => {G.logs.push({move: 'startPhase', phase: 'Buy Resources'}); G.tab = MARKETS},
-            moves: {
-                selectResource: resourceMoves.selectResource,
-                clearResources: resourceMoves.clearResources,
-                buyResources: resourceMoves.buyResources,
-                pass: pass
-            },
-            turn: REVERSE_ONCE,
-            next: CITY
-        },
-        [CITY]: {
-            onBegin: (G, ctx) => {G.logs.push({move: 'startPhase', phase: 'Buy Cities'}); G.tab = MAP},
-            moves: {
-                selectCity: cityMoves.selectCity,
-                clearCities: cityMoves.clearCities,
-                buyCities: cityMoves.buyCities,
-                pass: pass
-            },
-            turn: REVERSE_ONCE,
-            onEnd: cityMoves.endCities,
-            next: BUREAUCRACY,
-        },
-        [BUREAUCRACY]: {
-            onBegin: bureaucracy.startBureaucracy,
-            endIf: G => Object.values(G.players).every(p => p.bureaucracy.hasPowered),
-            moves: {
-                selectToPower: bureaucracy.selectToPower,
-                passPowering: bureaucracy.passPowering,
-                clearToPower: bureaucracy.clearToPower,
-                power: bureaucracy.power
-            },
-            turn: {
-                activePlayers: ActivePlayers.ALL,
-                stages: {
-                    coil: {
-                        moves: {spendCoil: bureaucracy.spendCoil}
-                    }
-                }
-            },
-            onEnd: bureaucracy.endBureaucracy,
-            next: AUCTION,
-
-        }
-    },
+    phases: gamePhases,
     minPlayers: 3,
     maxPlayers: 6,
 }

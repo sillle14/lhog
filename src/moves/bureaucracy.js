@@ -3,7 +3,7 @@ import { payment, playerSettings } from '../static/reference'
 import { powerplants, STEP_3 } from '../static/powerplants'
 import { INVALID_MOVE } from 'boardgame.io/core'
 
-import { REFERENCE } from '../Game'
+import { REFERENCE, COIL_STAGE } from '../gameStructure'
 
 export function startBureaucracy(G, ctx) {
     G.logs.push({move: 'startPhase', phase: 'Bureaucracy'})
@@ -71,7 +71,7 @@ export function power(G, ctx) {
         }
     }
     if (player.bureaucracy.toPower.some(p => powerplants[p].resource === 'coil')) {
-        ctx.events.setStage('coil')
+        ctx.events.setStage(COIL_STAGE)
     } else {
         _endPower(G, ctx)
     }

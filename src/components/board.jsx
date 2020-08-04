@@ -11,7 +11,9 @@ import { Logs } from './logs'
 import { Players, Player}  from './players'
 import { TabLabel, TabPanel } from './tabHelpers'
 
-import { BUREAUCRACY, CITY, RESOURCE, REGIONS, MAP, MARKETS, REFERENCE } from '../Game'
+import { BUREAUCRACY, CITY, RESOURCE, REGIONS } from '../gameStructure'
+import { MAP, MARKETS, REFERENCE } from '../gameStructure'
+import { COIL_STAGE, DISCARD_PP } from '../gameStructure'
 
 import './styles/board.css'
 
@@ -42,7 +44,7 @@ export class WattMatrixTable extends React.Component {
         // Preliminary calculations
         const myTurn = this.props.playerID === this.props.ctx.currentPlayer
         const activePlayer = myTurn || (this.props.ctx.activePlayers && this.props.playerID in this.props.ctx.activePlayers)
-        const discardStage = this.props.ctx.activePlayers && Object.values(this.props.ctx.activePlayers).includes('discardPP')
+        const discardStage = this.props.ctx.activePlayers && Object.values(this.props.ctx.activePlayers).includes(DISCARD_PP)
         const tabs = [MAP, MARKETS, REFERENCE].map(
             (tab) => {
                 const warning = activePlayer && this.state.tab !== tab && this.props.G.tab === tab
@@ -53,7 +55,7 @@ export class WattMatrixTable extends React.Component {
         const playerPPClickable = (discardStage && this.props.playerID in this.props.ctx.activePlayers) || 
             (this.props.ctx.phase === BUREAUCRACY 
                 && !this.props.G.players[this.props.playerID].bureaucracy.hasPowered
-                && this.props.ctx.activePlayers[this.props.playerID] !== 'coil')
+                && this.props.ctx.activePlayers[this.props.playerID] !== COIL_STAGE)
         return (
             <div className="board">
                 <div className="main" id={'main-' + this.props.playerID}>
