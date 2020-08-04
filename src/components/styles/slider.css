@@ -12,3 +12,29 @@
 .slider-box > .resource-name:nth-child(2) {
     text-align: right;
 }
+
+.slider {
+    flex-basis: 15%;
+}
+
+.slider-mark {
+    height: 12px !important;
+    margin-top: -4px;
+    background-color: black !important;
+}
+
+.slider-rail {
+    background-color: brown !important;
+    opacity: 100 !important;
+    height: 4px !important
+}
+
+.slider-track {
+    background-color: black !important;
+    height: 4px !important
+}
+
+.slider-thumb {
+    background: linear-gradient(90deg, black 50%, brown 50%) !important;
+    margin-top: -4px !important;
+}

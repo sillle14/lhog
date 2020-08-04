@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Bidder } from './bidder'
 import { PlayerName, ResourceName } from './names'
-import { Slider } from './slider'
+import { CoilSlider } from './slider'
 import { payment, playerSettings } from '../static/reference'
 import { powerplants } from '../static/powerplants'
 
@@ -42,7 +42,7 @@ export default function ActionBar(props) {
                 const total = coilPlants.reduce((acc, p) => acc + powerplants[p].resourceCost, 0)
                 const message = `Select resources to power PP${coilPlants.length > 1 ? 's' : ''} ${coilPlants.join(', ')}: `
                 action = (
-                    <Slider 
+                    <CoilSlider 
                         player={props.player}
                         confirm={props.spendCoil}
                         total={total}
@@ -80,7 +80,7 @@ export default function ActionBar(props) {
                 }
             } else {
                 action = action = (
-                    <Slider 
+                    <CoilSlider 
                         player={props.player}
                         confirm={props.discardResources}
                         total={(props.extraOil + props.extraCoal) - PlayerModel.getCapacity(props.player).coil}

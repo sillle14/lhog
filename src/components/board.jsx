@@ -38,7 +38,6 @@ export class WattMatrixTable extends React.Component {
         this.setState({tab: newTab})
     }
 
-    // TODO: Fancy slider
     render () {
         // Preliminary calculations
         const myTurn = this.props.playerID === this.props.ctx.currentPlayer
@@ -54,7 +53,7 @@ export class WattMatrixTable extends React.Component {
         const playerPPClickable = (discardStage && this.props.playerID in this.props.ctx.activePlayers) || 
             (this.props.ctx.phase === BUREAUCRACY 
                 && !this.props.G.players[this.props.playerID].bureaucracy.hasPowered
-                && this.props.ctx.activePlayers[this.props.playerID] != 'coil')
+                && this.props.ctx.activePlayers[this.props.playerID] !== 'coil')
         return (
             <div className="board">
                 <div className="main" id={'main-' + this.props.playerID}>

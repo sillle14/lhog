@@ -1,4 +1,5 @@
 import React from 'react'
+import Slider from '@material-ui/core/Slider';
 
 import { ResourceName } from './names'
 
@@ -7,22 +8,30 @@ import './styles/slider.css'
 /**
  * Slider object for choosing between coal and oil.
  */
-export class Slider extends React.Component {
+export class CoilSlider extends React.Component {
     constructor(props) {
         super(props);
         this.state = {coal: 0};
         this.handleChange = this.handleChange.bind(this);
+        this.sliderClasses = {
+            root: 'slider',
+            mark: 'slider-mark',
+            markActive: 'slider-mark',
+            rail: 'slider-rail',
+            track: 'slider-track',
+            thumb: 'slider-thumb'
+        }
     }
   
-    handleChange(event) {
-        this.setState({coal: event.target.value})
+    handleChange(event, newValue) {
+        this.setState({coal: newValue})
     }
   
     render() {
         return (<div className="slider-box">
             <span>{this.props.message}</span>
             <ResourceName resource="oil" amount={this.props.total - this.state.coal}/>
-            <input className="slider" type="range" min="0" max={this.props.total} value={this.state.coal} onChange={this.handleChange}/>
+            <Slider value={this.state.coal} onChange={this.handleChange} min={0} max={this.props.total} marks={true} classes={this.sliderClasses}/>
             <ResourceName resource="coal" amount={this.state.coal}/>
             <button 
                 onClick={() => this.props.confirm(this.state.coal, this.props.total - this.state.coal)} 
