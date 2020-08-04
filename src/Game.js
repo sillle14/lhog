@@ -113,7 +113,7 @@ export const RESOURCE = 'resource'
 export const BUREAUCRACY = 'bureaucracy'
 
 // TODO:
-// * Test, test test!!!!
+// * Move constansts (and phase logic)
 
 // TODO LONG TERM:
 // * Rewrite lobby -- this enables the below

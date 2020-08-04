@@ -17,6 +17,7 @@ export function Player(props) {
                 key={i} 
                 selected={selected} 
                 select={props.selectPP}
+                clickable={props.clickablePP}
             />      
         )
     })

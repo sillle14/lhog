@@ -11,7 +11,7 @@ import { Logs } from './logs'
 import { Players, Player}  from './players'
 import { TabLabel, TabPanel } from './tabHelpers'
 
-import { CITY, RESOURCE, REGIONS, MAP, MARKETS, REFERENCE } from '../Game'
+import { BUREAUCRACY, CITY, RESOURCE, REGIONS, MAP, MARKETS, REFERENCE } from '../Game'
 
 import './styles/board.css'
 
@@ -38,15 +38,23 @@ export class WattMatrixTable extends React.Component {
         this.setState({tab: newTab})
     }
 
+    // TODO: Fancy slider
     render () {
+        // Preliminary calculations
         const myTurn = this.props.playerID === this.props.ctx.currentPlayer
+        const activePlayer = myTurn || (this.props.ctx.activePlayers && this.props.playerID in this.props.ctx.activePlayers)
         const discardStage = this.props.ctx.activePlayers && Object.values(this.props.ctx.activePlayers).includes('discardPP')
         const tabs = [MAP, MARKETS, REFERENCE].map(
             (tab) => {
-                const warning = myTurn && this.state.tab !== tab && this.props.G.tab === tab
+                const warning = activePlayer && this.state.tab !== tab && this.props.G.tab === tab
                 return <Tab classes={warning ? {root: 'alert-tab'} : {}} key={tab} icon={<TabLabel label={tab} warning={warning}/>} value={tab}/>
             }
         )
+        // Player PPs are clickable if they are in the discard phase or if it is bureaucracy and they haven't yet powered.
+        const playerPPClickable = (discardStage && this.props.playerID in this.props.ctx.activePlayers) || 
+            (this.props.ctx.phase === BUREAUCRACY 
+                && !this.props.G.players[this.props.playerID].bureaucracy.hasPowered
+                && this.props.ctx.activePlayers[this.props.playerID] != 'coil')
         return (
             <div className="board">
                 <div className="main" id={'main-' + this.props.playerID}>
@@ -100,6 +108,7 @@ export class WattMatrixTable extends React.Component {
                         playerMap={this.playerMap}
                         selectPP={discardStage ? this.props.moves.selectToDiscard : this.props.moves.selectToPower}
                         selectedPP={discardStage && this.props.ctx.activePlayers[this.props.playerID] ? this.props.G.auction.toDiscard : null}
+                        clickablePP={playerPPClickable}
                     />
                     <Logs logs={this.props.G.logs} playerMap={this.playerMap} playerID={this.props.playerID}/>
                 </div>
