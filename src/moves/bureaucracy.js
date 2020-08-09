@@ -66,7 +66,7 @@ export function power(G, ctx) {
     // Spend the resources for non-coil plants.
     for (let i = 0; i < player.bureaucracy.toPower.length; i++) {
         const powerplant = powerplants[player.bureaucracy.toPower[i]]
-        if (powerplant.resource !== 'coil') {
+        if (powerplant.resource !== 'coil' && powerplant.cost) {
             player.resources[powerplant.resource] -= powerplant.resourceCost
         }
     }
