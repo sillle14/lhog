@@ -44,3 +44,7 @@
 .alert-tab {
     background-color: yellow !important;
 }
+
+.MuiTabs-indicator {
+    height: 4px !important;
+}
