@@ -36,7 +36,7 @@ export default function ActionBar(props) {
             } else if (props.player.bureaucracy.toPower.length === 0) {
                 action = [
                     <span key="message">Choose powerplants to power using the player mat in the upper right.</span>,
-                    <button key="pass" onClick={() => props.passPowering()}>Pass</button>
+                    <button className="danger" key="pass" onClick={() => props.passPowering()}>Pass</button>
                 ]
             } else if (props.playerStages[props.playerID] === COIL_STAGE) {
                 const coilPlants = props.player.bureaucracy.toPower.filter(p => powerplants[p].resource === 'coil')
@@ -59,7 +59,7 @@ export default function ActionBar(props) {
                         ${props.player.bureaucracy.toPower.join(', ')} to power ${poweredCount} 
                         cit${poweredCount !== 1 ? 'ies': 'y'} for $${income}?`
                     }</span>,
-                    <button key="power" onClick={() => props.power()}>Power</button>,
+                    <button className="danger" key="power" onClick={() => props.power()}>Power</button>,
                     <button key="clear" onClick={() => props.clearToPower()}>Clear</button>,
                 ]
             }
@@ -102,12 +102,12 @@ export default function ActionBar(props) {
                     if (!props.selectedPP) {
                         action = [
                             <span key="message">{`Select a powerplant${props.firstTurn ? '.' : ' or pass.'}`}</span>,
-                            <button key="pass" onClick={() => props.passBuyPP()} disabled={props.firstTurn ? 'disabled' : ''}>Pass</button>
+                            <button className="danger" key="pass" onClick={() => props.passBuyPP()} disabled={props.firstTurn ? 'disabled' : ''}>Pass</button>
                         ]
                     } else {
                         action = [
                             <span key="message">{`Start the bidding on powerplant ${props.selectedPP}?`}</span>,
-                            <button key="confirm" onClick={() => props.startBidding()}>Confirm</button>
+                            <button className="danger" key="confirm" onClick={() => props.startBidding()}>Confirm</button>
                         ]
                     }
                 } else {
@@ -116,20 +116,20 @@ export default function ActionBar(props) {
                 break
             case CITY:
                 if (Object.keys(props.selectedCities).length === 0) {
-                    action = [<span key="message">Select cities or pass.</span>, <button key="pass" onClick={() => props.pass()}>Pass</button>]
+                    action = [<span key="message">Select cities or pass.</span>, <button className="danger" key="pass" onClick={() => props.pass()}>Pass</button>]
                 } else {
                     const cities = Object.keys(props.selectedCities).join(', ')
                     const cost = Object.values(props.selectedCities).map(i => i.cost).reduce((a,b) => a+b, 0) + props.connectionCost
                     action = [
                         <span key="message">{`Buy ${cities} for $${cost}?`}</span>,
-                        <button disabled={props.budget >= cost ? '' : 'disabled'} key="buy" onClick={() => props.buyCities()}>Buy</button>,
+                        <button className="danger" disabled={props.budget >= cost ? '' : 'disabled'} key="buy" onClick={() => props.buyCities()}>Buy</button>,
                         <button key="clear" onClick={() => props.clearCities()}>Clear</button>,
                     ]
                 }
                 break
             case RESOURCE:
                 if (props.resourceCost === 0){
-                    action = [<span key="message">Select resources or pass.</span>, <button key="pass" onClick={() => props.pass()}>Pass</button>]
+                    action = [<span key="message">Select resources or pass.</span>, <button className="danger" key="pass" onClick={() => props.pass()}>Pass</button>]
                 } else {
                     let resources = []
                     for (const resource in props.selectedResources) {
@@ -139,7 +139,7 @@ export default function ActionBar(props) {
                     }
                     action = [
                         <span key="message">{'Buy '}{resources}{`for $${props.resourceCost}?`}</span>,
-                        <button disabled={props.budget >= props.resourceCost ? '' : 'disabled'} key="buy" onClick={() => props.buyResources()}>Buy</button>,
+                        <button className="danger" disabled={props.budget >= props.resourceCost ? '' : 'disabled'} key="buy" onClick={() => props.buyResources()}>Buy</button>,
                         <button key="clear" onClick={() => props.clearResources()}>Clear</button>,
                     ]
                 }
@@ -152,7 +152,7 @@ export default function ActionBar(props) {
                     let titleCasedRegions = props.regions.map(r => r[0].toUpperCase() + r.slice(1))
                     action = [
                         <span key="message">{`Play in ${titleCasedRegions.join(', ')}?`}</span>,
-                        <button disabled={props.regions.length === playerSettings[playerCount].regions ? '' : 'disabled'} key="buy" onClick={() => props.confirmRegions()}>Confirm</button>,
+                        <button className="danger" disabled={props.regions.length === playerSettings[playerCount].regions ? '' : 'disabled'} key="buy" onClick={() => props.confirmRegions()}>Confirm</button>,
                         <button key="clear" onClick={() => props.clearRegions()}>Clear</button>,
                     ]
                 }

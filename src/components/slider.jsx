@@ -34,6 +34,7 @@ export class CoilSlider extends React.Component {
             <Slider value={this.state.coal} onChange={this.handleChange} min={0} max={this.props.total} marks={true} classes={this.sliderClasses}/>
             <ResourceName resource="coal" amount={this.state.coal}/>
             <button 
+                className="danger"
                 onClick={() => this.props.confirm(this.state.coal, this.props.total - this.state.coal)} 
                 disabled={this.props.maxOil >= this.props.total - this.state.coal && this.props.maxCoal >= this.state.coal ? '' : 'disabled'}
             >Confirm</button>
