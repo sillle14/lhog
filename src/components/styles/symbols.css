@@ -14,11 +14,11 @@
 }
 
 .resource-coal {
-    background: brown;
+    background: rgb(116, 61, 39);
 }
 
 .resource-coil {
-    background: linear-gradient(135deg, black 50%, brown 50%);
+    background: linear-gradient(135deg, black 50%, rgb(116, 61, 39) 50%);
     clip-path: ellipse(50% 65% at 50% 50%);
 }
 

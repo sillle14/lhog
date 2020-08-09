@@ -3,7 +3,7 @@ import { playerColors } from '../static/playerColors'
 import './styles/names.css'
 
 const resourceColorMap = {
-    coal: 'brown',
+    coal: 'rgb(116, 61, 39)',
     oil: 'black',
     trash: 'rgb(255, 255, 45)',
     uranium: 'red'

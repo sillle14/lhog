@@ -24,7 +24,7 @@
 }
 
 .slider-rail {
-    background-color: brown !important;
+    background-color: rgb(116, 61, 39) !important;
     opacity: 100 !important;
     height: 4px !important
 }
@@ -35,6 +35,6 @@
 }
 
 .slider-thumb {
-    background: linear-gradient(90deg, black 50%, brown 50%) !important;
+    background: linear-gradient(90deg, black 50%, rgb(116, 61, 39) 50%) !important;
     margin-top: -4px !important;
 }
