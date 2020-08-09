@@ -39,7 +39,7 @@ function setup(ctx, setupData) {
     let powerplantDeck = []
     // Add all other powerplants to the deck, except for 13.
     for (const pp in powerplants) {
-        if (pp > 10 && pp !== 13) {
+        if (pp > 10 && pp !== '13') {
             powerplantDeck.push(pp)
         }
     }
