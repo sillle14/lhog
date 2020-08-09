@@ -88,18 +88,21 @@ function afterBid(G, ctx) {
 
 // After a player buys a PP or passes, set the turn to the next player, or end the phase.
 function afterBuy(G, ctx) {
-    // Remove the powerplant from the market, replace it, and resort it.
-    G.powerplantMarket.splice(G.powerplantMarket.indexOf(G.auction.upForAuction), 1)
-    const nextPlant = G.powerplantDeck.pop()
-    if (nextPlant) {
-        G.powerplantMarket.push(nextPlant)
-    }
-    G.powerplantMarket.sort((a,b) => a-b)
+    // Remove and replace the bought PP, if any.
+    if (G.auction.upForAuction) {
+        // Remove the powerplant from the market, replace it, and resort it.
+        G.powerplantMarket.splice(G.powerplantMarket.indexOf(G.auction.upForAuction), 1)
+        const nextPlant = G.powerplantDeck.pop()
+        if (nextPlant) {
+            G.powerplantMarket.push(nextPlant)
+        }
+        G.powerplantMarket.sort((a,b) => a-b)
 
-    // If the step 3 card was drawn, shuffle the new PP deck.
-    if (nextPlant === STEP_3 && !G.startStep3) {
-        G.powerplantDeck = ctx.random.Shuffle(G.powerplantsStep3)
-        G.startStep3 = true
+        // If the step 3 card was drawn, shuffle the new PP deck.
+        if (nextPlant === STEP_3 && !G.startStep3) {
+            G.powerplantDeck = ctx.random.Shuffle(G.powerplantsStep3)
+            G.startStep3 = true
+        }
     }
 
     // Reset the auction. 
