@@ -22,10 +22,10 @@ export class WattMatrixTable extends React.Component {
     constructor(props) {
         super(props)
         this.playerMap = {}
-        if (this.props.gameMetadata) {
-            for (let i = 0; i < this.props.gameMetadata.length; i ++) {
+        if (this.props.matchData) {
+            for (let i = 0; i < this.props.matchData.length; i ++) {
                 // Limit to 10 characters
-                this.playerMap[this.props.gameMetadata[i].id] = this.props.gameMetadata[i].name.slice(0, 10)
+                this.playerMap[this.props.matchData[i].id] = this.props.matchData[i].name.slice(0, 10)
             }
         } else {
             for (let i = 0; i < this.props.ctx.numPlayers; i ++) {
