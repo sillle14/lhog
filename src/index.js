@@ -24,6 +24,7 @@ if (NO_LOBBY) {
   const ENV = process.env.REACT_APP_ENV
 
   let SERVER
+  // TODO: ENV === 'dev'
   if (ENV === 'dev')    {
     SERVER = `http://${window.location.hostname}:8000`  // Local
   } else {
@@ -32,6 +33,7 @@ if (NO_LOBBY) {
 
   // Render the lobby. This relies on a running server.
   // TODO: Make the lobby way nicer looking!
+  // TODO: Add a login page to the lobby, perhaps use react router
   ReactDOM.render(
     <React.StrictMode>
       <Lobby
