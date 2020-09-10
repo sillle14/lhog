@@ -33,10 +33,9 @@ export class WattMatrixTable extends React.Component {
             }
         }
         this.state = {tab: MAP}
-        this.switchToTab = this.switchToTab.bind(this)
     }
 
-    switchToTab(newTab) {
+    switchToTab = (newTab) => {
         this.setState({tab: newTab})
     }
 
