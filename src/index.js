@@ -5,7 +5,7 @@ import WattMatrixClient from './App';
 import * as serviceWorker from './serviceWorker';
 import { WattMatrixTable } from './components/board'
 import { WattMatrix } from './Game'
-import { Lobby } from './lobby/lobby';
+import Lobby from './lobby/lobby';
 import './components/styles/lobby.css'
 
 const NO_LOBBY = process.env.REACT_APP_NO_LOBBY

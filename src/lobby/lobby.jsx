@@ -1,42 +1,63 @@
-import React from 'react'
+import PropTypes from 'prop-types';
+import React, {useState, useEffect} from 'react'
 
 import getLobbyConnection from './connection'
-import LoginForm from './form'
 import Header from './header'
+import LoginForm from './form'
 
-export class Lobby extends React.Component {
+export default function Lobby({gameServer, gameComponents}) {
 
-    state = {
-        playerName: null,
-    }
+    const [playerName, setPlayerName] = useState(null)
+    const [loading, setLoading] = useState(false)
 
-    constructor(props) {
-        super(props)
-        this.connection = getLobbyConnection(props.gameServer, props.gameComponents)
-    }
+    const connection = getLobbyConnection(gameServer, gameComponents)
 
-    login = async (username, password) => {
-        const success = await this.connection.login(username, password)
-        this.setState({playerName: this.connection.playerName})
-        return success
-    }
-
-    signup = async (username, password) => {
-        const success = await this.connection.signup(username, password)
-        this.setState({playerName: this.connection.playerName})
-        return success
-    }
-
-    logout = async () => {
-        await this.connection.logout()
-        this.setState({playerName: this.connection.playerName})
-    }
-
-    render () {
-        if (this.state.playerName) {
-            return (<Header playerName={this.state.playerName} logout={this.logout}/>)
-        } else {
-            return <LoginForm login={this.login} signup={this.signup}/>
+    // TODO: Figure out connection, and use a loading screen!
+    useEffect(() => {
+        const auth = async () => {
+            await connection.auth()
+            setPlayerName(connection.username)
+            setLoading(false)
         }
+        setLoading(true)
+        auth()
+    }, [])
+
+    const login = async (username, password) => {
+        const success = await connection.login(username, password)
+        setPlayerName(connection.playerName)
+        return success
     }
+
+    const signup = async (username, password) => {
+        const success = await connection.signup(username, password)
+        setPlayerName(connection.playerName)
+        return success
+    }
+
+    const logout = async () => {
+        await connection.logout()
+        setPlayerName(connection.playerName)
+    }
+
+    let content
+    if (loading) {
+        content = null
+    } else if (playerName) {
+        content = <div>Hi</div>
+    } else {
+        content = <LoginForm login={login} signup={signup}/>
+    }
+
+    return (
+        <>
+            <Header playerName={playerName} logout={logout} loading={loading}></Header>
+            {content}
+        </>
+    )
+}
+
+Lobby.propTypes = {
+    gameServer: PropTypes.string.isRequired,
+    gameComponents: PropTypes.array.isRequired
 }

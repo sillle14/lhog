@@ -1,16 +1,15 @@
+import PropTypes from 'prop-types';
 import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import { Box, Button, Container, Link, TextField, Typography } from '@material-ui/core';
 
 
-// TODO: use theme for margins
 const useStyles = makeStyles((theme) => ({
     form: {
-      marginTop: '100px'
+      marginTop: theme.spacing(18)
     },
     submit: {
-        marginTop: '10px',
-        marginBottom: '10px',
+        margin: theme.spacing(1.5, 'auto')
     },
     link: {
         cursor: 'pointer'
@@ -20,12 +19,12 @@ const useStyles = makeStyles((theme) => ({
     }
 }))
 
-export default function LoginForm(props) {
+export default function LoginForm({signup, login}) {
 
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
-    const [signup, setSignup] = useState(false)
+    const [signupMode, setSignupMode] = useState(false)
 
     // Errors
     const [usernameError, setUsernameError] = useState('')
@@ -37,24 +36,24 @@ export default function LoginForm(props) {
 
     const handleSubmit = async event => {
         event.preventDefault()
-        if (!username) {
+        if (!username.trim()) {
             setUsernameError('Required.')
         }
         if (!password) {
             setPasswordError('Required.')
         }
-        if (password && username) {
-            if (signup) {
-                if (password != confirmPassword) {
+        if (password && username.trim()) {
+            if (signupMode) {
+                if (password !== confirmPassword) {
                     setConfirmPasswordError("Passwords don't match.")
                 } else {
-                    const signupSuccess = await props.signup(username, password)
+                    const signupSuccess = await signup(username.trim(), password)
                     if (!signupSuccess) {
                         setMainError('Username taken.')
                     }
                 }
             } else {
-                const loggedIn = await props.login(username, password)
+                const loggedIn = await login(username.trim(), password)
                 if (!loggedIn) {
                     setMainError('Incorrect username or password.')
                 }
@@ -63,7 +62,7 @@ export default function LoginForm(props) {
     }
 
     const swapMode = () => {
-        setSignup(!signup)
+        setSignupMode(!signupMode)
         setUsername('')
         setPassword('')
         setConfirmPassword('')
@@ -114,7 +113,7 @@ export default function LoginForm(props) {
                     type="password"
                     onFocus={() => { setConfirmPasswordError(''); setMainError('') }}
                     onChange={(e) => { setConfirmPassword(e.target.value) }}
-                    className={signup? '' : classes.hidden}
+                    className={signupMode? '' : classes.hidden}
                 />
                 <Typography color="secondary" hidden={mainError === ''}>{mainError}</Typography>
                 <Button
@@ -126,7 +125,7 @@ export default function LoginForm(props) {
                     onClick={handleSubmit}
                     size="large"
                 >
-                    {signup ? 'Sign Up' : 'Log In'}
+                    {signupMode ? 'Sign Up' : 'Log In'}
                 </Button>
                 <Box display="flex" justifyContent="flex-end">
                     <Link 
@@ -134,10 +133,15 @@ export default function LoginForm(props) {
                         variant="body2"
                         onClick={() => { swapMode() }}
                     >
-                        {signup ? 'Have an account? Sign In' : 'No account? Sign up'}
+                        {signupMode ? 'Have an account? Sign In' : 'No account? Sign up'}
                     </Link>
                 </Box>
             </form>
         </Container>
     )
+}
+
+LoginForm.propTypes = {
+    signup: PropTypes.func.isRequired,
+    login: PropTypes.func.isRequired
 }
