@@ -5,7 +5,7 @@ import WattMatrixClient from './App';
 import * as serviceWorker from './serviceWorker';
 import { WattMatrixTable } from './components/board'
 import { WattMatrix } from './Game'
-import { Lobby } from 'boardgame.io/react';
+import { Lobby } from './lobby/lobby';
 import './components/styles/lobby.css'
 
 const NO_LOBBY = process.env.REACT_APP_NO_LOBBY
@@ -24,7 +24,7 @@ if (NO_LOBBY) {
     const ENV = process.env.REACT_APP_ENV
 
     let SERVER
-    // TODO: ENV === 'dev'
+    // TODO: ENV === 'dev' why does this work, fix it!
     if (true)    {
         SERVER = `http://${window.location.hostname}:8000`  // Local
     } else {

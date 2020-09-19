@@ -4,56 +4,60 @@ import koaBody from 'koa-body'
 
 import User from './database'
 
-async function ping(ctx) {
-    console.log(ctx.isAuthenticated())
-    console.log('pong')
-    ctx.body = 'pong'
-    return ctx
+async function auth(ctx) {
+    if (ctx.isAuthenticated()) {
+        ctx.body = {username: ctx.state.user.username}
+        ctx.status = 200
+    } else {
+        ctx.status = 401
+    }
 }
 
+async function login(ctx) {
+    return passport.authenticate('local', (err, user, info, status) => {
+        if (err) {
+            console.log('error logging in')
+            ctx.status = 400
+        }
+        if (user) {
+            console.log(`${user.username} logged in.`)
+            ctx.login(user)
+            ctx.status = 200
+        } else {
+            ctx.status = 401
+        }
+    })(ctx);
+}
 
-// TODO: Just return a 200 and the username, or a 403 not auth otherwise.
-const login = passport.authenticate('local', {successRedirect: '/login-success'})
-
-// TODO redirects not working
-async function register(ctx) {
+async function signup(ctx) {
     const username = ctx.request.body.username
     const password = ctx.request.body.password
-    User.findOne({ username: username }).then(user => {
-        if (user) {
-            console.log('existing user')
-            ctx.redirect('login-fail')
-        } else {
-            console.log('creating user ' + username)
-            const newUser = new User({
-                username: username,
-                password: bcrypt.hashSync(password)
-            })
-            newUser.save().then( ctx.redirect('/login-success') )
-        }
-    }).catch(err => { 
-        console.log('register error')
-        ctx.redirect('/login-fail')
-    })
+    const user = await User.findOne({username: username})
+    if (user) {
+        console.log('existing user')
+        ctx.body = 'existing user'
+        ctx.status = 400
+    } else {
+        console.log('creating user ' + username)
+        const newUser = new User({
+            username: username,
+            password: bcrypt.hashSync(password)
+        })
+        await newUser.save()
+        ctx.login(newUser)
+        ctx.status = 201
+    }
 }
 
-async function loginSuccess(ctx) {
-    console.log('logged in')
-    ctx.body = 'logged in'
-    return ctx
+async function logout(ctx) {
+    console.log('logout')
+    ctx.logout()
+    ctx.body = 'logged out'
 }
-
-async function loginFail(ctx) {
-    console.log('failed to log in')
-    ctx.body = 'failed to log in'
-    return ctx
-}
-
 
 export function addRoutes(router) {
-    router.get('/ping', koaBody(), ping)
+    router.get('/auth', auth)
     router.post('/login', koaBody(), login)
-    router.post('/register', koaBody(), register)
-    router.get('/login-success', koaBody(), loginSuccess)
-    router.get('/login-fail', koaBody(), loginFail)
+    router.post('/logout', logout)
+    router.post('/signup', koaBody(), signup)
 }
