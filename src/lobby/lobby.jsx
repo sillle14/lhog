@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React, {useState, useEffect} from 'react'
 
+import CreateGameForm from './createGame'
 import getLobbyConnection from './connection'
 import Header from './header'
 import LoginForm from './form'
@@ -9,19 +10,23 @@ export default function Lobby({gameServer, gameComponents}) {
 
     const [playerName, setPlayerName] = useState(null)
     const [loading, setLoading] = useState(false)
+    const [init, setInit] = useState(true)
 
     const connection = getLobbyConnection(gameServer, gameComponents)
 
-    // TODO: Figure out connection, and use a loading screen!
     useEffect(() => {
         const auth = async () => {
             await connection.auth()
             setPlayerName(connection.username)
             setLoading(false)
         }
-        setLoading(true)
-        auth()
-    }, [])
+        // Only need to check auth once.
+        if (init){
+            setLoading(true)
+            auth()
+            setInit(false)
+        }
+    }, [connection, init])
 
     const login = async (username, password) => {
         const success = await connection.login(username, password)
@@ -44,7 +49,7 @@ export default function Lobby({gameServer, gameComponents}) {
     if (loading) {
         content = null
     } else if (playerName) {
-        content = <div>Hi</div>
+        content = <CreateGameForm games={gameComponents} createGame={() => {}}/>
     } else {
         content = <LoginForm login={login} signup={signup}/>
     }

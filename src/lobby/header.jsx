@@ -32,7 +32,7 @@ export default function Header({playerName, logout, loading}) {
 }
 
 Header.propTypes = {
-    playerName: PropTypes.string.isRequired,
+    playerName: PropTypes.string,
     logout: PropTypes.func.isRequired,
     loading: PropTypes.bool.isRequired
 }
