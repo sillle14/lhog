@@ -1,10 +1,7 @@
 class _LobbyConnection {
     
-    constructor(server, gameComponents) {
+    constructor(server) {
         this.server = server
-        this.gameComponents = gameComponents
-        this.playerName = null
-        this.playerCredentials = null
     }
 
     async _request(route, init) {
@@ -21,22 +18,17 @@ class _LobbyConnection {
         return this._request(route, {...init, ...customInit});
     }
 
-    // async refresh() {
-    //     try {
-    //         this.playerName = await this.getLoggedInUser()
-    //     } catch (error) {
-    //         console.log(`Failed to refresh: ${error}`)
-    //         throw new Error('failed to retrieve list of matches (' + error + ')');
-    //     }
-    // }
+    /***********************
+     *   LOGIN ENDPOINTS   *
+     ***********************/
 
     async auth() {
         const resp = await this._request('/auth', {credentials: 'include'})
         if (resp.status === 200) {
             const json = await resp.json()
-            this.username = json.username
+            return json
         } else if (resp.status === 401) {
-            this.username = null
+            return null
         } else {
             throw new Error(`Unexepcted status from '/auth': ${resp.status}`)
         }
@@ -49,10 +41,8 @@ class _LobbyConnection {
             {credentials: 'include'}
         )
         if (resp.status === 200) {
-            this.playerName = username
             return true
         } else if (resp.status === 401) {
-            this.playerName = null
             return false
         } else {
             throw new Error(`Unexepcted status from '/login': ${resp.status}`)
@@ -84,9 +74,31 @@ class _LobbyConnection {
             throw new Error(`Unexepcted status from '/logout': ${resp.status}`)
         }
     }
+
+    /**********************
+     *   MATCH ENDPOINTS  *
+     **********************/
+
+    async createMatch(gameName, numPlayers) {
+        await this._post(`/games/${gameName}/create`, {numPlayers: numPlayers})
+    }
+
+    async listMatches(gameName) {
+        const resp = await this._request(`/games/${gameName}`)
+        const json = await resp.json()
+        return json.matches
+    }
+
+    async joinMatch(gameName, matchID, seatNum, playerName) {
+        await this._post(
+            `/games/${gameName}/${matchID}/join`, 
+            {playerID: seatNum, playerName: playerName},
+            {credentials: 'include'}
+        )
+    }
 }
 
 
-export default function getLobbyConnection(server, gameComponents) {
-    return new _LobbyConnection(server, gameComponents)
+export default function getLobbyConnection(server) {
+    return new _LobbyConnection(server)
 }

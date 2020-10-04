@@ -5,7 +5,8 @@ import { Button, Container, MenuItem, TextField } from '@material-ui/core'
 
 const useStyles = makeStyles((theme) => ({
     form: {
-      marginTop: theme.spacing(15),
+      marginTop: theme.spacing(8),
+      marginBottom: theme.spacing(8),
       display: 'flex',
       justifyContent: 'space-between',
     },
@@ -18,19 +19,24 @@ const useStyles = makeStyles((theme) => ({
     }
 }))
 
-export default function CreateGameForm({games, createGame}) {
+export default function CreateMatchForm({games, createMatch}) {
 
-    const [game, setGame] = useState('')
+    const [gameIdx, setGameIdx] = useState('')
     const [numPlayers, setNumPlayers] = useState('')
     const [numPlayerOpts, setNumPlayerOpts] = useState([])
 
     const classes = useStyles()
 
     const selectGame = (event) => {
-        const gameID = event.target.value
-        setGame(gameID)
-        const game = games[gameID].game
+        const gameIdxValue = event.target.value
+        setGameIdx(gameIdxValue)
+        const game = games[gameIdxValue].game
         setNumPlayerOpts([...new Array(game.maxPlayers + 1).keys()].slice(game.minPlayers))
+    }
+
+    const onCreateMatch = async (event) => {
+        event.preventDefault()
+        createMatch(games[gameIdx].game.name, numPlayers)
     }
 
     return (
@@ -41,7 +47,7 @@ export default function CreateGameForm({games, createGame}) {
                     select
                     label="Game"
                     onChange={selectGame}
-                    value={game}
+                    value={gameIdx}
                     className={classes.select}
                 >
                     {games.map((game, idx) => (
@@ -57,7 +63,7 @@ export default function CreateGameForm({games, createGame}) {
                     onChange={(e) => {setNumPlayers(e.target.value)}}
                     value={numPlayers}
                     className={classes.select}
-                    disabled={game === ''}
+                    disabled={gameIdx === ''}
                 >
                     {numPlayerOpts.map((i) => (
                         <MenuItem key={i} value={i}>
@@ -70,6 +76,8 @@ export default function CreateGameForm({games, createGame}) {
                     color="primary"
                     type="submit"
                     className={classes.submit}
+                    onClick={onCreateMatch}
+                    disabled={(numPlayers === '')}
                 >
                     Create New Game
                 </Button>
@@ -78,7 +86,7 @@ export default function CreateGameForm({games, createGame}) {
     )
 }
 
-CreateGameForm.propTypes = {
+CreateMatchForm.propTypes = {
     games: PropTypes.array.isRequired,
-    createGame: PropTypes.func.isRequired
+    createMatch: PropTypes.func.isRequired
 }

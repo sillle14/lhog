@@ -6,7 +6,7 @@ import { Box, Button, Container, Link, TextField, Typography } from '@material-u
 
 const useStyles = makeStyles((theme) => ({
     form: {
-      marginTop: theme.spacing(18)
+      marginTop: theme.spacing(10)
     },
     submit: {
         margin: theme.spacing(1.5, 'auto')

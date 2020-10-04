@@ -32,13 +32,10 @@ if (NO_LOBBY) {
     }
 
     // Render the lobby. This relies on a running server.
-    // TODO: Make the lobby way nicer looking!
-    // TODO: Add a login page to the lobby, perhaps use react router
     ReactDOM.render(
         <React.StrictMode>
         <Lobby
             gameServer={SERVER}
-            lobbyServer={SERVER}
             gameComponents={[{game: WattMatrix, board: WattMatrixTable}]}
         />
         </React.StrictMode>,

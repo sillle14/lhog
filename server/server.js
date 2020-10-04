@@ -11,8 +11,17 @@ import { addRoutes } from './routes'
 import './database'
 import './passport'
 
+// Use the player ID as the credentials
+const generateCredentials = (ctx) => {
+    if (ctx.isAuthenticated()) {
+        return ctx.state.user.id
+    } else {
+        throw new Error('user is not logged in')
+    }
+}
+
 const PORT = process.env.PORT || 8000;
-const server = Server({ games: [WattMatrix] })
+const server = Server({ games: [WattMatrix], generateCredentials: generateCredentials })
 
 const SINGLE_PORT = process.env.SINGLE_PORT
 
@@ -34,21 +43,6 @@ server.app.use(passport.initialize())
 server.app.use(passport.session())
 
 addRoutes(server.router)
-
-// Is this necessary? probably not given that the front end is always checking username
-server.app.use(async (ctx, next) => {
-    // TODO: password protect more routes
-    if (ctx.url == '/games') {
-        if (ctx.isAuthenticated()) {
-            console.log(ctx.state.user.username)
-            return next()
-        } else {
-            ctx.status = 401
-        }
-    } else {
-        await next();
-    }
-});
 
 if (SINGLE_PORT) {
     // Build path relative to the server.js file

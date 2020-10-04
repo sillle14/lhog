@@ -6,7 +6,7 @@ import User from './database'
 
 async function auth(ctx) {
     if (ctx.isAuthenticated()) {
-        ctx.body = {username: ctx.state.user.username}
+        ctx.body = {username: ctx.state.user.username, id: ctx.state.user.id}
         ctx.status = 200
     } else {
         ctx.status = 401
