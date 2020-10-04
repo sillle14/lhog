@@ -1,18 +1,20 @@
-import { Server } from 'boardgame.io/server';
 import path from 'path';
 import cors from '@koa/cors';
 import serve from 'koa-static';
 import session from 'koa-session'
 import passport from 'koa-passport'
 import MongooseStore from 'koa-session-mongoose'
+
+import { Server } from 'boardgame.io/server';
 import { StorageCache } from 'bgio-storage-cache'
 
 import { WattMatrix } from '../src/Game';
 
 import { addRoutes } from './routes'
-import './database'
 import './passport'
 import { MongoStore } from '../db/mongo'
+
+const DB_URI = process.env.DB_URI || 'mongodb://localhost:27017/wattmatrix'
 
 // Use the player ID as the credentials
 const generateCredentials = (ctx) => {
@@ -24,25 +26,23 @@ const generateCredentials = (ctx) => {
 }
 
 const PORT = process.env.PORT || 8000;
-const db = new MongoStore()
+
+// Creating and running the server with mongo connection initializes it. This is also important for passport.
+const db = new MongoStore(DB_URI)
 const dbWithCaching = new StorageCache(db, {cacheSize: 200})
 const server = Server({ games: [WattMatrix], generateCredentials: generateCredentials, db: dbWithCaching})
 
 const SINGLE_PORT = process.env.SINGLE_PORT
 
-// TODO: I think this is duplicate middle ware, but important to allow connections
-//          Should be only in dev environment (or when not single port)
-server.app.use(cors({credentials: true}))
+// We need to modify the CORS setting (to allow checking credentials) if we are running the server and client on separate
+//  ports. However, this middleware has already been added to the server by default, so we only add this duplicate
+//  middleware when we are running on two ports (for dev environments.)
+if (!SINGLE_PORT) {
+    server.app.use(cors({credentials: true}))
+}
 
 server.app.keys = ['secretwer']  // TODO
 server.app.use(session({store: new MongooseStore({collection: 'sessions'})}, server.app))
-
-// TODO: Remove in production?
-// server.app.use(async (ctx, next) => {
-//     console.log(`${ctx.method} ${ctx.url}`);
-//     await next();
-// });
-
 
 server.app.use(passport.initialize())
 server.app.use(passport.session())

@@ -2,21 +2,22 @@ import mongoose from 'mongoose'
 
 import { Async } from "boardgame.io/internal";
 
-import Game from './schema'
+import Game from './game'
 
 const DB_URI = 'mongodb://localhost:27017/wattmatrix';
 
 export class MongoStore extends Async {
 
-    constructor() {
+    constructor(uri) {
         super()
+        this.uri = uri
     }
 
     /**
      * Connect.
      */
     async connect() {
-        mongoose.connect(DB_URI, {
+        mongoose.connect(this.uri, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
             useCreateIndex: true,
@@ -51,6 +52,7 @@ export class MongoStore extends Async {
             }
         }
     ) {
+        // JSONify the state, in order to handle issues with field names containing '.'.
         const game = new Game({
             _id: matchID,
             gameName,

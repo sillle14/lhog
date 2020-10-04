@@ -2,7 +2,7 @@ import passport from 'koa-passport'
 import LocalStrategy from 'passport-local'
 import bcrypt from 'bcryptjs'
 
-import User from './database'
+import User from '../db/user'
 
 const verifyCallback = (username, password, done) => {
     User.findOne({ username: username })

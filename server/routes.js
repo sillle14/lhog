@@ -2,7 +2,7 @@ import passport from 'koa-passport'
 import bcrypt from 'bcryptjs'
 import koaBody from 'koa-body'
 
-import User from './database'
+import User from '../db/user'
 
 async function auth(ctx) {
     if (ctx.isAuthenticated()) {
