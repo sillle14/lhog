@@ -9,7 +9,6 @@ mongoose.connect(DB_URI, {
     useFindAndModify: false,
 });
 
-// TODO: This should probably store some game info at some point?
 const UserSchema = new mongoose.Schema({
     username: String,
     password: String

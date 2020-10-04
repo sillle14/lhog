@@ -8,6 +8,7 @@
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
     "bcryptjs": "^2.4.3",
+    "bgio-storage-cache": "^0.2.0",
     "boardgame.io": "^0.40.0",
     "esm": "^3.2.25",
     "koa-passport": "^4.1.3",

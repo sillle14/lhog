@@ -48,7 +48,6 @@ export default function MatchCard({match, joinMatch, startMatch, playerName}) {
                 disabled = false
             }
             onClick = () => {
-                console.log(mySeat.id)
                 startMatch(match.gameName, match.matchID, '' + mySeat.id)
             }
         } else {

@@ -5,6 +5,8 @@ import serve from 'koa-static';
 import session from 'koa-session'
 import passport from 'koa-passport'
 import MongooseStore from 'koa-session-mongoose'
+import { StorageCache } from 'bgio-storage-cache'
+
 import { WattMatrix } from '../src/Game';
 
 import { addRoutes } from './routes'
@@ -22,7 +24,9 @@ const generateCredentials = (ctx) => {
 }
 
 const PORT = process.env.PORT || 8000;
-const server = Server({ games: [WattMatrix], generateCredentials: generateCredentials, db: new MongoStore()})
+const db = new MongoStore()
+const dbWithCaching = new StorageCache(db, {cacheSize: 200})
+const server = Server({ games: [WattMatrix], generateCredentials: generateCredentials, db: dbWithCaching})
 
 const SINGLE_PORT = process.env.SINGLE_PORT
 
@@ -34,10 +38,10 @@ server.app.keys = ['secretwer']  // TODO
 server.app.use(session({store: new MongooseStore({collection: 'sessions'})}, server.app))
 
 // TODO: Remove in production?
-server.app.use(async (ctx, next) => {
-    console.log(`${ctx.method} ${ctx.url}`);
-    await next();
-});
+// server.app.use(async (ctx, next) => {
+//     console.log(`${ctx.method} ${ctx.url}`);
+//     await next();
+// });
 
 
 server.app.use(passport.initialize())
