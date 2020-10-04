@@ -1,0 +1,202 @@
+import mongoose from 'mongoose'
+
+import { Async } from "boardgame.io/internal";
+
+import Game from './schema'
+
+const DB_URI = 'mongodb://localhost:27017/wattmatrix';
+
+export class MongoStore extends Async {
+
+    constructor() {
+        super()
+    }
+
+    /**
+     * Connect.
+     */
+    async connect() {
+        mongoose.connect(DB_URI, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+            useCreateIndex: true,
+            useFindAndModify: false,
+        });
+    }   
+
+    /**
+     * Create a new game.
+     *
+     * This might just need to call setState and setMetadata in
+     * most implementations.
+     *
+     * However, it exists as a separate call so that the
+     * implementation can provision things differently when
+     * a game is created.  For example, it might stow away the
+     * initial game state in a separate field for easier retrieval.
+     */
+    async createGame(
+        matchID,
+        {
+            initialState,
+            metadata: {
+                gameName,
+                players,
+                setupData,
+                gameover,
+                nextRoomID,
+                unlisted,
+                createdAt,
+                updatedAt
+            }
+        }
+    ) {
+        const game = new Game({
+            _id: matchID,
+            gameName,
+            unlisted,
+            players,
+            setupData,
+            gameover,
+            nextRoomID,
+            unlisted,
+            initialState: JSON.stringify(initialState),
+            state: JSON.stringify(initialState),
+            log: [],
+            createdAt,
+            updatedAt
+        })
+        await game.save()
+    }
+
+    /**
+     * Update the game state.
+     *
+     * If passed a deltalog array, setState should append its contents to the
+     * existing log for this game.
+     */
+    async setState(
+        matchID,
+        state,
+        deltalog
+    ) {
+        // Check if the given state is newer than the saved state.
+        const game = await Game.findById(matchID)
+        const previousState = game && JSON.parse(game.state)
+        if (!previousState || previousState._stateID < state._stateID) {
+            await Game.findByIdAndUpdate(
+                matchID,
+                {
+                    state: JSON.stringify(state),
+                    log: [...((game && game.log) || []), ...(deltalog || [])]
+                },
+                {upsert: true}
+            )
+        }
+    }
+
+    /**
+     * Update the game metadata.
+     */
+    async setMetadata(
+        matchID,
+        {
+            gameName,
+            players,
+            setupData,
+            gameover,
+            nextRoomID,
+            unlisted,
+            createdAt,
+            updatedAt,
+        }
+    ) {
+        await Game.findByIdAndUpdate(
+            matchID,
+            {
+                gameName,
+                players,
+                setupData,
+                gameover,
+                nextRoomID,
+                unlisted,
+                createdAt,
+                updatedAt,
+            },
+            {upsert: true}
+        )
+    }
+
+    /**
+     * Fetch the game state.
+     */
+    async fetch (
+        matchID,
+        { state, log, metadata, initialState }
+    ) {
+        let result = {}
+        const game = await Game.findById(matchID)
+        if (!game) {
+            return result
+        }
+
+        if (metadata) {
+            result.metadata = {
+                gameName: game.gameName,
+                players: game.players || [],
+                setupData: game.setupData,
+                gameover: game.gameover,
+                nextRoomID: game.nextRoomID,
+                unlisted: game.unlisted,
+                createdAt: game.createdAt,
+                updatedAt: game.updatedAt,
+            }
+        }
+        if (initialState) {
+            result.initialState = JSON.parse(game.initialState)
+        }
+        if (state) {
+            result.state = JSON.parse(game.state)
+        }
+        if (log) {
+            result.log = game.log
+        }
+      
+        return result
+    }
+
+    /**
+     * Remove the game state.
+     */
+    async wipe(matchID) {
+        await Game.findByIdAndDelete(matchID)
+    }
+
+    /**
+     * Return all games.
+     */
+    async listGames({
+        gameName,
+        where: {
+            isGameover,
+            updatedBefore,
+            updatedAfter
+        }
+    }) {
+        const filter = {}
+        if (gameName) {
+            filter.gameName = gameName
+        }
+        if (isGameover !== undefined) {
+            filter.gameOver = isGameover
+        }
+        if (updatedBefore) {
+            filter.updatedAt = {$lt: updatedBefore}
+        } else if (updatedAfter) {
+            filter.updatedAt = {$gt: updatedBefore}
+        }
+        
+        const games = await Game.find(filter, {_id: 1})
+        return games.map((game) => game._id)
+    }
+}

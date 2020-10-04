@@ -10,6 +10,7 @@ import { WattMatrix } from '../src/Game';
 import { addRoutes } from './routes'
 import './database'
 import './passport'
+import { MongoStore } from '../db/mongo'
 
 // Use the player ID as the credentials
 const generateCredentials = (ctx) => {
@@ -21,7 +22,7 @@ const generateCredentials = (ctx) => {
 }
 
 const PORT = process.env.PORT || 8000;
-const server = Server({ games: [WattMatrix], generateCredentials: generateCredentials })
+const server = Server({ games: [WattMatrix], generateCredentials: generateCredentials, db: new MongoStore()})
 
 const SINGLE_PORT = process.env.SINGLE_PORT
 
