@@ -41,6 +41,7 @@ if (!SINGLE_PORT) {
     server.app.use(cors({credentials: true}))
 }
 
+console.log(process.env.SECRET)
 server.app.keys = ['secretwer']  // TODO
 server.app.use(session({store: new MongooseStore({collection: 'sessions'})}, server.app))
 

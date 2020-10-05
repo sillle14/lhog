@@ -23,16 +23,18 @@ export default function Lobby({gameServer, gameComponents}) {
     const connection = getLobbyConnection(gameServer)
 
     const refreshMatches = async () => {
-        const auth = await connection.auth()
-        if (auth && auth.username !== playerName) {
-            setPlayerName(null)
-            return
+        if (playerName) {
+            const auth = await connection.auth()
+            if (auth && auth.username !== playerName) {
+                setPlayerName(null)
+                return
+            }
+            let allMatches = []
+            for (const game of gameComponents) {
+                allMatches = allMatches.concat(await connection.listMatches(game.game.name))
+            }
+            setMatches(allMatches)
         }
-        let allMatches = []
-        for (const game of gameComponents) {
-            allMatches = allMatches.concat(await connection.listMatches(game.game.name))
-        }
-        setMatches(allMatches)
     }
 
     useEffect(() => {

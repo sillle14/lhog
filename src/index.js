@@ -24,8 +24,7 @@ if (NO_LOBBY) {
     const ENV = process.env.REACT_APP_ENV
 
     let SERVER
-    // TODO: ENV === 'dev' why does this work, fix it!
-    if (true)    {
+    if (ENV === 'dev')    {
         SERVER = `http://${window.location.hostname}:8000`  // Local
     } else {
         SERVER = `https://${window.location.hostname}` // Prod

@@ -30,7 +30,7 @@
     "start": "SINGLE_PORT=1 node -r esm server/server.js",
     "dev": "REACT_APP_NO_LOBBY=1 react-scripts start",
     "dev-lobby": "REACT_APP_ENV=dev react-scripts start",
-    "dev-single-port": "REACT_APP_ENV=dev SINGLE_PORT=1 nodemon --inspect --trace-warnings -r esm server/server.js",
+    "dev-single-port": "SINGLE_PORT=1 nodemon --inspect --trace-warnings -r esm server/server.js",
     "dev-server": "ENV=dev nodemon --inspect --trace-warnings -r esm server/server.js",
     "build": "react-scripts build",
     "test": "react-scripts test",
