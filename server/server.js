@@ -41,8 +41,7 @@ if (!SINGLE_PORT) {
     server.app.use(cors({credentials: true}))
 }
 
-console.log(process.env.SECRET)
-server.app.keys = ['secretwer']  // TODO
+server.app.keys = [process.env.SECRET || 'not-so-secret']
 server.app.use(session({store: new MongooseStore({collection: 'sessions'})}, server.app))
 
 server.app.use(passport.initialize())
