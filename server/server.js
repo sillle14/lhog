@@ -8,13 +8,14 @@ import MongooseStore from 'koa-session-mongoose'
 import { Server } from 'boardgame.io/server';
 import { StorageCache } from 'bgio-storage-cache'
 
-import { WattMatrix } from '../src/Game';
+// Import without importing any React components.
+import { WattMatrix } from 'wattmatrix/dist/Game'
 
 import { addRoutes } from './routes'
 import './passport'
 import { MongoStore } from '../db/mongo'
 
-const DB_URI = process.env.DB_URI || 'mongodb://localhost:27017/wattmatrix'
+const DB_URI = process.env.DB_URI || 'mongodb://localhost:27017/lhog'
 
 // Use the player ID as the credentials
 const generateCredentials = (ctx) => {

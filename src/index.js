@@ -3,9 +3,13 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
 import Lobby from './lobby/lobby';
-import './components/styles/lobby.css'
 import { WattMatrixTable, WattMatrix } from 'wattmatrix'
-const NO_LOBBY = process.env.REACT_APP_NO_LOBBY
+
+// TODO:
+//  * README
+//  * Add Gembalaya
+//  * Change icon
+//  * use a logo
 
 const ENV = process.env.REACT_APP_ENV
 

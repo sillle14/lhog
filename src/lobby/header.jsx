@@ -1,12 +1,13 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { AppBar, Button, Toolbar, Typography } from '@material-ui/core'
+import { AppBar, Button, Toolbar, Tooltip, Typography } from '@material-ui/core'
 
 
 const useStyles = makeStyles((theme) => ({
-    bar: {boxShadow: "none"},
-    message: {flex: 1},
+    bar: {justifyContent: 'flex-end'},
+    icon: {marginRight: 'auto', cursor: 'default'},
+    message: {marginRight: theme.spacing(2)},
     offset: theme.mixins.toolbar
 }))
 
@@ -38,15 +39,17 @@ export default function Header({playerName, logout, loading, runningMatch, leave
 
     return (
         <>
-            <AppBar className={classes.bar} color="primary">
-                <Toolbar>
+            <AppBar color="primary" position="sticky">
+                <Toolbar className={classes.bar}>
+                    <Tooltip title="Lewis' House of Games">
+                        <Typography variant="h3" className={classes.icon}>LHoG</Typography>
+                    </Tooltip>               
                     <Typography className={classes.message}>
                         {showHeaderComponents ? '' : `Welcome ${playerName}`}
                     </Typography>
                     {getButton()}
                 </Toolbar>
             </AppBar>
-            <div className={classes.offset}></div>
         </>
     )
 }
