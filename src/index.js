@@ -1,46 +1,31 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import WattMatrixClient from './App';
 import * as serviceWorker from './serviceWorker';
-import { WattMatrixTable } from './components/board'
-import { WattMatrix } from './Game'
 import Lobby from './lobby/lobby';
 import './components/styles/lobby.css'
-
+import { WattMatrixTable, WattMatrix } from 'wattmatrix'
 const NO_LOBBY = process.env.REACT_APP_NO_LOBBY
 
-if (NO_LOBBY) {
-    // Code for local deployment no lobby both players on one screen, no seperate server.
-    ReactDOM.render(
-        <React.StrictMode>
-        <WattMatrixClient playerID='0'/>
-        <WattMatrixClient playerID='1'/>
-        <WattMatrixClient playerID='2'/>
-        </React.StrictMode>,
-        document.getElementById('root')
-    );
+const ENV = process.env.REACT_APP_ENV
+
+let SERVER
+if (ENV === 'dev')    {
+    SERVER = `http://${window.location.hostname}:8000`  // Local
 } else {
-    const ENV = process.env.REACT_APP_ENV
-
-    let SERVER
-    if (ENV === 'dev')    {
-        SERVER = `http://${window.location.hostname}:8000`  // Local
-    } else {
-        SERVER = `https://${window.location.hostname}` // Prod
-    }
-
-    // Render the lobby. This relies on a running server.
-    ReactDOM.render(
-        <React.StrictMode>
-        <Lobby
-            gameServer={SERVER}
-            gameComponents={[{game: WattMatrix, board: WattMatrixTable}]}
-        />
-        </React.StrictMode>,
-        document.getElementById('root')
-    )
+    SERVER = `https://${window.location.hostname}` // Prod
 }
+
+// Render the lobby. This relies on a running server.
+ReactDOM.render(
+    <React.StrictMode>
+    <Lobby
+        gameServer={SERVER}
+        gameComponents={[{game: WattMatrix, board: WattMatrixTable}]}
+    />
+    </React.StrictMode>,
+    document.getElementById('root')
+)
 
 
 // If you want your app to work offline and load faster, you can change

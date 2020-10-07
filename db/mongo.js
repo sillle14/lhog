@@ -4,8 +4,6 @@ import { Async } from "boardgame.io/internal";
 
 import Game from './game'
 
-const DB_URI = 'mongodb://localhost:27017/wattmatrix';
-
 export class MongoStore extends Async {
 
     constructor(uri) {
