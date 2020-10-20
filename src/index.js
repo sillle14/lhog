@@ -8,8 +8,6 @@ import { WattMatrixTable, WattMatrix } from 'wattmatrix'
 // TODO:
 //  * README
 //  * Add Gembalaya
-//  * Change icon
-//  * use a logo
 
 const ENV = process.env.REACT_APP_ENV
 

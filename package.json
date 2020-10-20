@@ -18,7 +18,7 @@
     "react-dom": "^16.13.1",
     "react-scripts": "^3.4.3",
     "typescript": "^3.9.5",
-    "wattmatrix": "^0.1.6"
+    "wattmatrix": "^0.1.9"
   },
   "scripts": {
     "start": "SINGLE_PORT=1 node -r esm server/server.js",

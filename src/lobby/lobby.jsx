@@ -106,7 +106,8 @@ export default function Lobby({gameServer, gameComponents}) {
             app: app,
             matchID: matchID,
             playerID: playerID,
-            credentials: auth.id
+            credentials: auth.id,
+            gameName: gameName
         }
         setRunningMatch(match)
     }
@@ -141,7 +142,7 @@ export default function Lobby({gameServer, gameComponents}) {
                 playerName={playerName} 
                 logout={logout} 
                 loading={loading} 
-                runningMatch={runningMatch !== null}
+                runningMatch={runningMatch && runningMatch.gameName}
                 leave={() => {setRunningMatch(null)}}
             ></Header>
             {content}
