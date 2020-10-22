@@ -10,6 +10,7 @@ import { StorageCache } from 'bgio-storage-cache'
 
 // Import without importing any React components.
 import { WattMatrix } from 'wattmatrix/dist/Game'
+import { Gembalaya } from 'gembalaya/dist/Game'
 
 import { addRoutes } from './routes'
 import './passport'
@@ -31,7 +32,7 @@ const PORT = process.env.PORT || 8000;
 // Creating and running the server with mongo connection initializes it. This is also important for passport.
 const db = new MongoStore(DB_URI)
 const dbWithCaching = new StorageCache(db, {cacheSize: 200})
-const server = Server({ games: [WattMatrix], generateCredentials: generateCredentials, db: dbWithCaching})
+const server = Server({ games: [WattMatrix, Gembalaya], generateCredentials: generateCredentials, db: dbWithCaching})
 
 const SINGLE_PORT = process.env.SINGLE_PORT
 

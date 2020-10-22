@@ -4,6 +4,7 @@ import './index.css';
 import * as serviceWorker from './serviceWorker';
 import Lobby from './lobby/lobby';
 import { WattMatrixTable, WattMatrix } from 'wattmatrix'
+import { GembalayaTable, Gembalaya } from 'gembalaya'
 
 // TODO:
 //  * README
@@ -23,7 +24,7 @@ ReactDOM.render(
     <React.StrictMode>
     <Lobby
         gameServer={SERVER}
-        gameComponents={[{game: WattMatrix, board: WattMatrixTable}]}
+        gameComponents={[{game: WattMatrix, board: WattMatrixTable}, {game: Gembalaya, board: GembalayaTable}]}
     />
     </React.StrictMode>,
     document.getElementById('root')
