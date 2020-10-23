@@ -2,11 +2,12 @@ import passport from 'koa-passport'
 import bcrypt from 'bcryptjs'
 import koaBody from 'koa-body'
 
+import Game from '../db/game'
 import User from '../db/user'
 
 async function auth(ctx) {
     if (ctx.isAuthenticated()) {
-        ctx.body = {username: ctx.state.user.username, id: ctx.state.user.id}
+        ctx.body = {username: ctx.state.user.username, id: ctx.state.user.id, isAdmin: ctx.state.user.isAdmin}
         ctx.status = 200
     } else {
         ctx.status = 401
@@ -22,6 +23,7 @@ async function login(ctx) {
         if (user) {
             console.log(`${user.username} logged in.`)
             ctx.login(user)
+            ctx.body = {isAdmin: user.isAdmin}
             ctx.status = 200
         } else {
             ctx.status = 401
@@ -55,9 +57,15 @@ async function logout(ctx) {
     ctx.body = 'logged out'
 }
 
+async function deleteMatch(ctx) {
+    await Game.findByIdAndDelete(ctx.request.body.matchID)
+    ctx.status = 202
+}
+
 export function addRoutes(router) {
     router.get('/auth', auth)
     router.post('/login', koaBody(), login)
     router.post('/logout', logout)
     router.post('/signup', koaBody(), signup)
+    router.post('/delete', koaBody(), deleteMatch)
 }

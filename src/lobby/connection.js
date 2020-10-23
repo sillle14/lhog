@@ -30,7 +30,7 @@ class _LobbyConnection {
         } else if (resp.status === 401) {
             return null
         } else {
-            throw new Error(`Unexepcted status from '/auth': ${resp.status}`)
+            throw new Error(`Unexpected status from '/auth': ${resp.status}`)
         }
     }
 
@@ -41,11 +41,13 @@ class _LobbyConnection {
             {credentials: 'include'}
         )
         if (resp.status === 200) {
-            return true
+            let json = await resp.json()
+            json.loggedIn = true
+            return json
         } else if (resp.status === 401) {
-            return false
+            return {loggedIn: false}
         } else {
-            throw new Error(`Unexepcted status from '/login': ${resp.status}`)
+            throw new Error(`Unexpected status from '/login': ${resp.status}`)
         }
     }
 
@@ -56,22 +58,19 @@ class _LobbyConnection {
             {credentials: 'include'}
         )
         if (resp.status === 201) {
-            this.playerName = username
             return true
         } else if (resp.status === 400) {
             // Existing user
-            this.playerName = null
             return false
         } else {
-            throw new Error(`Unexepcted status from '/login': ${resp.status}`)
+            throw new Error(`Unexpected status from '/login': ${resp.status}`)
         }
     }
 
     async logout() {
         const resp = await this._post('/logout', {}, {credentials: 'include'})
-        this.playerName = null
         if (resp.status !== 200) {
-            throw new Error(`Unexepcted status from '/logout': ${resp.status}`)
+            throw new Error(`Unexpected status from '/logout': ${resp.status}`)
         }
     }
 
@@ -95,6 +94,13 @@ class _LobbyConnection {
             {playerID: seatNum, playerName: playerName},
             {credentials: 'include'}
         )
+    }
+
+    async deleteMatch(matchID) {
+        const resp = await this._post('/delete', {matchID: matchID})
+        if (resp.status !== 202) {
+            throw new Error(`Unexpected status from '/delete': ${resp.status}`)
+        }
     }
 }
 

@@ -90,6 +90,6 @@ Header.propTypes = {
     playerName: PropTypes.string,
     logout: PropTypes.func.isRequired,
     loading: PropTypes.bool.isRequired,
-    runningMatch: PropTypes.bool.isRequired,
+    runningMatch: PropTypes.string,
     leave: PropTypes.func.isRequired
 }

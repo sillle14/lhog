@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }))
 
-export default function MatchCard({match, joinMatch, startMatch, playerName}) {
+export default function MatchCard({match, joinMatch, startMatch, playerName, isAdmin, deleteMatch}) {
 
     const classes = useStyles()
 
@@ -32,7 +32,7 @@ export default function MatchCard({match, joinMatch, startMatch, playerName}) {
         }
     }
 
-    const getButton = () => {
+    const getButtons = () => {
         let onClick
         let disabled
         let text
@@ -61,21 +61,28 @@ export default function MatchCard({match, joinMatch, startMatch, playerName}) {
             }
         }
 
-        return (
-            <Button color="secondary" variant="contained" onClick={onClick} disabled={disabled}>{text}</Button>
-        )
+        const buttons = [
+            <Button key="main" color={isAdmin ? 'primary' : 'secondary'} variant="contained" onClick={onClick} disabled={disabled}>{text}</Button>
+        ]
+        if (isAdmin) {
+            buttons.unshift(
+                <Button variant="contained" color="secondary" key="delete" onClick={() => deleteMatch(match.matchID)}>Delete Match</Button>
+            )
+        }
+
+        return buttons
     }
 
     return (
         <Card className={classes.root} variant="outlined"><CardContent className={classes.content}>
             <Box>
                 <Typography variant="h4">{match.gameName}</Typography>
-                <Typography align="right">{`id: ${match.matchID}`}</Typography>
+                <Typography align="right">{`id: ${match.matchID}`}</Typography>      
             </Box>
             <Box display="flex" flexWrap="wrap" alignSelf="center" flexBasis="40%">
                 {seats}
             </Box>
-            <CardActions>{getButton()}</CardActions>
+            <CardActions>{getButtons()}</CardActions>
         </CardContent></Card>
     )
 }
@@ -84,5 +91,7 @@ MatchCard.propTypes = {
     match: PropTypes.object.isRequired,
     joinMatch: PropTypes.func.isRequired,
     startMatch: PropTypes.func.isRequired,
-    playerName: PropTypes.string.isRequired
+    playerName: PropTypes.string.isRequired,
+    isAdmin: PropTypes.bool.isRequired,
+    deleteMatch: PropTypes.func.isRequired
 }

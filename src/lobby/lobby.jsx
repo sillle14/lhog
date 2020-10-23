@@ -15,6 +15,7 @@ import MatchCard from './matchCard'
 export default function Lobby({gameServer, gameComponents}) {
 
     const [playerName, setPlayerName] = useState(null)
+    const [isAdmin, setIsAdmin] = useState(false)
     const [loading, setLoading] = useState(false)
     const [init, setInit] = useState(true)
     const [matches, setMatches] = useState([])
@@ -41,6 +42,7 @@ export default function Lobby({gameServer, gameComponents}) {
         const setUp = async () => {
             const auth = await connection.auth()
             setPlayerName(auth ? auth.username : null)
+            setIsAdmin(auth ? auth.isAdmin: false)
             let allMatches = []
             for (const game of gameComponents) {
                 allMatches = allMatches.concat(await connection.listMatches(game.game.name))
@@ -59,13 +61,15 @@ export default function Lobby({gameServer, gameComponents}) {
     useInterval(refreshMatches, 2000)
 
     const login = async (username, password) => {
-        const success = await connection.login(username, password)
-        if (success) {
+        const resp = await connection.login(username, password)
+        if (resp.loggedIn) {
             setPlayerName(username)
+            setIsAdmin(resp.isAdmin)
         } else {
             setPlayerName(null)
+            setIsAdmin(false)
         }
-        return success
+        return resp.loggedIn
     }
 
     const signup = async (username, password) => {
@@ -112,6 +116,11 @@ export default function Lobby({gameServer, gameComponents}) {
         setRunningMatch(match)
     }
 
+    const deleteMatch = async (matchID) => {
+        await connection.deleteMatch(matchID)
+        refreshMatches()
+    }
+
     let content
     if (loading) {
         content = null
@@ -125,7 +134,15 @@ export default function Lobby({gameServer, gameComponents}) {
         } else {
             const matchCards = matches.map(
                 (match, idx) => 
-                    <MatchCard key={idx} match={match} joinMatch={joinMatch} playerName={playerName} startMatch={startMatch}></MatchCard>
+                    <MatchCard 
+                        key={idx} 
+                        match={match} 
+                        joinMatch={joinMatch} 
+                        playerName={playerName} 
+                        startMatch={startMatch}
+                        isAdmin={isAdmin}
+                        deleteMatch={deleteMatch}
+                    />
             )
             content = <>
                     <CreateMatchForm games={gameComponents} createMatch={createMatch}/>
@@ -144,7 +161,7 @@ export default function Lobby({gameServer, gameComponents}) {
                 loading={loading} 
                 runningMatch={runningMatch && runningMatch.gameName}
                 leave={() => {setRunningMatch(null)}}
-            ></Header>
+            />
             {content}
         </>
     )
