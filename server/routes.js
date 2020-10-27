@@ -58,8 +58,12 @@ async function logout(ctx) {
 }
 
 async function deleteMatch(ctx) {
-    await Game.findByIdAndDelete(ctx.request.body.matchID)
-    ctx.status = 202
+    if (ctx.isAuthenticated() && ctx.state.user.isAdmin) {
+        await Game.findByIdAndDelete(ctx.request.body.matchID)
+        ctx.status = 202
+    } else {
+        ctx.status = 401
+    }
 }
 
 export function addRoutes(router) {

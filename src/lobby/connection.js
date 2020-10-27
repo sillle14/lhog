@@ -97,7 +97,7 @@ class _LobbyConnection {
     }
 
     async deleteMatch(matchID) {
-        const resp = await this._post('/delete', {matchID: matchID})
+        const resp = await this._post('/delete', {matchID: matchID}, {credentials: 'include'})
         if (resp.status !== 202) {
             throw new Error(`Unexpected status from '/delete': ${resp.status}`)
         }
