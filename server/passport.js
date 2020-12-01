@@ -26,6 +26,7 @@ const verifyCallback = (username, password, done) => {
 passport.serializeUser(function(user, done) { done(null, user.id) })
 
 passport.deserializeUser(function(userId, done) {
+    // TODO: This means a lot of DB calls, there probably is a better way.
     User.findById(userId)
         .then((user) => { done(null, user) })
         .catch(err => done(err))

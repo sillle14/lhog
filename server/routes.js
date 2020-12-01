@@ -66,10 +66,20 @@ async function deleteMatch(ctx) {
     }
 }
 
+async function stats(ctx) {
+    if (ctx.isAuthenticated()) {
+        ctx.body = ctx.state.user.stats
+        ctx.status = 200
+    } else {
+        ctx.status = 401
+    }
+}
+
 export function addRoutes(router) {
     router.get('/auth', auth)
     router.post('/login', koaBody(), login)
     router.post('/logout', logout)
     router.post('/signup', koaBody(), signup)
     router.post('/delete', koaBody(), deleteMatch)
+    router.get('/stats', koaBody(), stats)
 }
