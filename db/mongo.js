@@ -3,6 +3,7 @@ import mongoose from 'mongoose'
 import { Async } from "boardgame.io/internal";
 
 import Game from './game'
+import User from './user'
 
 export class MongoStore extends Async {
 
@@ -84,6 +85,20 @@ export class MongoStore extends Async {
         const game = await Game.findById(matchID)
         const previousState = game && JSON.parse(game.state)
         if (!previousState || previousState._stateID < state._stateID) {
+            // If the game is ending, log player stats. 
+            // Note that this depends on reporting winning player IDs as {winnerIds: [1, ...]} on the endGame call as specified here:
+            //  https://boardgame.io/documentation/#/events?id=endgame
+            if (state.ctx.gameover) {
+                for (const playerID in game.players) {
+                    // Increment matches for all players.
+                    let increment = {$inc: {[`stats.${game.gameName}.matches`]: 1}}
+                    // Increment wins for all winners. state.ctx.gameover stores the playerIDs of all winners.
+                    if (state.ctx.gameover.winnerIDs.includes(playerID)) {
+                        increment.$inc[`stats.${game.gameName}.wins`] = 1
+                    }
+                    await User.findOneAndUpdate({username: game.players[playerID].name}, increment)
+                }
+            }
             await Game.findByIdAndUpdate(
                 matchID,
                 {
