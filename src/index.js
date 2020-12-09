@@ -2,13 +2,14 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
-import Lobby from './lobby/lobby';
+import LobbyRouter from './lobby/lobbyRouter';
 import { WattMatrixTable, WattMatrix } from 'wattmatrix'
 import { GembalayaTable, Gembalaya } from 'gembalaya'
 
 // TODO:
 //  * README
-//  * Add Gembalaya
+//  * imports
+//  * semicolons?
 
 const ENV = process.env.REACT_APP_ENV
 
@@ -22,7 +23,7 @@ if (ENV === 'dev')    {
 // Render the lobby. This relies on a running server.
 ReactDOM.render(
     <React.StrictMode>
-    <Lobby
+    <LobbyRouter
         gameServer={SERVER}
         gameComponents={[{game: WattMatrix, board: WattMatrixTable}, {game: Gembalaya, board: GembalayaTable}]}
     />

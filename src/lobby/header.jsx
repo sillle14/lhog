@@ -1,8 +1,9 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { AppBar, Box, Button, Toolbar, Tooltip, Typography } from '@material-ui/core'
 
+import AuthContext from './authContext'
 
 const useStyles = makeStyles((theme) => ({
     bar: {justifyContent: 'space-between'},
@@ -21,9 +22,11 @@ const useStyles = makeStyles((theme) => ({
     },
 }))
 
-export default function Header({playerName, logout, loading, runningMatch, leave}) {
+export default function Header({logout, loading, runningMatch, leave}) {
 
     const classes = useStyles()
+
+    const { user } = useContext(AuthContext);
 
     const hog = <svg xmlns="http://www.w3.org/2000/svg" className={classes.defs}>
         <symbol id="hog">
@@ -40,10 +43,10 @@ export default function Header({playerName, logout, loading, runningMatch, leave
         </symbol> 
     </svg>
 
-    const showHeaderComponents = loading || !playerName
+    const showHeaderComponents = loading || !user
 
     const getButton = () => {
-        if (loading || !playerName) {
+        if (loading || !user) {
             return null
         } else {
             let text
@@ -76,7 +79,7 @@ export default function Header({playerName, logout, loading, runningMatch, leave
                     <Typography variant="h4">{runningMatch}</Typography>
                     <Box display="flex">
                         <Typography className={classes.message}>
-                            {showHeaderComponents ? '' : `Welcome ${playerName}`}
+                            {showHeaderComponents ? '' : `Welcome ${user.username}`}
                         </Typography>
                         {getButton()}
                     </Box>
@@ -87,7 +90,6 @@ export default function Header({playerName, logout, loading, runningMatch, leave
 }
 
 Header.propTypes = {
-    playerName: PropTypes.string,
     logout: PropTypes.func.isRequired,
     loading: PropTypes.bool.isRequired,
     runningMatch: PropTypes.string,

@@ -1,58 +1,41 @@
-import PropTypes from 'prop-types';
-import React, {useState, useEffect} from 'react'
+import PropTypes from 'prop-types'
+import React, { useContext, useEffect, useState } from 'react'
 import { Container } from '@material-ui/core'
+import { navigate } from '@reach/router';
 
-import { Client } from 'boardgame.io/react';
+import { Client } from 'boardgame.io/react'
 import { SocketIO } from 'boardgame.io/multiplayer'
 
 import useInterval from './useInterval'
 import CreateMatchForm from './createMatchForm'
-import getLobbyConnection from './connection'
-import Header from './header'
-import LoginForm from './form'
 import MatchCard from './matchCard'
+import AuthContext from './authContext'
 
-export default function Lobby({gameServer, gameComponents}) {
+export default function Lobby({gameComponents, connection, setRunningMatch}) {
 
-    const [playerName, setPlayerName] = useState(null)
-    const [isAdmin, setIsAdmin] = useState(false)
-    const [loading, setLoading] = useState(false)
-    const [init, setInit] = useState(true)
     const [matches, setMatches] = useState([])
-    const [runningMatch, setRunningMatch] = useState(null)
+    const [init, setInit] = useState(true)
 
-    const connection = getLobbyConnection(gameServer)
+    const { user } = useContext(AuthContext);
 
     const refreshMatches = async () => {
-        if (playerName) {
-            const auth = await connection.auth()
-            if (auth && auth.username !== playerName) {
-                setPlayerName(null)
-                return
-            }
-            let allMatches = []
-            for (const game of gameComponents) {
-                allMatches = allMatches.concat(await connection.listMatches(game.game.name))
-            }
-            setMatches(allMatches)
+        let allMatches = []
+        for (const game of gameComponents) {
+            allMatches = allMatches.concat(await connection.listMatches(game.game.name))
         }
+        setMatches(allMatches)
     }
 
     useEffect(() => {
         const setUp = async () => {
-            const auth = await connection.auth()
-            setPlayerName(auth ? auth.username : null)
-            setIsAdmin(auth ? auth.isAdmin: false)
             let allMatches = []
             for (const game of gameComponents) {
                 allMatches = allMatches.concat(await connection.listMatches(game.game.name))
             }
             setMatches(allMatches)
-            setLoading(false)
         }
         // Only need to init once.
         if (init) {
-            setLoading(true)
             setUp()
             setInit(false)
         }
@@ -60,40 +43,13 @@ export default function Lobby({gameServer, gameComponents}) {
 
     useInterval(refreshMatches, 2000)
 
-    const login = async (username, password) => {
-        const resp = await connection.login(username, password)
-        if (resp.loggedIn) {
-            setPlayerName(username)
-            setIsAdmin(resp.isAdmin)
-        } else {
-            setPlayerName(null)
-            setIsAdmin(false)
-        }
-        return resp.loggedIn
-    }
-
-    const signup = async (username, password) => {
-        const success = await connection.signup(username, password)
-        if (success) {
-            setPlayerName(username)
-        } else {
-            setPlayerName(null)
-        }
-        return success
-    }
-
-    const logout = async () => {
-        await connection.logout()
-        setPlayerName(null)
-    }
-
     const createMatch = async (gameName, numPlayers) => {
         await connection.createMatch(gameName, numPlayers)
         refreshMatches()
     }
 
     const joinMatch = async (gameName, matchID, seatNum) => {
-        await connection.joinMatch(gameName, matchID, seatNum, playerName)
+        await connection.joinMatch(gameName, matchID, seatNum, user.username)
         refreshMatches()
     }
 
@@ -103,7 +59,7 @@ export default function Lobby({gameServer, gameComponents}) {
             game: gameComponent.game,
             board: gameComponent.board,
             debug: false,
-            multiplayer: SocketIO({server: gameServer})
+            multiplayer: SocketIO({server: connection.server})
         })
         const auth = await connection.auth()
         const match = {
@@ -114,6 +70,7 @@ export default function Lobby({gameServer, gameComponents}) {
             gameName: gameName
         }
         setRunningMatch(match)
+        navigate('/play')
     }
 
     const deleteMatch = async (matchID) => {
@@ -121,53 +78,28 @@ export default function Lobby({gameServer, gameComponents}) {
         refreshMatches()
     }
 
-    let content
-    if (loading) {
-        content = null
-    } else if (playerName) {
-        if (runningMatch) {
-            content = <runningMatch.app 
-                matchID={runningMatch.matchID}
-                playerID={runningMatch.playerID}
-                credentials={runningMatch.credentials}
+    const matchCards = matches.map(
+        (match, idx) => 
+            <MatchCard 
+                key={idx} 
+                match={match} 
+                joinMatch={joinMatch} 
+                playerName={user.username} 
+                startMatch={startMatch}
+                isAdmin={user.isAdmin}
+                deleteMatch={deleteMatch}
             />
-        } else {
-            const matchCards = matches.map(
-                (match, idx) => 
-                    <MatchCard 
-                        key={idx} 
-                        match={match} 
-                        joinMatch={joinMatch} 
-                        playerName={playerName} 
-                        startMatch={startMatch}
-                        isAdmin={isAdmin}
-                        deleteMatch={deleteMatch}
-                    />
-            )
-            content = <>
-                    <CreateMatchForm games={gameComponents} createMatch={createMatch}/>
-                    <Container maxWidth="md">{matchCards}</Container>
-                </>
-        }
-    } else {
-        content = <LoginForm login={login} signup={signup}/>
-    }
-
-    return (
-        <>
-            <Header 
-                playerName={playerName} 
-                logout={logout} 
-                loading={loading} 
-                runningMatch={runningMatch && runningMatch.gameName}
-                leave={() => {setRunningMatch(null)}}
-            />
-            {content}
-        </>
     )
+    // TODO: button to leaderboards!
+    return <>
+            <CreateMatchForm games={gameComponents} createMatch={createMatch}/>
+            <Container maxWidth="md">{matchCards}</Container>
+        </>
+
 }
 
 Lobby.propTypes = {
-    gameServer: PropTypes.string.isRequired,
-    gameComponents: PropTypes.array.isRequired
+    gameComponents: PropTypes.array.isRequired,
+    connection: PropTypes.any.isRequired,
+    setRunningMatch: PropTypes.func.isRequired
 }

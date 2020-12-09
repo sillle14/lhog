@@ -1,7 +1,8 @@
-import PropTypes from 'prop-types';
+import PropTypes from 'prop-types'
 import React, { useState } from 'react'
-import { makeStyles } from '@material-ui/core/styles';
-import { Box, Button, Container, Link, TextField, Typography } from '@material-ui/core';
+import { navigate } from '@reach/router'
+import { makeStyles } from '@material-ui/core/styles'
+import { Box, Button, Container, Link, TextField, Typography } from '@material-ui/core'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -19,12 +20,11 @@ const useStyles = makeStyles((theme) => ({
     }
 }))
 
-export default function LoginForm({signup, login}) {
+export default function Form({signup, login}) {
 
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
-    const [signupMode, setSignupMode] = useState(false)
 
     // Errors
     const [usernameError, setUsernameError] = useState('')
@@ -43,14 +43,16 @@ export default function LoginForm({signup, login}) {
             setPasswordError('Required.')
         }
         if (password && username.trim()) {
-            if (signupMode) {
+            if (signup) {
                 if (password !== confirmPassword) {
                     setConfirmPasswordError("Passwords don't match.")
                 } else {
                     const signupSuccess = await signup(username.trim(), password)
-                    if (!signupSuccess) {
+                    if (signupSuccess) {
+                        navigate('/')
+                    } else {
                         setMainError('Username taken.')
-                    }
+                    } 
                 }
             } else {
                 const loggedIn = await login(username.trim(), password)
@@ -62,14 +64,11 @@ export default function LoginForm({signup, login}) {
     }
 
     const swapMode = () => {
-        setSignupMode(!signupMode)
-        setUsername('')
-        setPassword('')
-        setConfirmPassword('')
-        setMainError('')
-        setConfirmPasswordError('')
-        setPasswordError('')
-        setUsernameError('')
+        if (signup) {
+            navigate('/')
+        } else {
+            navigate('/signup')
+        }
     }
     
     return (
@@ -113,7 +112,7 @@ export default function LoginForm({signup, login}) {
                     type="password"
                     onFocus={() => { setConfirmPasswordError(''); setMainError('') }}
                     onChange={(e) => { setConfirmPassword(e.target.value) }}
-                    className={signupMode? '' : classes.hidden}
+                    className={signup? '' : classes.hidden}
                 />
                 <Typography color="secondary" hidden={mainError === ''}>{mainError}</Typography>
                 <Button
@@ -125,7 +124,7 @@ export default function LoginForm({signup, login}) {
                     onClick={handleSubmit}
                     size="large"
                 >
-                    {signupMode ? 'Sign Up' : 'Log In'}
+                    {signup ? 'Sign Up' : 'Log In'}
                 </Button>
                 <Box display="flex" justifyContent="flex-end">
                     <Link 
@@ -133,7 +132,7 @@ export default function LoginForm({signup, login}) {
                         variant="body2"
                         onClick={() => { swapMode() }}
                     >
-                        {signupMode ? 'Have an account? Sign In' : 'No account? Sign up'}
+                        {signup ? 'Have an account? Sign In' : 'No account? Sign up'}
                     </Link>
                 </Box>
             </form>
@@ -141,7 +140,7 @@ export default function LoginForm({signup, login}) {
     )
 }
 
-LoginForm.propTypes = {
-    signup: PropTypes.func.isRequired,
-    login: PropTypes.func.isRequired
+Form.propTypes = {
+    signup: PropTypes.func,
+    login: PropTypes.func
 }

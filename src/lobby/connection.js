@@ -1,4 +1,4 @@
-class _LobbyConnection {
+class _Connection {
     
     constructor(server) {
         this.server = server
@@ -102,9 +102,20 @@ class _LobbyConnection {
             throw new Error(`Unexpected status from '/delete': ${resp.status}`)
         }
     }
+
+    /***********************
+     *   PLAYER ENDPOINTS  *
+     ***********************/
+
+    async getStats() {
+        const resp = await this._request('/stats', {credentials: 'include'})
+        const json = await resp.json()
+        console.log(json)
+        return json
+    }
 }
 
 
-export default function getLobbyConnection(server) {
-    return new _LobbyConnection(server)
+export default function getConnection(server) {
+    return new _Connection(server)
 }
