@@ -75,6 +75,41 @@ async function stats(ctx) {
     }
 }
 
+/**
+ * Calculate the lower bound of the Wilson confidence score interval for a player.
+ *  From https://www.evanmiller.org/how-not-to-sort-by-average-rating.html
+ * 
+* @param {Int} wins     Number of matches won.
+ * @param {Int} n       Number of matches played.
+ */
+function wilsonScore(wins, n) {
+    if (n === 0) {return 0}
+    const phat = wins / n
+    const confidence = 0.95
+    const z = 1.96 // Standard normal for 95% confidence
+    return (phat + z*z/(2*n) - z * Math.sqrt((phat*(1-phat) + z*z/(4*n) / n))) / (1 + z*z/n)
+}
+
+async function leaderboard(ctx) {
+    // Find stats for all users.
+    const allStats = await User.find({stats: {$ne: null}}, {_id: 0, username: 1, stats: 1})
+    let leaderboard = {}
+    allStats.forEach(({username, stats}) => {
+        for (const game in stats) {
+            // Instantiate the game leaderboard if necessary.
+            leaderboard[game] = leaderboard[game] || {}
+            leaderboard[game][username] = {
+                wins: stats[game].wins,
+                matches: stats[game].matches,
+                ratio: stats[game].wins / stats[game].matches,
+                wscore: wilsonScore(stats[game].wins, stats[game].matches)
+            }
+        }
+    })
+    ctx.body = leaderboard
+    ctx.status = 200
+}
+
 export function addRoutes(router) {
     router.get('/auth', auth)
     router.post('/login', koaBody(), login)
@@ -82,4 +117,5 @@ export function addRoutes(router) {
     router.post('/signup', koaBody(), signup)
     router.post('/delete', koaBody(), deleteMatch)
     router.get('/stats', koaBody(), stats)
+    router.get('/leaderboard', leaderboard)
 }
