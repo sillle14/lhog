@@ -1,13 +1,26 @@
 import PropTypes from 'prop-types';
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { AppBar, Box, Button, Toolbar, Tooltip, Typography } from '@material-ui/core'
+import { 
+    AppBar, 
+    Box, 
+    IconButton, 
+    Menu, 
+    MenuItem, 
+    Toolbar, 
+    Tooltip, 
+    Typography,
+} from '@material-ui/core'
+import ExitToAppIcon from '@material-ui/icons/ExitToApp'
+import MenuIcon from '@material-ui/icons/Menu';
+import { navigate } from '@reach/router'
 
 import AuthContext from './authContext'
 
 const useStyles = makeStyles((theme) => ({
     bar: {justifyContent: 'space-between'},
-    icon: {cursor: 'default', marginLeft: theme.spacing(1)},
+    icon: {marginLeft: theme.spacing(1)},
+    home: {cursor: 'pointer'},
     message: {marginRight: theme.spacing(2), alignSelf: 'center'},
     offset: theme.mixins.toolbar,
     defs: {
@@ -25,8 +38,11 @@ const useStyles = makeStyles((theme) => ({
 export default function Header({logout, loading, runningMatch, leave}) {
 
     const classes = useStyles()
+    const [menuAnchor, setMenuAnchor] = useState(null)
 
-    const { user } = useContext(AuthContext);
+    const closeMenu = () => {setMenuAnchor(null)}
+
+    const { user } = useContext(AuthContext)
 
     const hog = <svg xmlns="http://www.w3.org/2000/svg" className={classes.defs}>
         <symbol id="hog">
@@ -43,26 +59,18 @@ export default function Header({logout, loading, runningMatch, leave}) {
         </symbol> 
     </svg>
 
-    const showHeaderComponents = loading || !user
+    const hideHeaderComponents = loading || !user
 
-    const getButton = () => {
-        if (loading || !user) {
-            return null
-        } else {
-            let text
-            let onClick
-            if (runningMatch) {
-                text = 'Leave'
-                onClick = leave
-            } else {
-                text = 'Logout'
-                onClick = logout
-            }
-            return <Button 
-                variant="contained" 
-                onClick={onClick}
-            >{text}</Button>
-        }
+    let menuItems
+    if (runningMatch) {
+        menuItems = [<MenuItem onClick={() => {closeMenu(); leave()}}>Leave Game</MenuItem>]
+    } else {
+        // TODO: Don't show where you are
+        menuItems = [
+            <MenuItem key="logout" onClick={() => {closeMenu(); logout()}}>Logout<Box ml={1} mb={-0.5}><ExitToAppIcon/></Box></MenuItem>,
+            <MenuItem key="leaderboard" onClick={() => {closeMenu(); navigate('/leaderboard')}}>Leaderboard</MenuItem>,
+            <MenuItem key="lobby" onClick={() => {closeMenu(); navigate('/')}}>Lobby</MenuItem>
+        ]
     }
 
     return (
@@ -70,7 +78,7 @@ export default function Header({logout, loading, runningMatch, leave}) {
             {hog}
             <AppBar color="primary" position="sticky">
                 <Toolbar className={classes.bar}>
-                    <Box display="flex">
+                    <Box display="flex" onClick={() => {navigate('/')}} className={classes.home}>
                         <svg viewBox="0 0 100 100" height="56px"><use xlinkHref="#hog"/></svg> 
                         <Tooltip title="Lewis' House of Games">
                             <Typography variant="h3" className={classes.icon}>LHoG</Typography>
@@ -79,9 +87,26 @@ export default function Header({logout, loading, runningMatch, leave}) {
                     <Typography variant="h4">{runningMatch}</Typography>
                     <Box display="flex">
                         <Typography className={classes.message}>
-                            {showHeaderComponents ? '' : `Welcome ${user.username}`}
+                            {hideHeaderComponents ? '' : `Welcome ${user.username}`}
                         </Typography>
-                        {getButton()}
+                        {hideHeaderComponents ? null : <IconButton color="inherit" onClick={(e) => {setMenuAnchor(e.currentTarget)}}><MenuIcon/></IconButton>}
+                        <Menu 
+                            anchorEl={menuAnchor} 
+                            open={Boolean(menuAnchor)} 
+                            onClose={closeMenu}
+                            getContentAnchorEl={null}
+                            keepMounted
+                            anchorOrigin={{
+                                vertical: 'bottom',
+                                horizontal: 'right',
+                            }}
+                            transformOrigin={{
+                                vertical: 'top',
+                                horizontal: 'right',
+                            }}
+                        >
+                            {menuItems}
+                        </Menu>
                     </Box>
                 </Toolbar>
             </AppBar>

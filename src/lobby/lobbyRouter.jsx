@@ -9,6 +9,7 @@ import Board from './board'
 import Header from './header'
 import Form from './form'
 import Lobby from './lobby'
+import Leaderboard from './leaderboard'
 import ProtectedRoute from './protectedRoute'
 import AuthContext from './authContext'
 
@@ -63,21 +64,23 @@ export default function LobbyRouter({gameServer, gameComponents}) {
         setUser(null)
     }
 
-    const showStats = async () => {
-        const playerStats = await connection.getStats()
-        return playerStats
+    const getLeaderboard = async () => {
+        const leaderboard = await connection.getLeaderboard()
+        return leaderboard
     }
 
     return (
         <AuthContext.Provider value={{user, loading, login}}>
-            <Header 
-                logout={logout} 
-                runningMatch={runningMatch && runningMatch.gameName}
-                showStats={() => {showStats()}}
-                leave={() => {setRunningMatch(null)}}
-                loading={loading}
-                path='/*'
-            />
+            {/* Nest the Header in a Router to enable navigation */}
+            <Router primary={false}>
+                <Header 
+                    logout={logout} 
+                    runningMatch={runningMatch && runningMatch.gameName}
+                    leave={() => {setRunningMatch(null)}}
+                    loading={loading}
+                    default
+                />
+            </Router>
             <Router>
                 <Form path='/signup' signup={signup}/>
                 <ProtectedRoute
@@ -92,6 +95,12 @@ export default function LobbyRouter({gameServer, gameComponents}) {
                     path='/play'
                     runningMatch={runningMatch}
                 />
+                <ProtectedRoute
+                    as={Leaderboard}
+                    path='/leaderboard' 
+                    getLeaderboard={getLeaderboard}
+                />
+                {/* TODO: Redirect bad urls */}
             </Router>
         </AuthContext.Provider>
     )

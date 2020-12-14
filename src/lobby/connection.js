@@ -107,10 +107,9 @@ class _Connection {
      *   PLAYER ENDPOINTS  *
      ***********************/
 
-    async getStats() {
-        const resp = await this._request('/stats', {credentials: 'include'})
+    async getLeaderboard() {
+        const resp = await this._request('/leaderboard')
         const json = await resp.json()
-        console.log(json)
         return json
     }
 }
