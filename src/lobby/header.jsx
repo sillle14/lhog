@@ -78,7 +78,7 @@ export default function Header({logout, loading, runningMatch, leave}) {
             {hog}
             <AppBar color="primary" position="sticky">
                 <Toolbar className={classes.bar}>
-                    <Box display="flex" onClick={() => {navigate('/')}} className={classes.home}>
+                    <Box display="flex" onClick={() => {if (runningMatch) {leave()} else {navigate('/')}}} className={classes.home}>
                         <svg viewBox="0 0 100 100" height="56px"><use xlinkHref="#hog"/></svg> 
                         <Tooltip title="Lewis' House of Games">
                             <Typography variant="h3" className={classes.icon}>LHoG</Typography>
