@@ -9,7 +9,7 @@ import {
     Typography,
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
-import { navigate } from '@reach/router'
+import { useNavigate } from 'react-router-dom'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp'
 import MenuIcon from '@material-ui/icons/Menu'
 import PropTypes from 'prop-types'
@@ -43,6 +43,8 @@ export default function Header({logout, loading, runningMatch, leave}) {
     const closeMenu = () => {setMenuAnchor(null)}
 
     const { user } = useContext(AuthContext)
+
+    const navigate = useNavigate()
 
     const hog = <svg xmlns="http://www.w3.org/2000/svg" className={classes.defs}>
         <symbol id="hog">

@@ -1,6 +1,6 @@
 import { Box, Button, Container, Link, TextField, Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
-import { navigate } from '@reach/router'
+import { useNavigate } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import React, { useState } from 'react'
 
@@ -32,6 +32,8 @@ export default function Form({signup, login}) {
     const [mainError, setMainError] = useState('')
 
     const classes = useStyles()
+
+    const navigate = useNavigate()
 
     const handleSubmit = async event => {
         event.preventDefault()

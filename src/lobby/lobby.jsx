@@ -1,6 +1,6 @@
 import { Client } from 'boardgame.io/react'
 import { Container } from '@material-ui/core'
-import { navigate } from '@reach/router'
+import { useNavigate } from 'react-router-dom'
 import { SocketIO } from 'boardgame.io/multiplayer'
 import PropTypes from 'prop-types'
 import React, { useContext, useEffect, useState } from 'react'
@@ -15,7 +15,9 @@ export default function Lobby({gameComponents, connection, setRunningMatch}) {
     const [matches, setMatches] = useState([])
     const [init, setInit] = useState(true)
 
-    const { user } = useContext(AuthContext);
+    const { user } = useContext(AuthContext)
+
+    const navigate = useNavigate()
 
     const refreshMatches = async () => {
         let allMatches = []

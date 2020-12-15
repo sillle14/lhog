@@ -1,4 +1,4 @@
-import { Router } from '@reach/router'
+import { HashRouter, Routes } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import React, {useState, useEffect} from 'react'
 
@@ -68,18 +68,18 @@ export default function LobbyRouter({gameServer, gameComponents}) {
     }
 
     return (
-        <AuthContext.Provider value={{user, loading, login}}>
+        <HashRouter><AuthContext.Provider value={{user, loading, login}}>
             {/* Nest the Header in a Router to enable navigation */}
-            <Router primary={false}>
+            <Routes primary={false}>
                 <Header 
                     logout={logout} 
                     runningMatch={runningMatch && runningMatch.gameName}
                     leave={() => {setRunningMatch(null)}}
                     loading={loading}
-                    default
+                    path="*"
                 />
-            </Router>
-            <Router>
+            </Routes>
+            <Routes>
                 <Form path='/signup' signup={signup}/>
                 <ProtectedRoute
                     as={Lobby}
@@ -99,8 +99,8 @@ export default function LobbyRouter({gameServer, gameComponents}) {
                     getLeaderboard={getLeaderboard}
                 />
                 {/* TODO: Redirect bad urls */}
-            </Router>
-        </AuthContext.Provider>
+            </Routes>
+        </AuthContext.Provider></HashRouter>
     )
 }
 

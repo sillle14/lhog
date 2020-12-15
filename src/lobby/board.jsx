@@ -1,7 +1,10 @@
-import { navigate } from '@reach/router'
+import { useNavigate } from 'react-router-dom'
 import React from 'react'
 
 export default function Board({runningMatch}) {
+
+    const navigate = useNavigate()
+
     if (runningMatch) {
         return (
             <runningMatch.app 
