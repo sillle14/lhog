@@ -83,7 +83,7 @@ export default function Leaderboard({getLeaderboard}) {
         },
         { 
             field: 'wscore', 
-            headerName: 'Level*',
+            headerName: 'Rating*',
             type: 'number', 
             valueFormatter: ({value}) => (value * 100).toFixed(2),
             width: 150,
