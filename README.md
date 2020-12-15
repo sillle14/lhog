@@ -8,7 +8,7 @@ A lobby implementation for games created using [boardgame.io](boardgame.io). Thi
 - [WattMatrix](https://github.com/sillle14/wattmatrix) (Powergrid)
 - Thurn and Taxis, Tigris and Euphrates, and Inis are planned/in development
 
-## Publishing Your Game to LHOG
+## Publishing Your Game to LHoG
 
 As mentioned above, theoretically any game created with boardgame.io will fit into this lobby framework. I haven't tested any games other than my own, so there may be some bugs! If you are interested, publish your game to NPM and make a PR which adds your game to server.js and index.js.
 
