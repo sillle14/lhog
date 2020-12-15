@@ -1,15 +1,11 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import * as serviceWorker from './serviceWorker';
-import LobbyRouter from './lobby/lobbyRouter';
+import React from 'react'
+import ReactDOM from 'react-dom'
+
 import { WattMatrixTable, WattMatrix } from 'wattmatrix'
 import { GembalayaTable, Gembalaya } from 'gembalaya'
+import LobbyRouter from './lobby/lobbyRouter'
 
-// TODO:
-//  * README
-//  * imports
-//  * semicolons?
+import './index.css'
 
 const ENV = process.env.REACT_APP_ENV
 
@@ -30,9 +26,3 @@ ReactDOM.render(
     </React.StrictMode>,
     document.getElementById('root')
 )
-
-
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();

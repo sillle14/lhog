@@ -1,17 +1,15 @@
+import { Router } from '@reach/router'
 import PropTypes from 'prop-types'
 import React, {useState, useEffect} from 'react'
 
-
-import { Router } from '@reach/router'
-
-import getConnection from './connection'
-import Board from './board'
-import Header from './header'
-import Form from './form'
-import Lobby from './lobby'
-import Leaderboard from './leaderboard'
-import ProtectedRoute from './protectedRoute'
 import AuthContext from './authContext'
+import Board from './board'
+import Form from './form'
+import getConnection from './connection'
+import Header from './header'
+import Leaderboard from './leaderboard'
+import Lobby from './lobby'
+import ProtectedRoute from './protectedRoute'
 
 export default function LobbyRouter({gameServer, gameComponents}) {
 

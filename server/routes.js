@@ -1,6 +1,6 @@
-import passport from 'koa-passport'
 import bcrypt from 'bcryptjs'
 import koaBody from 'koa-body'
+import passport from 'koa-passport'
 
 import Game from '../db/game'
 import User from '../db/user'

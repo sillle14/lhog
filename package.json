@@ -11,7 +11,7 @@
     "bgio-storage-cache": "^0.2.0",
     "boardgame.io": "^0.40.0",
     "esm": "^3.2.25",
-    "gembalaya": "^0.1.5",
+    "gembalaya": "^1.0.0",
     "koa-passport": "^4.1.3",
     "koa-session": "^6.0.0",
     "koa-session-mongoose": "^3.0.1",
@@ -22,7 +22,7 @@
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.4",
     "typescript": "^3.9.5",
-    "wattmatrix": "^0.1.14"
+    "wattmatrix": "^1.0.0"
   },
   "scripts": {
     "start": "SINGLE_PORT=1 node -r esm server/server.js",

@@ -1,15 +1,14 @@
-import PropTypes from 'prop-types'
-import React, { useContext, useEffect, useState } from 'react'
+import { Client } from 'boardgame.io/react'
 import { Container } from '@material-ui/core'
 import { navigate } from '@reach/router'
-
-import { Client } from 'boardgame.io/react'
 import { SocketIO } from 'boardgame.io/multiplayer'
+import PropTypes from 'prop-types'
+import React, { useContext, useEffect, useState } from 'react'
 
-import useInterval from './useInterval'
+import AuthContext from './authContext'
 import CreateMatchForm from './createMatchForm'
 import MatchCard from './matchCard'
-import AuthContext from './authContext'
+import useInterval from './useInterval'
 
 export default function Lobby({gameComponents, connection, setRunningMatch}) {
 

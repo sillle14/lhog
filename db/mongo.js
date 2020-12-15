@@ -1,6 +1,5 @@
+import { Async } from 'boardgame.io/internal'
 import mongoose from 'mongoose'
-
-import { Async } from "boardgame.io/internal";
 
 import Game from './game'
 import User from './user'

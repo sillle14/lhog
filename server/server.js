@@ -1,20 +1,20 @@
-import path from 'path';
-import cors from '@koa/cors';
-import serve from 'koa-static';
-import session from 'koa-session'
-import passport from 'koa-passport'
-import MongooseStore from 'koa-session-mongoose'
-
-import { Server } from 'boardgame.io/server';
+import { Server } from 'boardgame.io/server'
 import { StorageCache } from 'bgio-storage-cache'
+import cors from '@koa/cors'
+import MongooseStore from 'koa-session-mongoose'
+import passport from 'koa-passport'
+import path from 'path'
+import serve from 'koa-static'
+import session from 'koa-session'
 
-// Import without importing any React components.
-import { WattMatrix } from 'wattmatrix/dist/Game'
+// Import the game objects without importing any React components.
 import { Gembalaya } from 'gembalaya/dist/Game'
+import { WattMatrix } from 'wattmatrix/dist/Game'
 
-import { addRoutes } from './routes'
 import './passport'
+import { addRoutes } from './routes'
 import { MongoStore } from '../db/mongo'
+
 
 const DB_URI = process.env.DB_URI || 'mongodb://localhost:27017/lhog'
 

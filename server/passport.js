@@ -1,6 +1,6 @@
-import passport from 'koa-passport'
-import LocalStrategy from 'passport-local'
 import bcrypt from 'bcryptjs'
+import LocalStrategy from 'passport-local'
+import passport from 'koa-passport'
 
 import User from '../db/user'
 

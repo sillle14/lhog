@@ -1,6 +1,3 @@
-import PropTypes from 'prop-types';
-import React, { useContext, useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import { 
     AppBar, 
     Box, 
@@ -11,9 +8,12 @@ import {
     Tooltip, 
     Typography,
 } from '@material-ui/core'
-import ExitToAppIcon from '@material-ui/icons/ExitToApp'
-import MenuIcon from '@material-ui/icons/Menu';
+import { makeStyles } from '@material-ui/core/styles'
 import { navigate } from '@reach/router'
+import ExitToAppIcon from '@material-ui/icons/ExitToApp'
+import MenuIcon from '@material-ui/icons/Menu'
+import PropTypes from 'prop-types'
+import React, { useContext, useState } from 'react'
 
 import AuthContext from './authContext'
 
