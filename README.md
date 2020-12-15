@@ -1,6 +1,6 @@
 # Lewis' House of Games (LHoG)
 
-A lobby implementation for games created using boardgame.io. This includes basic sign-in, persistent game storage (MongoDB), and a simple leaderboard. Any game written using boardgame.io can in theory be deployed here, although there are a few restrictions noted below.
+A lobby implementation for games created using [boardgame.io](boardgame.io). This includes basic sign-in, persistent game storage (MongoDB), and a simple leaderboard. Any game written using boardgame.io can in theory be deployed here, although there are a few restrictions noted below.
 
 ## Games
 
