@@ -67,6 +67,8 @@ export default function LobbyRouter({gameServer, gameComponents}) {
         return leaderboard
     }
 
+    // NOTE: HashRouter is used here to prevent conflicts with the backend routes. Once deployment serves a separate backend and frontend,
+    //       this can be swapped to BrowserRouter.
     return (
         <HashRouter><AuthContext.Provider value={{user, loading, login}}>
             {/* Nest the Header in a Router to enable navigation */}

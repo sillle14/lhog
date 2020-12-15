@@ -65,7 +65,7 @@ export default function Header({logout, loading, runningMatch, leave}) {
 
     let menuItems
     if (runningMatch) {
-        menuItems = [<MenuItem onClick={() => {closeMenu(); leave()}}>Leave Game</MenuItem>]
+        menuItems = [<MenuItem key="leave" onClick={() => {closeMenu(); leave()}}>Leave Game</MenuItem>]
     } else {
         // TODO: Don't show where you are
         menuItems = [

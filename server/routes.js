@@ -110,14 +110,12 @@ async function leaderboard(ctx) {
     ctx.status = 200
 }
 
-// Since the frontend and backend are served from the same port on Heroku, all server routes are
-//  namespaced to prevent overlap.
 export function addRoutes(router) {
-    router.get('/server/auth', auth)
-    router.post('/server/login', koaBody(), login)
-    router.post('/server/logout', logout)
-    router.post('/server/signup', koaBody(), signup)
-    router.post('/server/delete', koaBody(), deleteMatch)
-    router.get('/server/stats', koaBody(), stats)
-    router.get('/server/leaderboard', leaderboard)
+    router.get('/auth', auth)
+    router.post('/login', koaBody(), login)
+    router.post('/logout', logout)
+    router.post('/signup', koaBody(), signup)
+    router.post('/delete', koaBody(), deleteMatch)
+    router.get('/stats', koaBody(), stats)
+    router.get('/leaderboard', leaderboard)
 }

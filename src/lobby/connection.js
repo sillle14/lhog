@@ -23,7 +23,7 @@ class _Connection {
      ***********************/
 
     async auth() {
-        const resp = await this._request('/server/auth', {credentials: 'include'})
+        const resp = await this._request('/auth', {credentials: 'include'})
         if (resp.status === 200) {
             const json = await resp.json()
             return json
@@ -36,7 +36,7 @@ class _Connection {
 
     async login(username, password) {
         const resp = await this._post(
-            '/server/login', 
+            '/login', 
             {username: username, password: password},
             {credentials: 'include'}
         )
@@ -53,7 +53,7 @@ class _Connection {
 
     async signup(username, password) {
         const resp = await this._post(
-            '/server/signup', 
+            '/signup', 
             {username: username, password: password},
             {credentials: 'include'}
         )
@@ -68,7 +68,7 @@ class _Connection {
     }
 
     async logout() {
-        const resp = await this._post('/server/logout', {}, {credentials: 'include'})
+        const resp = await this._post('/logout', {}, {credentials: 'include'})
         if (resp.status !== 200) {
             throw new Error(`Unexpected status from '/logout': ${resp.status}`)
         }
@@ -97,7 +97,7 @@ class _Connection {
     }
 
     async deleteMatch(matchID) {
-        const resp = await this._post('/server/delete', {matchID: matchID}, {credentials: 'include'})
+        const resp = await this._post('/delete', {matchID: matchID}, {credentials: 'include'})
         if (resp.status !== 202) {
             throw new Error(`Unexpected status from '/delete': ${resp.status}`)
         }
@@ -108,7 +108,7 @@ class _Connection {
      ***********************/
 
     async getLeaderboard() {
-        const resp = await this._request('/server/leaderboard')
+        const resp = await this._request('/leaderboard')
         const json = await resp.json()
         return json
     }

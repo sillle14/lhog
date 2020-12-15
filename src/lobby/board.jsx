@@ -1,9 +1,16 @@
 import { useNavigate } from 'react-router-dom'
-import React from 'react'
+import React, { useEffect } from 'react'
 
 export default function Board({runningMatch}) {
 
     const navigate = useNavigate()
+
+    useEffect(() => {
+        console.log('hey')
+        if (!runningMatch) {
+            navigate('/')
+        }
+    })
 
     if (runningMatch) {
         return (
@@ -14,7 +21,6 @@ export default function Board({runningMatch}) {
             />
         )
     } else {
-        navigate('/')
         return null
     }
 }
