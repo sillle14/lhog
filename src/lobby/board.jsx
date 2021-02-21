@@ -6,7 +6,6 @@ export default function Board({runningMatch}) {
     const navigate = useNavigate()
 
     useEffect(() => {
-        console.log('hey')
         if (!runningMatch) {
             navigate('/')
         }

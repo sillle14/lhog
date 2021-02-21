@@ -11,6 +11,9 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         justifyContent: 'space-between'
     },
+    beta: {
+        fontSize: '12px'
+    }
 }))
 
 export default function MatchCard({match, joinMatch, startMatch, playerName, isAdmin, deleteMatch}) {
@@ -76,7 +79,7 @@ export default function MatchCard({match, joinMatch, startMatch, playerName, isA
     return (
         <Card className={classes.root} variant="outlined"><CardContent className={classes.content}>
             <Box>
-                <Typography variant="h4">{match.gameName}</Typography>
+                <Typography variant="h4">{match.gameName}{match.gameName === 'CubeNations' ? <sup className={classes.beta}>BETA</sup> : null}</Typography>
                 <Typography align="right">{`id: ${match.matchID}`}</Typography>      
             </Box>
             <Box display="flex" flexWrap="wrap" alignSelf="center" flexBasis="40%">
