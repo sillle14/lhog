@@ -18,7 +18,7 @@ export default function Board({runningMatch}) {
         if (!runningMatch) {
             navigate('/')
         }
-    }, [runningMatch, navigate])
+    })
 
     if (runningMatch) {
         return (
