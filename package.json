@@ -9,7 +9,7 @@
     "bcryptjs": "^2.4.3",
     "bgio-storage-cache": "^0.2.0",
     "boardgame.io": "^0.40.0",
-    "cubenations": "0.1.6",
+    "cubenations": "0.2.0",
     "esm": "^3.2.25",
     "gembalaya": "^1.0.0",
     "history": "^5.0.0",
