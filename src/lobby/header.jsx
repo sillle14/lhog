@@ -9,7 +9,7 @@ import {
     Typography,
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp'
 import MenuIcon from '@material-ui/icons/Menu'
 import PropTypes from 'prop-types'
@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }))
 
-export default function Header({logout, loading, runningMatch, leave}) {
+export default function Header({logout, loading, runningMatch}) {
 
     const classes = useStyles()
     const [menuAnchor, setMenuAnchor] = useState(null)
@@ -45,6 +45,7 @@ export default function Header({logout, loading, runningMatch, leave}) {
     const { user } = useContext(AuthContext)
 
     const navigate = useNavigate()
+    const location = useLocation()
 
     const hog = <svg xmlns="http://www.w3.org/2000/svg" className={classes.defs}>
         <symbol id="hog">
@@ -63,30 +64,28 @@ export default function Header({logout, loading, runningMatch, leave}) {
 
     const hideHeaderComponents = loading || !user
 
-    let menuItems
-    if (runningMatch) {
-        menuItems = [<MenuItem key="leave" onClick={() => {closeMenu(); leave()}}>Leave Game</MenuItem>]
+    let menuItems = [
+        <MenuItem key="lobby" onClick={() => {closeMenu(); navigate('/')}}>Lobby</MenuItem>,
+        <MenuItem key="leaderboard" onClick={() => {closeMenu(); navigate('/leaderboard')}}>Leaderboard</MenuItem>,
+    ]
+    if (/(play|spectate)/.test(location.pathname)) {
+        menuItems.push(<MenuItem key="leave" onClick={() => {closeMenu();  navigate('/')}}>Leave Game<Box ml={1} mb={-0.5}><ExitToAppIcon/></Box></MenuItem>)
     } else {
-        // TODO: Don't show where you are
-        menuItems = [
-            <MenuItem key="logout" onClick={() => {closeMenu(); logout()}}>Logout<Box ml={1} mb={-0.5}><ExitToAppIcon/></Box></MenuItem>,
-            <MenuItem key="leaderboard" onClick={() => {closeMenu(); navigate('/leaderboard')}}>Leaderboard</MenuItem>,
-            <MenuItem key="lobby" onClick={() => {closeMenu(); navigate('/')}}>Lobby</MenuItem>
-        ]
-    }
+        menuItems.push(<MenuItem key="logout" onClick={() => {closeMenu(); logout()}}>Logout<Box ml={1} mb={-0.5}><ExitToAppIcon/></Box></MenuItem>)
+    } 
 
     return (
         <>
             {hog}
             <AppBar color="primary" position="sticky">
                 <Toolbar className={classes.bar}>
-                    <Box display="flex" onClick={() => {if (runningMatch) {leave()} else {navigate('/')}}} className={classes.home}>
+                    <Box display="flex" onClick={() => navigate('/')} className={classes.home}>
                         <svg viewBox="0 0 100 100" height="56px"><use xlinkHref="#hog"/></svg> 
                         <Tooltip title="Lewis' House of Games">
                             <Typography variant="h3" className={classes.icon}>LHoG</Typography>
                         </Tooltip>               
                     </Box>
-                    <Typography variant="h4">{runningMatch}</Typography>
+                    <Typography variant="h4">{/(play|spectate)/.test(location.pathname) && runningMatch}</Typography>
                     <Box display="flex">
                         <Typography className={classes.message}>
                             {hideHeaderComponents ? '' : `Welcome ${user.username}`}
@@ -120,5 +119,4 @@ Header.propTypes = {
     logout: PropTypes.func.isRequired,
     loading: PropTypes.bool.isRequired,
     runningMatch: PropTypes.string,
-    leave: PropTypes.func.isRequired
 }

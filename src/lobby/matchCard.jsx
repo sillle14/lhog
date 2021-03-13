@@ -52,13 +52,15 @@ export default function MatchCard({match, joinMatch, startMatch, playerName, isA
             onClick = () => {
                 startMatch(match.gameName, match.matchID, '' + mySeat.id)
             }
+        } else if (getNextFreeSeat() === false) {
+            text = 'Spectate'
+            disabled = false
+            onClick = () => {
+                startMatch(match.gameName, match.matchID, null)
+            }
         } else {
             text = 'Join'
-            if (getNextFreeSeat() !== false) {
-                disabled = false
-            } else {
-                disabled = true
-            }
+            disabled = false
             onClick = () => {
                 joinMatch(match.gameName, match.matchID, '' + getNextFreeSeat())
             }

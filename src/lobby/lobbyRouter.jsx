@@ -76,7 +76,6 @@ export default function LobbyRouter({gameServer, gameComponents}) {
                 <Header 
                     logout={logout} 
                     runningMatch={runningMatch && runningMatch.gameName}
-                    leave={() => {setRunningMatch(null)}}
                     loading={loading}
                     path="*"
                 />
@@ -93,6 +92,11 @@ export default function LobbyRouter({gameServer, gameComponents}) {
                 <ProtectedRoute
                     as={Board}
                     path='/play'
+                    runningMatch={runningMatch}
+                />
+                <ProtectedRoute
+                    as={Board}
+                    path='/spectate'
                     runningMatch={runningMatch}
                 />
                 <ProtectedRoute

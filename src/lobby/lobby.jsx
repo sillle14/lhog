@@ -71,7 +71,11 @@ export default function Lobby({gameComponents, connection, setRunningMatch}) {
             gameName: gameName
         }
         setRunningMatch(match)
-        navigate('/play')
+        if (playerID) {
+            navigate('/play')
+        } else {
+            navigate('/spectate')
+        }
     }
 
     const deleteMatch = async (matchID) => {
