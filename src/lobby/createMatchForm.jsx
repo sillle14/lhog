@@ -79,7 +79,7 @@ export default function CreateMatchForm({games, createMatch}) {
                     onClick={onCreateMatch}
                     disabled={(numPlayers === '')}
                 >
-                    Create New Game
+                    Create New Match
                 </Button>
             </form>
         </Container>

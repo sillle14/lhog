@@ -13,6 +13,13 @@ const useStyles = makeStyles((theme) => ({
     },
     beta: {
         fontSize: '12px'
+    },
+    fullSeat: {
+        opacity: 0.5
+    },
+    mySeat: {
+        color: '#002984',
+        fontWeight: 'bold'
     }
 }))
 
@@ -20,11 +27,22 @@ export default function MatchCard({match, joinMatch, startMatch, playerName, isA
 
     const classes = useStyles()
 
-    const seats = match.players.map((player, idx) => 
-        <Box key={idx} flexBasis="25%" border={2} borderColor="primary.main" borderRadius="borderRadius" display="flex" justifyContent="center" my={0.5} mx={1}>
-            <Typography align="center" color="primary">{player.name || 'empty'}</Typography>
+    const seats = match.players.map((player, idx) => {
+        let bgcolor = ''
+        let className = ''
+        if (player.name === playerName) {
+            // Your seat
+            bgcolor = 'primary.light'
+            className = classes.mySeat
+        } else if (!!player.name) {
+            // Full seat
+            bgcolor = '#e0e0e0'
+            className = classes.fullSeat
+        }
+        return <Box key={idx} flexBasis="25%" bgcolor={bgcolor} border={2} borderColor="primary.main" borderRadius="borderRadius" display="flex" justifyContent="center" my={0.5} mx={1}>
+            <Typography align="center" color="primary" className={className}>{player.name || 'empty'}</Typography>
         </Box>
-    )
+    })
 
     const getNextFreeSeat = () => {
         const freeSeat = match.players.find(player => !player.name)
@@ -80,10 +98,10 @@ export default function MatchCard({match, joinMatch, startMatch, playerName, isA
 
     return (
         <Card className={classes.root} variant="outlined"><CardContent className={classes.content}>
-            <Box>
+            <Box flexBasis="30%"><Box width="max-content">
                 <Typography variant="h4">{match.gameName}{match.gameName === 'CubeNations' ? <sup className={classes.beta}>BETA</sup> : null}</Typography>
                 <Typography align="right">{`id: ${match.matchID}`}</Typography>      
-            </Box>
+            </Box></Box>
             <Box display="flex" flexWrap="wrap" alignSelf="center" flexBasis="40%">
                 {seats}
             </Box>

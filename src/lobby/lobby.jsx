@@ -1,5 +1,5 @@
 import { Client } from 'boardgame.io/react'
-import { Container } from '@material-ui/core'
+import { Box, Button, ButtonGroup, Container, makeStyles, Typography } from '@material-ui/core'
 import { useNavigate } from 'react-router-dom'
 import { SocketIO } from 'boardgame.io/multiplayer'
 import PropTypes from 'prop-types'
@@ -10,12 +10,21 @@ import CreateMatchForm from './createMatchForm'
 import MatchCard from './matchCard'
 import useInterval from './useInterval'
 
+const useStyles = makeStyles({
+   filter: {
+       '& button': {transition: 'unset'}
+    }
+})
+
 export default function Lobby({gameComponents, connection, setRunningMatch}) {
 
     const [matches, setMatches] = useState([])
     const [init, setInit] = useState(true)
+    const [filter, setFilter] = useState('open')
 
     const { user } = useContext(AuthContext)
+
+    const classes = useStyles()
 
     const navigate = useNavigate()
 
@@ -84,8 +93,10 @@ export default function Lobby({gameComponents, connection, setRunningMatch}) {
     }
 
     const matchCards = matches.map(
-        (match, idx) => 
-            <MatchCard 
+        (match, idx) => {
+            const open = match.players.some(p => !p.name)
+            const mine = match.players.some(p => p.name === user.username)
+            const matchCard = <MatchCard 
                 key={idx} 
                 match={match} 
                 joinMatch={joinMatch} 
@@ -94,11 +105,37 @@ export default function Lobby({gameComponents, connection, setRunningMatch}) {
                 isAdmin={user.isAdmin}
                 deleteMatch={deleteMatch}
             />
+            switch (filter) {
+                case 'open':
+                    if (open) return matchCard
+                    break
+                case 'mine':
+                    if (mine) return matchCard
+                    break
+                default:
+                    return matchCard
+                    break
+            }
+        }
     )
-    // TODO: button to leaderboards!
     return <>
             <CreateMatchForm games={gameComponents} createMatch={createMatch}/>
-            <Container maxWidth="md">{matchCards}</Container>
+            <Container maxWidth="md">
+                <Box display="flex" justifyContent="center">             
+                    <ButtonGroup color="primary" className={classes.filter}>
+                        <Button variant={filter === 'open' ? 'contained' : ''} onClick={() => setFilter('open')}>Open Matches</Button>
+                        <Button variant={filter === 'mine' ? 'contained' : ''} onClick={() => setFilter('mine')}>My Matches</Button>
+                        <Button variant={filter === 'all' ? 'contained' : ''} onClick={() => setFilter('all')}>All Matches</Button>
+                    </ButtonGroup>
+                </Box>
+                <Box minHeight="50vh">
+                    {matchCards}
+                </Box>
+                <Box display="flex" flexDirection="column">
+                    <Typography align="center">WARNING: Games with no moves in the last 30 days will be automatically deleted.</Typography>
+                    <Typography align="center" gutterBottom={true}>WARNING: Games in beta may be deleted at any time.</Typography>
+                </Box>
+            </Container>
         </>
 
 }
