@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import React, { useState } from 'react'
 
+import Copyright from './copyright'
+
 const useStyles = makeStyles((theme) => ({
     form: {
       marginTop: theme.spacing(10)
@@ -73,8 +75,8 @@ export default function Form({signup, login}) {
     }
     
     return (
-        <Container component="main" maxWidth="xs">
-            <form className={classes.form} noValidate>
+        <Box height="calc(100vh - 64px)" display="flex" flexDirection="column" justifyContent="space-between">
+            <Container component="main" maxWidth="xs"><form className={classes.form} noValidate>
                 <TextField
                     variant="outlined"
                     margin="normal"
@@ -127,7 +129,7 @@ export default function Form({signup, login}) {
                 >
                     {signup ? 'Sign Up' : 'Log In'}
                 </Button>
-                <Box display="flex" justifyContent="flex-end">
+                <Box display="flex" justifyContent="flex-end"><Box display="flex" flexDirection="column" alignItems="flex-end">
                     <Link 
                         className={classes.link} 
                         variant="body2"
@@ -135,9 +137,17 @@ export default function Form({signup, login}) {
                     >
                         {signup ? 'Have an account? Sign In' : 'No account? Sign up'}
                     </Link>
-                </Box>
-            </form>
-        </Container>
+                    <Link 
+                        className={classes.link} 
+                        variant="body2"
+                        onClick={() => { navigate('/about') }}
+                    >
+                        About LHoG
+                    </Link>
+                </Box></Box>
+            </form></Container>
+            <Copyright/>
+        </Box>
     )
 }
 

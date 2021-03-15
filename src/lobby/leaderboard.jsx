@@ -4,6 +4,7 @@ import { DataGrid } from '@material-ui/data-grid'
 import React, { useContext, useEffect, useState } from 'react'
 
 import AuthContext from './authContext'
+import Copyright from './copyright'
 
 const useStyles = makeStyles((theme) => ({
     tabs: {
@@ -108,16 +109,19 @@ export default function Leaderboard({getLeaderboard}) {
                 <Tabs value={tab} onChange={switchTab} key="tabs" centered className={classes.tabs}>
                     {tabs}
                 </Tabs>
-                {/* NOTE: autoHeight prevents row virtualization, so may need to be changed if the dataset grows too large.
-                    See https://material-ui.com/components/data-grid/rendering/#auto-height */}
-                <ThemeProvider theme={gridTheme}><DataGrid 
-                    rows={leaderboard[tab]} 
-                    columns={columns} 
-                    pageSize={5} 
-                    autoHeight 
-                    disableSelectionOnClick
-                    sortModel={sortModel}
-                /></ThemeProvider>
+                <Box display="flex" flexDirection="column" justifyContent="space-between" height="75vh">
+                    {/* NOTE: autoHeight prevents row virtualization, so may need to be changed if the dataset grows too large.
+                        See https://material-ui.com/components/data-grid/rendering/#auto-height */}
+                    <ThemeProvider theme={gridTheme}><DataGrid 
+                        rows={leaderboard[tab]} 
+                        columns={columns} 
+                        pageSize={5} 
+                        autoHeight 
+                        disableSelectionOnClick
+                        sortModel={sortModel}
+                    /></ThemeProvider>
+                    <Copyright/>
+                </Box>
             </Container>
         )
     } else {

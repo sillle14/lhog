@@ -65,6 +65,7 @@ export default function Header({logout, loading, runningMatch}) {
     const hideHeaderComponents = loading || !user
 
     let menuItems = [
+        <MenuItem key="about" onClick={() => {closeMenu(); navigate('/about')}}>About</MenuItem>,
         <MenuItem key="lobby" onClick={() => {closeMenu(); navigate('/')}}>Lobby</MenuItem>,
         <MenuItem key="leaderboard" onClick={() => {closeMenu(); navigate('/leaderboard')}}>Leaderboard</MenuItem>,
     ]

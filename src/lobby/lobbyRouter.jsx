@@ -2,6 +2,7 @@ import { HashRouter, Routes } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import React, {useState, useEffect} from 'react'
 
+import About from './about'
 import AuthContext from './authContext'
 import Board from './board'
 import Form from './form'
@@ -82,6 +83,7 @@ export default function LobbyRouter({gameServer, gameComponents}) {
             </Routes>
             <Routes>
                 <Form path='/signup' signup={signup}/>
+                <About path='/about'/>
                 <ProtectedRoute
                     as={Lobby}
                     path='/' 
