@@ -129,7 +129,7 @@ export default function Lobby({gameComponents, connection, setRunningMatch}) {
                         <Button variant={filter === 'all' ? 'contained' : ''} onClick={() => setFilter('all')}>All Matches</Button>
                     </ButtonGroup>
                 </Box>
-                <Box minHeight="50vh">
+                <Box minHeight="42vh">
                     {matchCards}
                 </Box>
                 <Box display="flex" flexDirection="column">

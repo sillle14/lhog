@@ -60,7 +60,7 @@ export default function MatchCard({match, joinMatch, startMatch, playerName, isA
         // If the user is at the table:
         const mySeat = match.players.find(player => player.name === playerName)
         if (mySeat) {
-            text = 'Play'
+            text = 'Spectate'
             if (getNextFreeSeat() !== false) {
                 // Not enough players
                 disabled = true
@@ -89,7 +89,7 @@ export default function MatchCard({match, joinMatch, startMatch, playerName, isA
         ]
         if (isAdmin) {
             buttons.unshift(
-                <Button variant="contained" color="secondary" key="delete" onClick={() => deleteMatch(match.matchID)}>Delete Match</Button>
+                <Button variant="contained" color="secondary" key="delete" onClick={() => deleteMatch(match.matchID)}>Delete</Button>
             )
         }
 
@@ -105,7 +105,7 @@ export default function MatchCard({match, joinMatch, startMatch, playerName, isA
             <Box display="flex" flexWrap="wrap" alignSelf="center" flexBasis="40%">
                 {seats}
             </Box>
-            <CardActions>{getButtons()}</CardActions>
+            <Box flexBasis="30%" display="flex" flexDirection="row-reverse"><CardActions>{getButtons()}</CardActions></Box>
         </CardContent></Card>
     )
 }
