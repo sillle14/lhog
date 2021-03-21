@@ -57,6 +57,7 @@ export default function Lobby({gameComponents, connection, setRunningMatch}) {
     const createMatch = async (gameName, numPlayers) => {
         await connection.createMatch(gameName, numPlayers)
         refreshMatches()
+        setFilter('open')
     }
 
     const joinMatch = async (gameName, matchID, seatNum) => {
