@@ -21,7 +21,7 @@ export default function Lobby({gameComponents, connection, setRunningMatch}) {
 
     const [matches, setMatches] = useState([])
     const [init, setInit] = useState(true)
-    const [filter, setFilter] = useState('open')
+    const [filter, setFilter] = useState('mine')
 
     const { user } = useContext(AuthContext)
 
@@ -124,8 +124,8 @@ export default function Lobby({gameComponents, connection, setRunningMatch}) {
             <Container maxWidth="md">
                 <Box display="flex" justifyContent="center">             
                     <ButtonGroup color="primary" className={classes.filter}>
-                        <Button variant={filter === 'open' ? 'contained' : ''} onClick={() => setFilter('open')}>Open Matches</Button>
                         <Button variant={filter === 'mine' ? 'contained' : ''} onClick={() => setFilter('mine')}>My Matches</Button>
+                        <Button variant={filter === 'open' ? 'contained' : ''} onClick={() => setFilter('open')}>Open Matches</Button>
                         <Button variant={filter === 'all' ? 'contained' : ''} onClick={() => setFilter('all')}>All Matches</Button>
                     </ButtonGroup>
                 </Box>

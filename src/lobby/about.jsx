@@ -54,7 +54,7 @@ export default function About() {
                 the <Link href="https://images.zmangames.com/filer_public/92/3f/923f8aba-72f1-4aa5-9622-d648ad1a9aa7/kn25_rulebook_web.pdf" rel="noopener" target="_blank">rules</Link> or 
                 see the code on <Link href="https://github.com/sillle14/cubenations" rel="noopener" target="_blank">Github</Link>.
             </Typography>
-            <Typography>Cube Nations is still in beta, so games may be deleted without notice.</Typography>
+            <Typography>CubeNations is still in beta, so games may be deleted without notice.</Typography>
             <Copyright/>
         </Container>
     )
