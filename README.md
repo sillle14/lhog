@@ -6,7 +6,8 @@ A lobby implementation for games created using [boardgame.io](boardgame.io). Thi
 
 - [Gembalaya](https://github.com/sillle14/gembalaya) (Splendor)
 - [WattMatrix](https://github.com/sillle14/wattmatrix) (Powergrid)
-- Thurn and Taxis, Tigris and Euphrates, and Inis are planned/in development
+- [CubeNations](https://github.com/sillle14/cubenations) (Tigris & Euphrates)
+- Thurn & Taxis and Inis are planned/in development
 
 ## Publishing Your Game to LHoG
 

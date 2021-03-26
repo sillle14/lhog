@@ -96,10 +96,12 @@ export default function MatchCard({match, joinMatch, startMatch, playerName, isA
         return buttons
     }
 
+    const beta = []
+
     return (
         <Card className={classes.root} variant="outlined"><CardContent className={classes.content}>
             <Box flexBasis="30%"><Box width="max-content">
-                <Typography variant="h4">{match.gameName}{match.gameName === 'CubeNations' ? <sup className={classes.beta}>BETA</sup> : null}</Typography>
+                <Typography variant="h4">{match.gameName}{beta.includes(match.gameName) ? <sup className={classes.beta}>BETA</sup> : null}</Typography>
                 <Typography align="right">{`id: ${match.matchID}`}</Typography>      
             </Box></Box>
             <Box display="flex" flexWrap="wrap" alignSelf="center" flexBasis="40%">
