@@ -2,6 +2,8 @@
 
 A lobby implementation for games created using [boardgame.io](boardgame.io). This includes basic sign-in, persistent game storage (MongoDB), and a simple leaderboard. Any game written using boardgame.io can in theory be deployed here, although there are a few restrictions noted below.
 
+Play at [lhog.herokuapp.com](https://lhog.herokuapp.com/). Note that this is running on a free Heroku Dyno, so initial load may take a few minutes. Also, I've only tested the games with desktop Chrome, so your mileage may vary with other browsers.
+
 ## Games
 
 - [Gembalaya](https://github.com/sillle14/gembalaya) (Splendor)
