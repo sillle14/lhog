@@ -6,7 +6,6 @@ import PropTypes from 'prop-types'
 import React, { useContext, useEffect, useState } from 'react'
 
 import AuthContext from './authContext'
-import Copyright from './copyright'
 import CreateMatchForm from './createMatchForm'
 import MatchCard from './matchCard'
 import useInterval from './useInterval'
@@ -137,7 +136,6 @@ export default function Lobby({gameComponents, connection, setRunningMatch}) {
                     <Typography align="center">WARNING: Games with no moves in the last 30 days will be automatically deleted.</Typography>
                     <Typography align="center" gutterBottom={true}>WARNING: Games in beta may be deleted at any time.</Typography>
                 </Box>
-                <Copyright/>
             </Container>
         </>
 

@@ -4,7 +4,6 @@ import { DataGrid } from '@material-ui/data-grid'
 import React, { useContext, useEffect, useState } from 'react'
 
 import AuthContext from './authContext'
-import Copyright from './copyright'
 
 const useStyles = makeStyles((theme) => ({
     tabs: {
@@ -120,7 +119,6 @@ export default function Leaderboard({getLeaderboard}) {
                         disableSelectionOnClick
                         sortModel={sortModel}
                     /></ThemeProvider>
-                    <Copyright/>
                 </Box>
             </Container>
         )

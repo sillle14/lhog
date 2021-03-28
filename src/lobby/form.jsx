@@ -4,8 +4,6 @@ import { useNavigate } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import React, { useState } from 'react'
 
-import Copyright from './copyright'
-
 const useStyles = makeStyles((theme) => ({
     form: {
       marginTop: theme.spacing(10)
@@ -146,7 +144,6 @@ export default function Form({signup, login}) {
                     </Link>
                 </Box></Box>
             </form></Container>
-            <Copyright/>
         </Box>
     )
 }
