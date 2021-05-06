@@ -19,7 +19,7 @@ In order to collect game statistics, there is one additional requirement. All ga
 
 ## Development
 
-Run `npm install` to install the necessary packages. Run the server using `npm run dev-server` and the client using `npm run dev`.
+Run `npm install` to install the necessary packages. Run the server using `npm run dev-server` and the client using `npm run dev`. You'll also need a MongoDB running at port 27017.
 
 ## Deployment
 

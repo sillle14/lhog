@@ -39,20 +39,20 @@ export default function About() {
             <Typography>
                 Gembalaya implements the popular card game <Link href="https://boardgamegeek.com/boardgame/148228/splendor" rel="noopener" target="_blank">Splendor</Link>. This is a game for 2-4
                 players and takes about 30 minutes. Check out the <Link href="https://cdn.1j1ju.com/medias/7f/91/ba-splendor-rulebook.pdf" rel="noopener noreferrer" target="_blank">rules</Link> or see the code
-                on <Link href="https://github.com/sillle14/gembalaya" rel="noopener" target="_blank">Github.</Link>
+                on <Link href="https://github.com/sillle14/gembalaya" rel="noopener" target="_blank">Github</Link>. Developed by Lewis Silletto.
             </Typography>
             <Typography variant="h4" className={classes.header}>WattMatrix</Typography>            
             <Typography>
                 WattMatrix implements the auction game <Link href="https://boardgamegeek.com/boardgame/2651/power-grid" rel="noopener" target="_blank">Power Grid</Link>. This is a game for 3-6
                 players and takes about 2 hours. Check out the <Link href="https://www.ultraboardgames.com/power-grid/game-rules.php" rel="noopener noreferrer" target="_blank">rules</Link> (and note that this
-                implements the 2004 edition, not the newer edition) or see the code on <Link href="https://github.com/sillle14/wattmatrix" rel="noopener" target="_blank">Github</Link>.
+                implements the 2004 edition, not the newer edition) or see the code on <Link href="https://github.com/sillle14/wattmatrix" rel="noopener" target="_blank">Github</Link>. Developed by Lewis Silletto.
             </Typography>
             <Typography variant="h4" className={classes.header}>CubeNations</Typography>            
             <Typography>
                 CubeNations implements the classic tile-laying game <Link href="https://boardgamegeek.com/boardgame/42/tigris-euphrates" rel="noopener  noreferrer" target="_blank">Tigris & Euphrates</Link>. 
                 This is a game for 2-4 players and takes about 1.5 hours. Check out
                 the <Link href="https://images.zmangames.com/filer_public/92/3f/923f8aba-72f1-4aa5-9622-d648ad1a9aa7/kn25_rulebook_web.pdf" rel="noopener" target="_blank">rules</Link> or 
-                see the code on <Link href="https://github.com/sillle14/cubenations" rel="noopener" target="_blank">Github</Link>.
+                see the code on <Link href="https://github.com/sillle14/cubenations" rel="noopener" target="_blank">Github</Link>.  Developed by Lewis Silletto.
             </Typography>
             <Copyright/>
         </Container>
