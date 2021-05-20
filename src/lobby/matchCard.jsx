@@ -96,7 +96,7 @@ export default function MatchCard({match, joinMatch, startMatch, playerName, isA
         return buttons
     }
 
-    const beta = []
+    const beta = ['ThornyUber']
 
     return (
         <Card className={classes.root} variant="outlined"><CardContent className={classes.content}>

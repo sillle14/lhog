@@ -54,6 +54,13 @@ export default function About() {
                 the <Link href="https://images.zmangames.com/filer_public/92/3f/923f8aba-72f1-4aa5-9622-d648ad1a9aa7/kn25_rulebook_web.pdf" rel="noopener" target="_blank">rules</Link> or 
                 see the code on <Link href="https://github.com/sillle14/cubenations" rel="noopener" target="_blank">Github</Link>.  Developed by Lewis Silletto.
             </Typography>
+            <Typography variant="h4" className={classes.header}>ThornyUber</Typography>            
+            <Typography>
+                ThornyUber implements the classic Euro game <Link href="https://boardgamegeek.com/boardgame/21790/thurn-and-taxis" rel="noopener  noreferrer" target="_blank">Thurn & Taxis</Link>. 
+                This is a game for 2-4 players and takes about an hour. Check out
+                the <Link href="https://www.yucata.de/en/Rules/ThurnTaxis" rel="noopener" target="_blank">rules</Link> or 
+                see the code on <Link href="https://github.com/mdovwagner/thornyUber" rel="noopener" target="_blank">Github</Link>.  Developed by Michael Wagner.
+            </Typography>
             <Copyright/>
         </Container>
     )
