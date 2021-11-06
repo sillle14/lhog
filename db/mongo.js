@@ -15,13 +15,8 @@ export class MongoStore extends Async {
      * Connect.
      */
     async connect() {
-        mongoose.connect(this.uri, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-            useCreateIndex: true,
-            useFindAndModify: false,
-        });
-    }   
+        mongoose.connect(this.uri);
+    }
 
     /**
      * Create a new game.
