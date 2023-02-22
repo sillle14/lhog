@@ -8,9 +8,9 @@ import serve from 'koa-static'
 import session from 'koa-session'
 
 // Import the game objects without importing any React components.
-import { Gembalaya } from 'gembalaya/dist/Game'
-import { WattMatrix } from 'wattmatrix/dist/Game'
-import { CubeNations } from 'cubenations/dist/Game'
+// import { Gembalaya } from 'gembalaya/dist/Game'
+// import { WattMatrix } from 'wattmatrix/dist/Game'
+// import { CubeNations } from 'cubenations/dist/Game'
 
 import './passport'
 import { addRoutes } from './routes'
@@ -33,7 +33,7 @@ const PORT = process.env.PORT || 8000;
 // Creating and running the server with mongo connection initializes it. This is also important for passport.
 const db = new MongoStore(DB_URI)
 const dbWithCaching = new StorageCache(db, {cacheSize: 200})
-const server = Server({ games: [WattMatrix, Gembalaya, CubeNations], generateCredentials: generateCredentials, db: dbWithCaching})
+const server = Server({ games: [], generateCredentials: generateCredentials, db: dbWithCaching})
 
 const SINGLE_PORT = process.env.SINGLE_PORT
 

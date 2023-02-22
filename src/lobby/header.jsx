@@ -7,11 +7,11 @@ import {
     Toolbar, 
     Tooltip, 
     Typography,
-} from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles'
+} from '@mui/material'
+import { makeStyles } from '@mui/styles'
 import { useLocation, useNavigate } from 'react-router-dom'
-import ExitToAppIcon from '@material-ui/icons/ExitToApp'
-import MenuIcon from '@material-ui/icons/Menu'
+import ExitToAppIcon from '@mui/icons-material/ExitToApp'
+import MenuIcon from '@mui/icons-material/Menu'
 import PropTypes from 'prop-types'
 import React, { useContext, useState } from 'react'
 

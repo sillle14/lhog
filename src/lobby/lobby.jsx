@@ -1,5 +1,6 @@
 import { Client } from 'boardgame.io/react'
-import { Box, Button, ButtonGroup, Container, makeStyles, Typography } from '@material-ui/core'
+import { Box, Button, ButtonGroup, Container, Typography } from '@mui/material'
+import { makeStyles } from '@mui/styles'
 import { useNavigate } from 'react-router-dom'
 import { SocketIO } from 'boardgame.io/multiplayer'
 import PropTypes from 'prop-types'

@@ -1,5 +1,5 @@
-import { Container, Link, Typography } from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles'
+import { Container, Link, Typography } from '@mui/material'
+import { makeStyles } from '@mui/styles'
 import { Link as RouterLink } from 'react-router-dom'
 import React from 'react'
 

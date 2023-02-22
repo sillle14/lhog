@@ -1,6 +1,7 @@
-import { Box, CircularProgress, Container, Tab, Tabs, Typography } from '@material-ui/core'
-import { createMuiTheme, makeStyles, ThemeProvider } from '@material-ui/core/styles'
-import { DataGrid } from '@material-ui/data-grid'
+import { Box, CircularProgress, Container, Tab, Tabs, Typography } from '@mui/material'
+import { createTheme, ThemeProvider } from '@mui/material/styles'
+import { makeStyles } from '@mui/styles'
+import { DataGrid } from '@mui/x-data-grid'
 import React, { useContext, useEffect, useState } from 'react'
 
 import AuthContext from './authContext'
@@ -19,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 // Remove the default focus behavior.
-const gridTheme = createMuiTheme({
+const gridTheme = createTheme({
     overrides: {
         MuiDataGrid: {
             root: {
