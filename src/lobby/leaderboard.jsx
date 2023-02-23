@@ -1,5 +1,5 @@
 import { Box, CircularProgress, Container, Tab, Tabs, Typography } from '@mui/material'
-import { createTheme, ThemeProvider } from '@mui/material/styles'
+import { createTheme, ThemeProvider, StyledEngineProvider, adaptV4Theme } from '@mui/material/styles';
 import { makeStyles } from '@mui/styles'
 import { DataGrid } from '@mui/x-data-grid'
 import React, { useContext, useEffect, useState } from 'react'
@@ -20,7 +20,8 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 // Remove the default focus behavior.
-const gridTheme = createTheme({
+// TODO: Fix this
+const gridTheme = createTheme(adaptV4Theme({
     overrides: {
         MuiDataGrid: {
             root: {
@@ -30,7 +31,7 @@ const gridTheme = createTheme({
             },
         },
     },
-})
+}))
 
 export default function Leaderboard({getLeaderboard}) {
 
@@ -112,17 +113,19 @@ export default function Leaderboard({getLeaderboard}) {
                 <Box display="flex" flexDirection="column" justifyContent="space-between" height="75vh">
                     {/* NOTE: autoHeight prevents row virtualization, so may need to be changed if the dataset grows too large.
                         See https://material-ui.com/components/data-grid/rendering/#auto-height */}
-                    <ThemeProvider theme={gridTheme}><DataGrid 
-                        rows={leaderboard[tab]} 
-                        columns={columns} 
-                        pageSize={5} 
-                        autoHeight 
-                        disableSelectionOnClick
-                        sortModel={sortModel}
-                    /></ThemeProvider>
+                    <StyledEngineProvider injectFirst>
+                        <ThemeProvider theme={gridTheme}><DataGrid 
+                            rows={leaderboard[tab]} 
+                            columns={columns} 
+                            pageSize={5} 
+                            autoHeight 
+                            disableSelectionOnClick
+                            sortModel={sortModel}
+                        /></ThemeProvider>
+                    </StyledEngineProvider>
                 </Box>
             </Container>
-        )
+        );
     } else {
         return (
             <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" height="80vh">

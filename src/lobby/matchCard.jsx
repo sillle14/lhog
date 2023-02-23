@@ -39,9 +39,11 @@ export default function MatchCard({match, joinMatch, startMatch, playerName, isA
             bgcolor = '#e0e0e0'
             className = classes.fullSeat
         }
-        return <Box key={idx} flexBasis="25%" bgcolor={bgcolor} border={2} borderColor="primary.main" borderRadius="borderRadius" display="flex" justifyContent="center" my={0.25} mx={1}>
-            <Typography align="center" color="primary" className={className}>{player.name || 'empty'}</Typography>
-        </Box>
+        return (
+            <Box key={idx} flexBasis="25%" bgcolor={bgcolor} border={2} borderColor="primary.main" borderRadius={1} display="flex" justifyContent="center" my={0.25} mx={1}>
+                <Typography align="center" color="primary" className={className}>{player.name || 'empty'}</Typography>
+            </Box>
+        );
     })
 
     const getNextFreeSeat = () => {

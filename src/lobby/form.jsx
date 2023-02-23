@@ -128,24 +128,24 @@ export default function Form({signup, login}) {
                     {signup ? 'Sign Up' : 'Log In'}
                 </Button>
                 <Box display="flex" justifyContent="flex-end"><Box display="flex" flexDirection="column" alignItems="flex-end">
-                    <Link 
-                        className={classes.link} 
+                    <Link
+                        className={classes.link}
                         variant="body2"
                         onClick={() => { swapMode() }}
-                    >
+                        underline="hover">
                         {signup ? 'Have an account? Sign In' : 'No account? Sign up'}
                     </Link>
-                    <Link 
-                        className={classes.link} 
+                    <Link
+                        className={classes.link}
                         variant="body2"
                         onClick={() => { navigate('/about') }}
-                    >
+                        underline="hover">
                         About LHoG
                     </Link>
                 </Box></Box>
             </form></Container>
         </Box>
-    )
+    );
 }
 
 Form.propTypes = {

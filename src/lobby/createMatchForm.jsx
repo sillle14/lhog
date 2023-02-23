@@ -43,13 +43,13 @@ export default function CreateMatchForm({games, createMatch}) {
         <Container maxWidth="sm">
             <form className={classes.form}>
                 <TextField
+                    variant="standard"
                     id="select-game"
                     select
                     label="Game"
                     onChange={selectGame}
                     value={gameIdx}
-                    className={classes.select}
-                >
+                    className={classes.select}>
                     {games.map((game, idx) => (
                         <MenuItem key={idx} value={idx}>
                             {game.game.name}
@@ -57,14 +57,14 @@ export default function CreateMatchForm({games, createMatch}) {
                     ))}
                 </TextField>
                 <TextField
+                    variant="standard"
                     id="select-players"
                     select
                     label="Player count"
                     onChange={(e) => {setNumPlayers(e.target.value)}}
                     value={numPlayers}
                     className={classes.select}
-                    disabled={gameIdx === ''}
-                >
+                    disabled={gameIdx === ''}>
                     {numPlayerOpts.map((i) => (
                         <MenuItem key={i} value={i}>
                         {i}
@@ -83,7 +83,7 @@ export default function CreateMatchForm({games, createMatch}) {
                 </Button>
             </form>
         </Container>
-    )
+    );
 }
 
 CreateMatchForm.propTypes = {

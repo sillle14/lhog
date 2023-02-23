@@ -75,45 +75,46 @@ export default function Header({logout, loading, runningMatch}) {
         menuItems.push(<MenuItem key="logout" onClick={() => {closeMenu(); logout()}}>Logout<Box ml={1} mb={-0.5}><ExitToAppIcon/></Box></MenuItem>)
     } 
 
-    return (
-        <>
-            {hog}
-            <AppBar color="primary" position="sticky">
-                <Toolbar className={classes.bar}>
-                    <Box display="flex" onClick={() => navigate('/')} className={classes.home}>
-                        <svg viewBox="0 0 100 100" height="56px"><use xlinkHref="#hog"/></svg> 
-                        <Tooltip title="Lewis' House of Games">
-                            <Typography variant="h3" className={classes.icon}>LHoG</Typography>
-                        </Tooltip>               
-                    </Box>
-                    <Typography variant="h4">{/(play|spectate)/.test(location.pathname) && runningMatch}</Typography>
-                    <Box display="flex">
-                        <Typography className={classes.message}>
-                            {hideHeaderComponents ? '' : `Welcome ${user.username}`}
-                        </Typography>
-                        {hideHeaderComponents ? null : <IconButton color="inherit" onClick={(e) => {setMenuAnchor(e.currentTarget)}}><MenuIcon/></IconButton>}
-                        <Menu 
-                            anchorEl={menuAnchor} 
-                            open={Boolean(menuAnchor)} 
-                            onClose={closeMenu}
-                            getContentAnchorEl={null}
-                            keepMounted
-                            anchorOrigin={{
-                                vertical: 'bottom',
-                                horizontal: 'right',
-                            }}
-                            transformOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }}
-                        >
-                            {menuItems}
-                        </Menu>
-                    </Box>
-                </Toolbar>
-            </AppBar>
-        </>
-    )
+    return <>
+        {hog}
+        <AppBar color="primary" position="sticky">
+            <Toolbar className={classes.bar}>
+                <Box display="flex" onClick={() => navigate('/')} className={classes.home}>
+                    <svg viewBox="0 0 100 100" height="56px"><use xlinkHref="#hog"/></svg> 
+                    <Tooltip title="Lewis' House of Games">
+                        <Typography variant="h3" className={classes.icon}>LHoG</Typography>
+                    </Tooltip>               
+                </Box>
+                <Typography variant="h4">{/(play|spectate)/.test(location.pathname) && runningMatch}</Typography>
+                <Box display="flex">
+                    <Typography className={classes.message}>
+                        {hideHeaderComponents ? '' : `Welcome ${user.username}`}
+                    </Typography>
+                    {hideHeaderComponents ? null : <IconButton
+                        color="inherit"
+                        onClick={(e) => {setMenuAnchor(e.currentTarget)}}
+                        size="large"><MenuIcon/></IconButton>}
+                    <Menu 
+                        anchorEl={menuAnchor} 
+                        open={Boolean(menuAnchor)} 
+                        onClose={closeMenu}
+                        getContentAnchorEl={null}
+                        keepMounted
+                        anchorOrigin={{
+                            vertical: 'bottom',
+                            horizontal: 'right',
+                        }}
+                        transformOrigin={{
+                            vertical: 'top',
+                            horizontal: 'right',
+                        }}
+                    >
+                        {menuItems}
+                    </Menu>
+                </Box>
+            </Toolbar>
+        </AppBar>
+    </>;
 }
 
 Header.propTypes = {

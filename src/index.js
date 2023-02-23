@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { ThemeProvider, StyledEngineProvider, createTheme } from '@mui/material/styles';
 
 // import { WattMatrixTable, WattMatrix } from 'wattmatrix'
 // import { GembalayaTable, Gembalaya } from 'gembalaya'
@@ -23,12 +23,14 @@ if (ENV === 'dev')    {
 // Render the lobby. This relies on a running server.
 ReactDOM.render(
     <React.StrictMode>
-        <ThemeProvider theme={theme}>        
-            <LobbyRouter
-                gameServer={SERVER}
-                gameComponents={[]}
-            />
-        </ThemeProvider>
+        <StyledEngineProvider injectFirst>
+            <ThemeProvider theme={theme}>        
+                <LobbyRouter
+                    gameServer={SERVER}
+                    gameComponents={[]}
+                />
+            </ThemeProvider>
+        </StyledEngineProvider>
     </React.StrictMode>,
     document.getElementById('root')
 )
