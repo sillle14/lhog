@@ -3,7 +3,7 @@ import React, { useContext } from 'react'
 import AuthContext from './authContext'
 import Form from './form'
 
-export default function PrivateRoute(props) {
+export default function ProtectedRoute(props) {
     const { user, loading, login } = useContext(AuthContext);
     if (loading) {
         return null
