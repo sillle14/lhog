@@ -21,5 +21,6 @@ module.exports = {
         "react-hooks"
     ],
     "rules": {
+        "react/prop-types": "off"
     }
 };

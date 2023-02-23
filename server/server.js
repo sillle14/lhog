@@ -1,5 +1,5 @@
 import { Server } from 'boardgame.io/server'
-import { StorageCache } from 'bgio-storage-cache'
+import { StorageCache } from '@boardgame.io/storage-cache'
 import cors from '@koa/cors'
 import MongooseStore from 'koa-session-mongoose'
 import passport from 'koa-passport'

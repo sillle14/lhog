@@ -22,7 +22,7 @@ export default function About() {
 
     return (
         <Container maxWidth="md">
-            <Typography variant="h2" className={classes.header}>Welcome to Lewis' House of Games</Typography>
+            <Typography variant="h2" className={classes.header}>Welcome to Lewis&lsquo; House of Games</Typography>
             <Typography>
                 LHoG is a framework for playing games developed with <Link href="https://boardgame.io/" rel="noopener" target="_blank">boardgame.io</Link>.
                 It provides the account infrastructure and database backend for saving games and asynchronous play, as well as a basic lobby

@@ -34,7 +34,7 @@ export default function MatchCard({match, joinMatch, startMatch, playerName, isA
             // Your seat
             bgcolor = 'primary.light'
             className = classes.mySeat
-        } else if (!!player.name) {
+        } else if (player.name) {
             // Full seat
             bgcolor = '#e0e0e0'
             className = classes.fullSeat
