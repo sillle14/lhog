@@ -8,7 +8,7 @@ import serve from 'koa-static'
 import session from 'koa-session'
 
 // Import the game objects without importing any React components.
-// import { Gembalaya } from 'gembalaya/dist/Game'
+import { Gembalaya } from 'gembalaya/dist/Game'
 // import { WattMatrix } from 'wattmatrix/dist/Game'
 // import { CubeNations } from 'cubenations/dist/Game'
 
@@ -34,7 +34,7 @@ const PORT = process.env.PORT || 8000;
 const db = new MongoStore(DB_URI)
 const dbWithCaching = new StorageCache(db, {cacheSize: 200})
 const server = Server({
-    games: [], 
+    games: [Gembalaya], 
     generateCredentials: generateCredentials, 
     db: dbWithCaching,
     origins: ['https://lhog.lewissilletto.com', Origins.LOCALHOST_IN_DEVELOPMENT]

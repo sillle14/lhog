@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { ThemeProvider, StyledEngineProvider, createTheme } from '@mui/material/styles';
 
 // import { WattMatrixTable, WattMatrix } from 'wattmatrix'
-// import { GembalayaTable, Gembalaya } from 'gembalaya'
+import { GembalayaTable, Gembalaya } from 'gembalaya'
 // import { CubeNations, CubeNationsTable } from 'cubenations'
 import LobbyRouter from './lobby/lobbyRouter'
 
@@ -29,7 +29,7 @@ root.render(
             <ThemeProvider theme={theme}>        
                 <LobbyRouter
                     gameServer={SERVER}
-                    gameComponents={[]}
+                    gameComponents={[{game: Gembalaya, board: GembalayaTable}]}
                 />
             </ThemeProvider>
         </StyledEngineProvider>
