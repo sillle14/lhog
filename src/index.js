@@ -1,5 +1,5 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
+import { createRoot } from 'react-dom/client';
 import { ThemeProvider, StyledEngineProvider, createTheme } from '@mui/material/styles';
 
 // import { WattMatrixTable, WattMatrix } from 'wattmatrix'
@@ -10,6 +10,8 @@ import LobbyRouter from './lobby/lobbyRouter'
 import './index.css'
 
 const theme = createTheme();
+const container = document.getElementById('root');
+const root = createRoot(container);
 
 const ENV = process.env.REACT_APP_ENV
 
@@ -21,7 +23,7 @@ if (ENV === 'dev')    {
 }
 
 // Render the lobby. This relies on a running server.
-ReactDOM.render(
+root.render(
     <React.StrictMode>
         <StyledEngineProvider injectFirst>
             <ThemeProvider theme={theme}>        
@@ -31,6 +33,5 @@ ReactDOM.render(
                 />
             </ThemeProvider>
         </StyledEngineProvider>
-    </React.StrictMode>,
-    document.getElementById('root')
+    </React.StrictMode>
 )
