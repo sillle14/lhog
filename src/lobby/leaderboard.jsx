@@ -1,5 +1,5 @@
 import { Box, CircularProgress, Container, Tab, Tabs, Typography } from '@mui/material'
-import { createTheme, ThemeProvider, StyledEngineProvider, adaptV4Theme } from '@mui/material/styles';
+import { createTheme, ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
 import { makeStyles } from '@mui/styles'
 import { DataGrid } from '@mui/x-data-grid'
 import React, { useContext, useEffect, useState } from 'react'
@@ -20,18 +20,19 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 // Remove the default focus behavior.
-// TODO: Fix this
-const gridTheme = createTheme(adaptV4Theme({
-    overrides: {
+const gridTheme = createTheme({
+    components: {
         MuiDataGrid: {
-            root: {
-                '& .MuiDataGrid-colCell:focus, & .MuiDataGrid-cell:focus': {
-                    outline: 'none'
+            styleOverrides: {
+                root: {
+                    '& .MuiDataGrid-colCell:focus, & .MuiDataGrid-cell:focus': {
+                        outline: 'none'
+                    }
                 }
-            },
-        },
-    },
-}))
+            }
+        }
+    }
+})
 
 export default function Leaderboard({getLeaderboard}) {
 
