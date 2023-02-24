@@ -1,23 +1,12 @@
 import { Box, Button, Container, Link, TextField, Typography } from '@mui/material'
-import { makeStyles } from '@mui/styles'
+
+import { styled } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import React, { useState } from 'react'
 
-const useStyles = makeStyles((theme) => ({
-    form: {
-      marginTop: theme.spacing(10)
-    },
-    submit: {
-        margin: theme.spacing(1.5, 'auto')
-    },
-    link: {
-        cursor: 'pointer'
-    },
-    hidden: {
-        display: 'none'
-    }
-}))
+const StyledForm = styled('form')(({ theme }) => ({ marginTop: theme.spacing(10) }));
+const StyledLink = styled(Link)({ cursor: 'pointer' });
 
 export default function Form({signup, login}) {
 
@@ -30,8 +19,6 @@ export default function Form({signup, login}) {
     const [passwordError, setPasswordError] = useState('')
     const [confirmPasswordError, setConfirmPasswordError] = useState('')
     const [mainError, setMainError] = useState('')
-
-    const classes = useStyles()
 
     const navigate = useNavigate()
 
@@ -74,7 +61,7 @@ export default function Form({signup, login}) {
     
     return (
         <Box height="calc(100vh - 64px)" display="flex" flexDirection="column" justifyContent="space-between">
-            <Container component="main" maxWidth="xs"><form className={classes.form} noValidate>
+            <Container component="main" maxWidth="xs"><StyledForm noValidate>
                 <TextField
                     variant="outlined"
                     margin="normal"
@@ -113,14 +100,14 @@ export default function Form({signup, login}) {
                     type="password"
                     onFocus={() => { setConfirmPasswordError(''); setMainError('') }}
                     onChange={(e) => { setConfirmPassword(e.target.value) }}
-                    className={signup? '' : classes.hidden}
+                    sx={signup ? {} : { display: 'none' }}
                 />
                 <Typography color="secondary" hidden={mainError === ''}>{mainError}</Typography>
                 <Button
                     fullWidth
                     variant="contained"
                     color="primary"
-                    className={classes.submit}
+                    sx={{ my: 1.5 }}
                     type="submit"
                     onClick={handleSubmit}
                     size="large"
@@ -128,22 +115,20 @@ export default function Form({signup, login}) {
                     {signup ? 'Sign Up' : 'Log In'}
                 </Button>
                 <Box display="flex" justifyContent="flex-end"><Box display="flex" flexDirection="column" alignItems="flex-end">
-                    <Link
-                        className={classes.link}
+                    <StyledLink
                         variant="body2"
                         onClick={() => { swapMode() }}
                         underline="hover">
                         {signup ? 'Have an account? Sign In' : 'No account? Sign up'}
-                    </Link>
-                    <Link
-                        className={classes.link}
+                    </StyledLink>
+                    <StyledLink
                         variant="body2"
                         onClick={() => { navigate('/about') }}
                         underline="hover">
                         About LHoG
-                    </Link>
+                    </StyledLink>
                 </Box></Box>
-            </form></Container>
+            </StyledForm></Container>
         </Box>
     );
 }

@@ -1,28 +1,13 @@
 import { Container, Link, Typography } from '@mui/material'
-import { makeStyles } from '@mui/styles'
 import { Link as RouterLink } from 'react-router-dom'
 import React from 'react'
 
 import Copyright from './copyright'
 
-const useStyles = makeStyles((theme) => ({
-    header: {
-        margin: theme.spacing(2, 'auto')
-    },
-    copyright: {
-        margin: theme.spacing(3, 'auto'),
-        fontSize: 'smaller',
-        opacity: 0.5
-    }
-}))
-
 export default function About() {
-
-    const classes = useStyles()
-
     return (
         <Container maxWidth="md">
-            <Typography variant="h2" className={classes.header}>Welcome to Lewis&lsquo; House of Games</Typography>
+            <Typography variant="h2" sx={{my: 2}}>Welcome to Lewis&lsquo; House of Games</Typography>
             <Typography>
                 LHoG is a framework for playing games developed with <Link
                 href="https://boardgame.io/"
@@ -42,8 +27,8 @@ export default function About() {
                 these were all developed with the idea that the players already know the rules, so check those out ahead of time. Report any issues via Github either in the LHoG repo
                 directly or in the individual game repos.
             </Typography>
-            <Typography variant="h3" className={classes.header}>The Games</Typography>
-            <Typography variant="h4" className={classes.header}>Gembalaya</Typography>            
+            <Typography variant="h3" sx={{my: 2}}>The Games</Typography>
+            <Typography variant="h4" sx={{my: 2}}>Gembalaya</Typography>            
             <Typography>
                 Gembalaya implements the popular card game <Link
                 href="https://boardgamegeek.com/boardgame/148228/splendor"
@@ -61,7 +46,7 @@ export default function About() {
                 target="_blank"
                 underline="hover">Github</Link>. Developed by Lewis Silletto.
             </Typography>
-            <Typography variant="h4" className={classes.header}>WattMatrix</Typography>            
+            <Typography variant="h4" sx={{my: 2}}>WattMatrix</Typography>            
             <Typography>
                 WattMatrix implements the auction game <Link
                 href="https://boardgamegeek.com/boardgame/2651/power-grid"
@@ -79,7 +64,7 @@ export default function About() {
                 target="_blank"
                 underline="hover">Github</Link>. Developed by Lewis Silletto.
             </Typography>
-            <Typography variant="h4" className={classes.header}>CubeNations</Typography>            
+            <Typography variant="h4" sx={{my: 2}}>CubeNations</Typography>            
             <Typography>
                 CubeNations implements the classic tile-laying game <Link
                 href="https://boardgamegeek.com/boardgame/42/tigris-euphrates"
@@ -98,7 +83,7 @@ export default function About() {
                 target="_blank"
                 underline="hover">Github</Link>.  Developed by Lewis Silletto.
             </Typography>
-            <Typography variant="h4" className={classes.header}>ThornyUber</Typography>            
+            <Typography variant="h4" sx={{my: 2}}>ThornyUber</Typography>            
             <Typography>
                 ThornyUber implements the classic Euro game <Link
                 href="https://boardgamegeek.com/boardgame/21790/thurn-and-taxis"

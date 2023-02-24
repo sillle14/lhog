@@ -8,7 +8,7 @@ import {
     Tooltip, 
     Typography,
 } from '@mui/material'
-import { makeStyles } from '@mui/styles'
+import { styled } from '@mui/material/styles';
 import { useLocation, useNavigate } from 'react-router-dom'
 import ExitToAppIcon from '@mui/icons-material/ExitToApp'
 import MenuIcon from '@mui/icons-material/Menu'
@@ -17,13 +17,7 @@ import React, { useContext, useState } from 'react'
 
 import AuthContext from './authContext'
 
-const useStyles = makeStyles((theme) => ({
-    bar: {justifyContent: 'space-between'},
-    icon: {marginLeft: theme.spacing(1)},
-    home: {cursor: 'pointer'},
-    message: {marginRight: theme.spacing(2), alignSelf: 'center'},
-    offset: theme.mixins.toolbar,
-    defs: {
+const SVGDefs = styled('svg')({
         display: 'block',
         position: 'absolute',
         height: 0,
@@ -32,12 +26,9 @@ const useStyles = makeStyles((theme) => ({
         padding: 0,
         border: 'none',
         overflow: 'hidden'
-    },
-}))
+})
 
 export default function Header({logout, loading, runningMatch}) {
-
-    const classes = useStyles()
     const [menuAnchor, setMenuAnchor] = useState(null)
 
     const closeMenu = () => {setMenuAnchor(null)}
@@ -47,7 +38,7 @@ export default function Header({logout, loading, runningMatch}) {
     const navigate = useNavigate()
     const location = useLocation()
 
-    const hog = <svg xmlns="http://www.w3.org/2000/svg" className={classes.defs}>
+    const hog = <SVGDefs xmlns="http://www.w3.org/2000/svg">
         <symbol id="hog">
             <path d="M 20 38 q -12 -8, -10 -20 q 15 -5, 25 10" fill="#f06292"/>
             <path d="M 25 41 q -12 -8, -12 -20 q 13 -5, 23 10" fill="#ec407a"/>
@@ -60,7 +51,7 @@ export default function Header({logout, loading, runningMatch}) {
             <circle cx="38" cy="40" r="3"/>
             <circle cx="62" cy="40" r="3"/>
         </symbol> 
-    </svg>
+    </SVGDefs>
 
     const hideHeaderComponents = loading || !user
 
@@ -78,16 +69,16 @@ export default function Header({logout, loading, runningMatch}) {
     return <>
         {hog}
         <AppBar color="primary" position="sticky">
-            <Toolbar className={classes.bar}>
-                <Box display="flex" onClick={() => navigate('/')} className={classes.home}>
+            <Toolbar sx={{justifyContent: 'space-between'}}>
+                <Box display="flex" onClick={() => navigate('/')} sx={{cursor: 'pointer'}}>
                     <svg viewBox="0 0 100 100" height="56px"><use xlinkHref="#hog"/></svg> 
                     <Tooltip title="Lewis' House of Games">
-                        <Typography variant="h3" className={classes.icon}>LHoG</Typography>
+                        <Typography variant="h3" sx={{ml: 1}}>LHoG</Typography>
                     </Tooltip>               
                 </Box>
                 <Typography variant="h4">{/(play|spectate)/.test(location.pathname) && runningMatch}</Typography>
                 <Box display="flex">
-                    <Typography className={classes.message}>
+                    <Typography sx={{mr: 2, alignSelf: 'center'}}>
                         {hideHeaderComponents ? '' : `Welcome ${user.username}`}
                     </Typography>
                     {hideHeaderComponents ? null : <IconButton
@@ -98,7 +89,6 @@ export default function Header({logout, loading, runningMatch}) {
                         anchorEl={menuAnchor} 
                         open={Boolean(menuAnchor)} 
                         onClose={closeMenu}
-                        getContentAnchorEl={null}
                         keepMounted
                         anchorOrigin={{
                             vertical: 'bottom',

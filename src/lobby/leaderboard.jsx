@@ -1,23 +1,18 @@
 import { Box, CircularProgress, Container, Tab, Tabs, Typography } from '@mui/material'
+import { styled } from '@mui/material/styles';
 import { createTheme, ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
-import { makeStyles } from '@mui/styles'
 import { DataGrid } from '@mui/x-data-grid'
 import React, { useContext, useEffect, useState } from 'react'
 
 import AuthContext from './authContext'
 
-const useStyles = makeStyles((theme) => ({
-    tabs: {
-      marginTop: theme.spacing(5),
-      marginBottom: theme.spacing(1)
-    },
-    self: {
+const selfClass = 'lhog-leaderboard-self'
+
+const StyledBox = styled(Box)(({theme}) => ({
+    [`& .${selfClass}`]: {
         background: theme.palette.grey[400]
-    },
-    container: {
-        width: '750px'
     }
-}))
+}));
 
 // Remove the default focus behavior.
 const gridTheme = createTheme({
@@ -39,9 +34,6 @@ export default function Leaderboard({getLeaderboard}) {
     const [leaderboard, setLeaderboard] = useState(null)
     const [init, setInit] = useState(true)
     const [tab, setTab] = useState('Gembalaya')
-
-    const classes = useStyles()
-
     const { user } = useContext(AuthContext);
 
     useEffect(() => {
@@ -96,7 +88,7 @@ export default function Leaderboard({getLeaderboard}) {
 
     // Shade cells for the current user. 
     columns = columns.map((c) => ({
-        ...c, cellClassName: (params) => user && params.row.username === user.username ? classes.self : ''
+        ...c, cellClassName: (params) => user && params.row.username === user.username ? selfClass : ''
     }))
 
     const sortModel = [{ field: 'wscore', sort: 'desc'}]
@@ -107,24 +99,25 @@ export default function Leaderboard({getLeaderboard}) {
             tabs.push(<Tab label={game} key={game} value={game}/>)
         }
         return (
-            <Container maxWidth={false} className={classes.container}>
-                <Tabs value={tab} onChange={switchTab} key="tabs" centered className={classes.tabs}>
+            <Container maxWidth={false} sx={{width: 750}}>
+                <Tabs value={tab} onChange={switchTab} key="tabs" centered sx={{mt: 5, mb: 1}}>
                     {tabs}
                 </Tabs>
-                <Box display="flex" flexDirection="column" justifyContent="space-between" height="75vh">
+                <StyledBox display="flex" flexDirection="column" justifyContent="space-between" height="75vh">
                     {/* NOTE: autoHeight prevents row virtualization, so may need to be changed if the dataset grows too large.
                         See https://material-ui.com/components/data-grid/rendering/#auto-height */}
                     <StyledEngineProvider injectFirst>
                         <ThemeProvider theme={gridTheme}><DataGrid 
                             rows={leaderboard[tab]} 
                             columns={columns} 
-                            pageSize={5} 
+                            pageSize={5}
+                            rowsPerPageOptions={[5, 10]}
                             autoHeight 
                             disableSelectionOnClick
                             sortModel={sortModel}
                         /></ThemeProvider>
                     </StyledEngineProvider>
-                </Box>
+                </StyledBox>
             </Container>
         );
     } else {

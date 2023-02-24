@@ -1,6 +1,5 @@
 import { Client } from 'boardgame.io/react'
 import { Box, Button, ButtonGroup, Container, Typography } from '@mui/material'
-import { makeStyles } from '@mui/styles'
 import { useNavigate } from 'react-router-dom'
 import { SocketIO } from 'boardgame.io/multiplayer'
 import PropTypes from 'prop-types'
@@ -11,12 +10,6 @@ import CreateMatchForm from './createMatchForm'
 import MatchCard from './matchCard'
 import useInterval from './useInterval'
 
-const useStyles = makeStyles({
-   filter: {
-       '& button': {transition: 'unset'}
-    }
-})
-
 export default function Lobby({gameComponents, connection, setRunningMatch}) {
 
     const [matches, setMatches] = useState([])
@@ -24,8 +17,6 @@ export default function Lobby({gameComponents, connection, setRunningMatch}) {
     const [filter, setFilter] = useState('mine')
 
     const { user } = useContext(AuthContext)
-
-    const classes = useStyles()
 
     const navigate = useNavigate()
 
@@ -124,7 +115,7 @@ export default function Lobby({gameComponents, connection, setRunningMatch}) {
             <CreateMatchForm games={gameComponents} createMatch={createMatch}/>
             <Container maxWidth="md">
                 <Box display="flex" justifyContent="center">             
-                    <ButtonGroup color="primary" className={classes.filter}>
+                    <ButtonGroup color="primary">
                         <Button variant={filter === 'mine' ? 'contained' : ''} onClick={() => setFilter('mine')}>My Matches</Button>
                         <Button variant={filter === 'open' ? 'contained' : ''} onClick={() => setFilter('open')}>Open Matches</Button>
                         <Button variant={filter === 'all' ? 'contained' : ''} onClick={() => setFilter('all')}>All Matches</Button>
