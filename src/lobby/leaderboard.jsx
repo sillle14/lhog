@@ -111,7 +111,7 @@ export default function Leaderboard({getLeaderboard}) {
                             rows={leaderboard[tab]} 
                             columns={columns} 
                             pageSize={5}
-                            rowsPerPageOptions={[5, 10]}
+                            rowsPerPageOptions={[5]}
                             autoHeight 
                             disableSelectionOnClick
                             sortModel={sortModel}
