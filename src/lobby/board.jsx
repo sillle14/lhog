@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import { styled } from '@mui/material/styles';
-import React, { useEffect } from 'react'
+import { useEffect } from 'react';
 
 const className = 'lhog-board'
 

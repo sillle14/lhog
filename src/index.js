@@ -1,4 +1,4 @@
-import React from 'react'
+import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { ThemeProvider, StyledEngineProvider, createTheme } from '@mui/material/styles';
 
@@ -25,7 +25,7 @@ if (ENV === 'dev')    {
 
 // Render the lobby. This relies on a running server.
 root.render(
-    <React.StrictMode>
+    <StrictMode>
         <StyledEngineProvider injectFirst>
             <ThemeProvider theme={theme}>        
                 <LobbyRouter
@@ -38,5 +38,5 @@ root.render(
                 />
             </ThemeProvider>
         </StyledEngineProvider>
-    </React.StrictMode>
+    </StrictMode>
 )

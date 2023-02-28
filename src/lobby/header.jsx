@@ -13,7 +13,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import ExitToAppIcon from '@mui/icons-material/ExitToApp'
 import MenuIcon from '@mui/icons-material/Menu'
 import PropTypes from 'prop-types'
-import React, { useContext, useState } from 'react'
+import { useContext, useState } from 'react';
 
 import AuthContext from './authContext'
 

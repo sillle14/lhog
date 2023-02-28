@@ -1,6 +1,6 @@
 import { HashRouter, Routes, Route } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import React, {useState, useEffect} from 'react'
+import { useState, useEffect } from 'react';
 
 import About from './about'
 import AuthContext from './authContext'

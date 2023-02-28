@@ -3,7 +3,7 @@ import { Box, Button, Container, Link, TextField, Typography } from '@mui/materi
 import { styled } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import React, { useState } from 'react'
+import { useState } from 'react';
 
 const StyledForm = styled('form')(({ theme }) => ({ marginTop: theme.spacing(10) }));
 const StyledLink = styled(Link)({ cursor: 'pointer' });

@@ -2,7 +2,7 @@ import { Box, CircularProgress, Container, Tab, Tabs, Typography } from '@mui/ma
 import { styled } from '@mui/material/styles';
 import { createTheme, ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
 import { DataGrid } from '@mui/x-data-grid'
-import React, { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react';
 
 import AuthContext from './authContext'
 

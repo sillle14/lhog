@@ -1,7 +1,6 @@
 import { Button, Box, Card, CardActions, CardContent, Typography } from '@mui/material'
 import { styled } from '@mui/material/styles';
 import PropTypes from 'prop-types'
-import React from 'react'
 
 const BetaSup = styled('sup')({ fontSize: 12 })
 

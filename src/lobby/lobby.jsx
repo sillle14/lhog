@@ -3,7 +3,7 @@ import { Box, Button, ButtonGroup, Container, Typography } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import { SocketIO } from 'boardgame.io/multiplayer'
 import PropTypes from 'prop-types'
-import React, { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react';
 
 import AuthContext from './authContext'
 import CreateMatchForm from './createMatchForm'
