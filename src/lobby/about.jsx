@@ -82,21 +82,21 @@ export default function About() {
                 target="_blank"
                 underline="hover">Github</Link>.  Developed by Lewis Silletto.
             </Typography>
-            <Typography variant="h4" sx={{my: 2}}>ThornyUber</Typography>            
+            <Typography variant="h4" sx={{my: 2}}>Merchants of Deutsche</Typography>            
             <Typography>
-                ThornyUber implements the classic Euro game <Link
-                href="https://boardgamegeek.com/boardgame/21790/thurn-and-taxis"
+                Merchants of Deutsche (in beta) implements the classic Euro game <Link
+                href="https://boardgamegeek.com/boardgame/43015/hansa-teutonica"
                 rel="noopener  noreferrer"
                 target="_blank"
-                underline="hover">Thurn & Taxis</Link>. 
-                This is a game for 2-4 players and takes about an hour. Check out
+                underline="hover">Hansa Teutonica</Link>. 
+                This is a game for 2-5 players and takes about 1.5 hours. Check out
                 the <Link
-                href="https://www.yucata.de/en/Rules/ThurnTaxis"
+                href="https://www.fgbradleys.com/rules/rules4/Hansa%20Teutonica%20-%20rules.pdf"
                 rel="noopener"
                 target="_blank"
                 underline="hover">rules</Link> or 
                 see the code on <Link
-                href="https://github.com/mdovwagner/thornyUber"
+                href="https://github.com/mdovwagner/merchantsofdeutsche"
                 rel="noopener"
                 target="_blank"
                 underline="hover">Github</Link>.  Developed by Michael Wagner.
