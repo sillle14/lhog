@@ -2,8 +2,9 @@ import React from 'react'
 import { createRoot } from 'react-dom/client';
 import { ThemeProvider, StyledEngineProvider, createTheme } from '@mui/material/styles';
 
-// import { WattMatrixTable, WattMatrix } from 'wattmatrix'
+import { WattMatrixTable, WattMatrix } from 'wattmatrix'
 import { GembalayaTable, Gembalaya } from 'gembalaya'
+import { MerchantsOfDeutscheTable, MerchantsOfDeutsche } from 'merchantsofdeutsche';
 // import { CubeNations, CubeNationsTable } from 'cubenations'
 import LobbyRouter from './lobby/lobbyRouter'
 
@@ -29,7 +30,11 @@ root.render(
             <ThemeProvider theme={theme}>        
                 <LobbyRouter
                     gameServer={SERVER}
-                    gameComponents={[{game: Gembalaya, board: GembalayaTable}]}
+                    gameComponents={[
+                        {game: Gembalaya, board: GembalayaTable},
+                        {game: MerchantsOfDeutsche, board: MerchantsOfDeutscheTable},
+                        {game: WattMatrix, board: WattMatrixTable}
+                    ]}
                 />
             </ThemeProvider>
         </StyledEngineProvider>

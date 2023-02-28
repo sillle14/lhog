@@ -77,7 +77,7 @@ export default function MatchCard({match, joinMatch, startMatch, playerName, isA
         return buttons
     }
 
-    const beta = ['ThornyUber']
+    const beta = ['ThornyUber', 'MerchantsOfDeutsche']
 
     return (
         <Card sx={{my: 2}} variant="outlined"><CardContent sx={{display: 'flex', justifyContent: 'space-between'}}>

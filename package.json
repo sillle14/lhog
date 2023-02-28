@@ -18,12 +18,14 @@
     "koa-session": "^6.0.0",
     "koa-session-mongoose": "^3.0.1",
     "koa-static": "^5.0.0",
+    "merchantsofdeutsche": "^0.2.0",
     "mongoose": "^6.10.0",
     "passport-local": "^1.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router": "^6.8.1",
-    "react-router-dom": "^6.8.1"
+    "react-router-dom": "^6.8.1",
+    "wattmatrix": "^2.0.1"
   },
   "scripts": {
     "start": "SINGLE_PORT=1 node -r esm server/server.js",
