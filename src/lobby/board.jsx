@@ -2,14 +2,10 @@ import { useNavigate } from 'react-router-dom'
 import { styled } from '@mui/material/styles';
 import { useEffect } from 'react';
 
-const className = 'lhog-board'
-
 const Root = styled('div')({
-    [className]: {
-        '& .bgio-client': {
-            height: 'calc(100vh - 64px)' // The header is 64px
-        }
-    },
+    '& .bgio-client': {
+        height: 'calc(100vh - 64px)' // The header is 64px
+    }
 });
 
 export default function Board({runningMatch}) {
@@ -24,7 +20,7 @@ export default function Board({runningMatch}) {
 
     if (runningMatch) {
         return (
-            <Root className={className}>
+            <Root>
                 <runningMatch.app 
                     matchID={runningMatch.matchID}
                     playerID={runningMatch.playerID}

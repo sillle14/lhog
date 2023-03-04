@@ -11,7 +11,7 @@ import session from 'koa-session'
 import { Gembalaya } from 'gembalaya/dist/Game'
 import { MerchantsOfDeutsche } from 'merchantsofdeutsche/dist/Game'
 import { WattMatrix } from 'wattmatrix/dist/Game'
-// import { CubeNations } from 'cubenations/dist/Game'
+import { CubeNations } from 'cubenations/dist/Game'
 
 import './passport'
 import { addRoutes } from './routes'
@@ -35,7 +35,7 @@ const PORT = process.env.PORT || 8000;
 const db = new MongoStore(DB_URI)
 const dbWithCaching = new StorageCache(db, {cacheSize: 200})
 const server = Server({
-    games: [Gembalaya, MerchantsOfDeutsche, WattMatrix], 
+    games: [Gembalaya, MerchantsOfDeutsche, WattMatrix, CubeNations], 
     generateCredentials: generateCredentials, 
     db: dbWithCaching,
     origins: ['https://lhog.lewissilletto.com', Origins.LOCALHOST_IN_DEVELOPMENT]

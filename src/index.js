@@ -5,7 +5,7 @@ import { ThemeProvider, StyledEngineProvider, createTheme } from '@mui/material/
 import { WattMatrixTable, WattMatrix } from 'wattmatrix'
 import { GembalayaTable, Gembalaya } from 'gembalaya'
 import { MerchantsOfDeutscheTable, MerchantsOfDeutsche } from 'merchantsofdeutsche';
-// import { CubeNations, CubeNationsTable } from 'cubenations'
+import { CubeNations, CubeNationsTable } from 'cubenations'
 import LobbyRouter from './lobby/lobbyRouter'
 
 import './index.css'
@@ -33,7 +33,8 @@ root.render(
                     gameComponents={[
                         {game: Gembalaya, board: GembalayaTable},
                         {game: MerchantsOfDeutsche, board: MerchantsOfDeutscheTable},
-                        {game: WattMatrix, board: WattMatrixTable}
+                        {game: WattMatrix, board: WattMatrixTable},
+                        {game: CubeNations, board: CubeNationsTable}
                     ]}
                 />
             </ThemeProvider>
