@@ -1,12 +1,18 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import { ThemeProvider, StyledEngineProvider, createTheme } from '@mui/material/styles';
 
 import { WattMatrixTable, WattMatrix } from 'wattmatrix'
 import { GembalayaTable, Gembalaya } from 'gembalaya'
+import { MerchantsOfDeutscheTable, MerchantsOfDeutsche } from 'merchantsofdeutsche';
 import { CubeNations, CubeNationsTable } from 'cubenations'
 import LobbyRouter from './lobby/lobbyRouter'
 
 import './index.css'
+
+const theme = createTheme();
+const container = document.getElementById('root');
+const root = createRoot(container);
 
 const ENV = process.env.REACT_APP_ENV
 
@@ -18,14 +24,20 @@ if (ENV === 'dev')    {
 }
 
 // Render the lobby. This relies on a running server.
-ReactDOM.render(
-    <React.StrictMode>
-    <LobbyRouter
-        gameServer={SERVER}
-        gameComponents={[{game: WattMatrix, board: WattMatrixTable}, 
-                         {game: Gembalaya, board: GembalayaTable}, 
-                         {game: CubeNations, board: CubeNationsTable}]}
-    />
-    </React.StrictMode>,
-    document.getElementById('root')
+root.render(
+    <StrictMode>
+        <StyledEngineProvider injectFirst>
+            <ThemeProvider theme={theme}>        
+                <LobbyRouter
+                    gameServer={SERVER}
+                    gameComponents={[
+                        {game: Gembalaya, board: GembalayaTable},
+                        {game: MerchantsOfDeutsche, board: MerchantsOfDeutscheTable},
+                        {game: WattMatrix, board: WattMatrixTable},
+                        {game: CubeNations, board: CubeNationsTable}
+                    ]}
+                />
+            </ThemeProvider>
+        </StyledEngineProvider>
+    </StrictMode>
 )

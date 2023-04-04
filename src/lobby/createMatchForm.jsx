@@ -1,31 +1,25 @@
-import { Button, Container, MenuItem, TextField } from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles';
+import { Button, Container, MenuItem, TextField } from '@mui/material'
+import { styled } from '@mui/material/styles';
 import PropTypes from 'prop-types'
-import React, { useState } from 'react'
+import { useState } from 'react';
 
-const useStyles = makeStyles((theme) => ({
-    form: {
-      marginTop: theme.spacing(8),
-      marginBottom: theme.spacing(8),
-      display: 'flex',
-      justifyContent: 'space-between',
-    },
-    select: {
-        flexBasis: '30%',
-        margin: theme.spacing('auto', 1)
-    },
-    submit: {
-        alignSelf: 'flex-end'
-    }
-}))
+const StyledForm = styled('form')(({ theme }) => ({
+    marginTop: theme.spacing(8),
+    marginBottom: theme.spacing(8),
+    display: 'flex',
+    justifyContent: 'space-between',
+}));
+
+const StyledSelect = styled(TextField)(({ theme }) => ({
+    flexBasis: '30%',
+    margin: theme.spacing('auto', 1)
+}));
 
 export default function CreateMatchForm({games, createMatch}) {
 
     const [gameIdx, setGameIdx] = useState('')
     const [numPlayers, setNumPlayers] = useState('')
     const [numPlayerOpts, setNumPlayerOpts] = useState([])
-
-    const classes = useStyles()
 
     const selectGame = (event) => {
         const gameIdxValue = event.target.value
@@ -41,49 +35,47 @@ export default function CreateMatchForm({games, createMatch}) {
 
     return (
         <Container maxWidth="sm">
-            <form className={classes.form}>
-                <TextField
+            <StyledForm>
+                <StyledSelect
+                    variant="standard"
                     id="select-game"
                     select
                     label="Game"
                     onChange={selectGame}
-                    value={gameIdx}
-                    className={classes.select}
-                >
+                    value={gameIdx}>
                     {games.map((game, idx) => (
                         <MenuItem key={idx} value={idx}>
                             {game.game.name}
                         </MenuItem>
                     ))}
-                </TextField>
-                <TextField
+                </StyledSelect>
+                <StyledSelect
+                    variant="standard"
                     id="select-players"
                     select
                     label="Player count"
                     onChange={(e) => {setNumPlayers(e.target.value)}}
                     value={numPlayers}
-                    className={classes.select}
-                    disabled={gameIdx === ''}
-                >
+                    disabled={gameIdx === ''}>
                     {numPlayerOpts.map((i) => (
                         <MenuItem key={i} value={i}>
                         {i}
                     </MenuItem>
                     ))}
-                </TextField>
+                </StyledSelect>
                 <Button
                     variant="outlined"
                     color="primary"
                     type="submit"
-                    className={classes.submit}
+                    sx={{alignSelf: 'flex-end'}}
                     onClick={onCreateMatch}
                     disabled={(numPlayers === '')}
                 >
                     Create New Match
                 </Button>
-            </form>
+            </StyledForm>
         </Container>
-    )
+    );
 }
 
 CreateMatchForm.propTypes = {

@@ -7,23 +7,17 @@ import {
     Toolbar, 
     Tooltip, 
     Typography,
-} from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles'
+} from '@mui/material'
+import { styled } from '@mui/material/styles';
 import { useLocation, useNavigate } from 'react-router-dom'
-import ExitToAppIcon from '@material-ui/icons/ExitToApp'
-import MenuIcon from '@material-ui/icons/Menu'
+import ExitToAppIcon from '@mui/icons-material/ExitToApp'
+import MenuIcon from '@mui/icons-material/Menu'
 import PropTypes from 'prop-types'
-import React, { useContext, useState } from 'react'
+import { useContext, useState } from 'react';
 
 import AuthContext from './authContext'
 
-const useStyles = makeStyles((theme) => ({
-    bar: {justifyContent: 'space-between'},
-    icon: {marginLeft: theme.spacing(1)},
-    home: {cursor: 'pointer'},
-    message: {marginRight: theme.spacing(2), alignSelf: 'center'},
-    offset: theme.mixins.toolbar,
-    defs: {
+const SVGDefs = styled('svg')({
         display: 'block',
         position: 'absolute',
         height: 0,
@@ -32,12 +26,9 @@ const useStyles = makeStyles((theme) => ({
         padding: 0,
         border: 'none',
         overflow: 'hidden'
-    },
-}))
+})
 
 export default function Header({logout, loading, runningMatch}) {
-
-    const classes = useStyles()
     const [menuAnchor, setMenuAnchor] = useState(null)
 
     const closeMenu = () => {setMenuAnchor(null)}
@@ -47,7 +38,7 @@ export default function Header({logout, loading, runningMatch}) {
     const navigate = useNavigate()
     const location = useLocation()
 
-    const hog = <svg xmlns="http://www.w3.org/2000/svg" className={classes.defs}>
+    const hog = <SVGDefs xmlns="http://www.w3.org/2000/svg">
         <symbol id="hog">
             <path d="M 20 38 q -12 -8, -10 -20 q 15 -5, 25 10" fill="#f06292"/>
             <path d="M 25 41 q -12 -8, -12 -20 q 13 -5, 23 10" fill="#ec407a"/>
@@ -60,7 +51,7 @@ export default function Header({logout, loading, runningMatch}) {
             <circle cx="38" cy="40" r="3"/>
             <circle cx="62" cy="40" r="3"/>
         </symbol> 
-    </svg>
+    </SVGDefs>
 
     const hideHeaderComponents = loading || !user
 
@@ -75,45 +66,45 @@ export default function Header({logout, loading, runningMatch}) {
         menuItems.push(<MenuItem key="logout" onClick={() => {closeMenu(); logout()}}>Logout<Box ml={1} mb={-0.5}><ExitToAppIcon/></Box></MenuItem>)
     } 
 
-    return (
-        <>
-            {hog}
-            <AppBar color="primary" position="sticky">
-                <Toolbar className={classes.bar}>
-                    <Box display="flex" onClick={() => navigate('/')} className={classes.home}>
-                        <svg viewBox="0 0 100 100" height="56px"><use xlinkHref="#hog"/></svg> 
-                        <Tooltip title="Lewis' House of Games">
-                            <Typography variant="h3" className={classes.icon}>LHoG</Typography>
-                        </Tooltip>               
-                    </Box>
-                    <Typography variant="h4">{/(play|spectate)/.test(location.pathname) && runningMatch}</Typography>
-                    <Box display="flex">
-                        <Typography className={classes.message}>
-                            {hideHeaderComponents ? '' : `Welcome ${user.username}`}
-                        </Typography>
-                        {hideHeaderComponents ? null : <IconButton color="inherit" onClick={(e) => {setMenuAnchor(e.currentTarget)}}><MenuIcon/></IconButton>}
-                        <Menu 
-                            anchorEl={menuAnchor} 
-                            open={Boolean(menuAnchor)} 
-                            onClose={closeMenu}
-                            getContentAnchorEl={null}
-                            keepMounted
-                            anchorOrigin={{
-                                vertical: 'bottom',
-                                horizontal: 'right',
-                            }}
-                            transformOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }}
-                        >
-                            {menuItems}
-                        </Menu>
-                    </Box>
-                </Toolbar>
-            </AppBar>
-        </>
-    )
+    return <>
+        {hog}
+        <AppBar color="primary" position="sticky">
+            <Toolbar sx={{justifyContent: 'space-between'}}>
+                <Box display="flex" onClick={() => navigate('/')} sx={{cursor: 'pointer'}}>
+                    <svg viewBox="0 0 100 100" height="56px"><use xlinkHref="#hog"/></svg> 
+                    <Tooltip title="Lewis' House of Games">
+                        <Typography variant="h3" sx={{ml: 1}}>LHoG</Typography>
+                    </Tooltip>               
+                </Box>
+                <Typography variant="h4">{/(play|spectate)/.test(location.pathname) && runningMatch}</Typography>
+                <Box display="flex">
+                    <Typography sx={{mr: 2, alignSelf: 'center'}}>
+                        {hideHeaderComponents ? '' : `Welcome ${user.username}`}
+                    </Typography>
+                    {hideHeaderComponents ? null : <IconButton
+                        color="inherit"
+                        onClick={(e) => {setMenuAnchor(e.currentTarget)}}
+                        size="large"><MenuIcon/></IconButton>}
+                    <Menu 
+                        anchorEl={menuAnchor} 
+                        open={Boolean(menuAnchor)} 
+                        onClose={closeMenu}
+                        keepMounted
+                        anchorOrigin={{
+                            vertical: 'bottom',
+                            horizontal: 'right',
+                        }}
+                        transformOrigin={{
+                            vertical: 'top',
+                            horizontal: 'right',
+                        }}
+                    >
+                        {menuItems}
+                    </Menu>
+                </Box>
+            </Toolbar>
+        </AppBar>
+    </>;
 }
 
 Header.propTypes = {

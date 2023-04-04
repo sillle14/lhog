@@ -1,18 +1,16 @@
 import { useNavigate } from 'react-router-dom'
-import React, { useEffect } from 'react'
-import { makeStyles } from '@material-ui/core'
+import { styled } from '@mui/material/styles';
+import { useEffect } from 'react';
 
-const useStyles = makeStyles({
-    root: {
-        '& .bgio-client': {
-            height: 'calc(100vh - 64px)' // The header is 64px
-        }
-    },
-})
+const Root = styled('div')({
+    '& .bgio-client': {
+        height: 'calc(100vh - 64px)' // The header is 64px
+    }
+});
+
 export default function Board({runningMatch}) {
 
     const navigate = useNavigate()
-    const classes = useStyles()
 
     useEffect(() => {
         if (!runningMatch) {
@@ -22,14 +20,14 @@ export default function Board({runningMatch}) {
 
     if (runningMatch) {
         return (
-            <div className={classes.root}>
+            <Root>
                 <runningMatch.app 
                     matchID={runningMatch.matchID}
                     playerID={runningMatch.playerID}
                     credentials={runningMatch.credentials}
                 />
-            </div>
-        )
+            </Root>
+        );
     } else {
         return null
     }

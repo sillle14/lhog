@@ -1,34 +1,32 @@
-import { Box, CircularProgress, Container, Tab, Tabs, Typography } from '@material-ui/core'
-import { createMuiTheme, makeStyles, ThemeProvider } from '@material-ui/core/styles'
-import { DataGrid } from '@material-ui/data-grid'
-import React, { useContext, useEffect, useState } from 'react'
+import { Box, CircularProgress, Container, Tab, Tabs, Typography } from '@mui/material'
+import { styled } from '@mui/material/styles';
+import { createTheme, ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
+import { DataGrid } from '@mui/x-data-grid'
+import { useContext, useEffect, useState } from 'react';
 
 import AuthContext from './authContext'
 
-const useStyles = makeStyles((theme) => ({
-    tabs: {
-      marginTop: theme.spacing(5),
-      marginBottom: theme.spacing(1)
-    },
-    self: {
+const selfClass = 'lhog-leaderboard-self'
+
+const StyledBox = styled(Box)(({theme}) => ({
+    [`& .${selfClass}`]: {
         background: theme.palette.grey[400]
-    },
-    container: {
-        width: '750px'
     }
-}))
+}));
 
 // Remove the default focus behavior.
-const gridTheme = createMuiTheme({
-    overrides: {
+const gridTheme = createTheme({
+    components: {
         MuiDataGrid: {
-            root: {
-                '& .MuiDataGrid-colCell:focus, & .MuiDataGrid-cell:focus': {
-                    outline: 'none'
+            styleOverrides: {
+                root: {
+                    '& .MuiDataGrid-colCell:focus, & .MuiDataGrid-cell:focus': {
+                        outline: 'none'
+                    }
                 }
-            },
-        },
-    },
+            }
+        }
+    }
 })
 
 export default function Leaderboard({getLeaderboard}) {
@@ -36,9 +34,6 @@ export default function Leaderboard({getLeaderboard}) {
     const [leaderboard, setLeaderboard] = useState(null)
     const [init, setInit] = useState(true)
     const [tab, setTab] = useState('Gembalaya')
-
-    const classes = useStyles()
-
     const { user } = useContext(AuthContext);
 
     useEffect(() => {
@@ -93,7 +88,7 @@ export default function Leaderboard({getLeaderboard}) {
 
     // Shade cells for the current user. 
     columns = columns.map((c) => ({
-        ...c, cellClassName: (params) => user && params.row.username === user.username ? classes.self : ''
+        ...c, cellClassName: (params) => user && params.row.username === user.username ? selfClass : ''
     }))
 
     const sortModel = [{ field: 'wscore', sort: 'desc'}]
@@ -104,24 +99,27 @@ export default function Leaderboard({getLeaderboard}) {
             tabs.push(<Tab label={game} key={game} value={game}/>)
         }
         return (
-            <Container maxWidth={false} className={classes.container}>
-                <Tabs value={tab} onChange={switchTab} key="tabs" centered className={classes.tabs}>
+            <Container maxWidth={false} sx={{width: 750}}>
+                <Tabs value={tab} onChange={switchTab} key="tabs" centered sx={{mt: 5, mb: 1}}>
                     {tabs}
                 </Tabs>
-                <Box display="flex" flexDirection="column" justifyContent="space-between" height="75vh">
+                <StyledBox display="flex" flexDirection="column" justifyContent="space-between" height="75vh">
                     {/* NOTE: autoHeight prevents row virtualization, so may need to be changed if the dataset grows too large.
                         See https://material-ui.com/components/data-grid/rendering/#auto-height */}
-                    <ThemeProvider theme={gridTheme}><DataGrid 
-                        rows={leaderboard[tab]} 
-                        columns={columns} 
-                        pageSize={5} 
-                        autoHeight 
-                        disableSelectionOnClick
-                        sortModel={sortModel}
-                    /></ThemeProvider>
-                </Box>
+                    <StyledEngineProvider injectFirst>
+                        <ThemeProvider theme={gridTheme}><DataGrid 
+                            rows={leaderboard[tab]} 
+                            columns={columns} 
+                            pageSize={5}
+                            rowsPerPageOptions={[5]}
+                            autoHeight 
+                            disableSelectionOnClick
+                            sortModel={sortModel}
+                        /></ThemeProvider>
+                    </StyledEngineProvider>
+                </StyledBox>
             </Container>
-        )
+        );
     } else {
         return (
             <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" height="80vh">

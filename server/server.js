@@ -1,5 +1,5 @@
-import { Server } from 'boardgame.io/server'
-import { StorageCache } from 'bgio-storage-cache'
+import { Server, Origins } from 'boardgame.io/server'
+import { StorageCache } from '@boardgame.io/storage-cache'
 import cors from '@koa/cors'
 import MongooseStore from 'koa-session-mongoose'
 import passport from 'koa-passport'
@@ -9,6 +9,7 @@ import session from 'koa-session'
 
 // Import the game objects without importing any React components.
 import { Gembalaya } from 'gembalaya/dist/Game'
+import { MerchantsOfDeutsche } from 'merchantsofdeutsche/dist/Game'
 import { WattMatrix } from 'wattmatrix/dist/Game'
 import { CubeNations } from 'cubenations/dist/Game'
 
@@ -33,7 +34,12 @@ const PORT = process.env.PORT || 8000;
 // Creating and running the server with mongo connection initializes it. This is also important for passport.
 const db = new MongoStore(DB_URI)
 const dbWithCaching = new StorageCache(db, {cacheSize: 200})
-const server = Server({ games: [WattMatrix, Gembalaya, CubeNations], generateCredentials: generateCredentials, db: dbWithCaching})
+const server = Server({
+    games: [Gembalaya, MerchantsOfDeutsche, WattMatrix, CubeNations], 
+    generateCredentials: generateCredentials, 
+    db: dbWithCaching,
+    origins: ['https://lhog.lewissilletto.com', Origins.LOCALHOST_IN_DEVELOPMENT]
+})
 
 const SINGLE_PORT = process.env.SINGLE_PORT
 

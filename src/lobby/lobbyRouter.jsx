@@ -1,6 +1,6 @@
-import { HashRouter, Routes } from 'react-router-dom'
+import { HashRouter, Routes, Route } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import React, {useState, useEffect} from 'react'
+import { useState, useEffect } from 'react';
 
 import About from './about'
 import AuthContext from './authContext'
@@ -74,37 +74,42 @@ export default function LobbyRouter({gameServer, gameComponents}) {
         <HashRouter><AuthContext.Provider value={{user, loading, login}}>
             {/* Nest the Header in a Router to enable navigation */}
             <Routes primary={false}>
-                <Header 
-                    logout={logout} 
-                    runningMatch={runningMatch && runningMatch.gameName}
-                    loading={loading}
-                    path="*"
+                <Route 
+                    path="*" 
+                    element={
+                        <Header 
+                        logout={logout} 
+                        runningMatch={runningMatch && runningMatch.gameName}
+                        loading={loading}
+                        />
+                    }
                 />
             </Routes>
             <Routes>
-                <Form path='/signup' signup={signup}/>
-                <About path='/about'/>
-                <ProtectedRoute
-                    as={Lobby}
-                    path='/' 
-                    gameComponents={gameComponents} 
-                    connection={connection} 
-                    setRunningMatch={setRunningMatch}
+                <Route path="/signup" element={<Form signup={signup}/>}/>
+                <Route path="/about" element={<About />}/>
+                <Route 
+                    path="/"
+                    element={
+                        <ProtectedRoute
+                            as={Lobby}
+                            gameComponents={gameComponents} 
+                            connection={connection} 
+                            setRunningMatch={setRunningMatch}
+                        />
+                    }
                 />
-                <ProtectedRoute
-                    as={Board}
-                    path='/play'
-                    runningMatch={runningMatch}
+                <Route
+                    path="/play"
+                    element={<ProtectedRoute as={Board} runningMatch={runningMatch}/>}
                 />
-                <ProtectedRoute
-                    as={Board}
-                    path='/spectate'
-                    runningMatch={runningMatch}
+                <Route
+                    path="/spectate"
+                    element={<ProtectedRoute as={Board} runningMatch={runningMatch}/>}
                 />
-                <ProtectedRoute
-                    as={Leaderboard}
-                    path='/leaderboard' 
-                    getLeaderboard={getLeaderboard}
+                <Route
+                    path="/leaderboard"
+                    element={<ProtectedRoute as={Leaderboard} getLeaderboard={getLeaderboard}/>}
                 />
                 {/* TODO: Redirect bad urls */}
             </Routes>
